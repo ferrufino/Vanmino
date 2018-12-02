@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
+		66BF182A21B48DDC002E24B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182921B48DDC002E24B4 /* ViewController.swift */; };
+		66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BF182B21B48DDC002E24B4 /* Main.storyboard */; };
+		66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182E21B48DDC002E24B4 /* Vanmino.xcdatamodeld */; };
+		66BF183221B48DDC002E24B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BF183121B48DDC002E24B4 /* Assets.xcassets */; };
+		66BF183521B48DDC002E24B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BF183321B48DDC002E24B4 /* LaunchScreen.storyboard */; };
+		66BF184021B48DDC002E24B4 /* VanminoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF183F21B48DDC002E24B4 /* VanminoTests.swift */; };
+		66BF184B21B48DDC002E24B4 /* VanminoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF184A21B48DDC002E24B4 /* VanminoUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		66BF183C21B48DDC002E24B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66BF181C21B48DDC002E24B4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 66BF182321B48DDC002E24B4;
+			remoteInfo = Vanmino;
+		};
+		66BF184721B48DDC002E24B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66BF181C21B48DDC002E24B4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 66BF182321B48DDC002E24B4;
+			remoteInfo = Vanmino;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66BF182721B48DDC002E24B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		66BF182921B48DDC002E24B4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		66BF182C21B48DDC002E24B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		66BF182F21B48DDC002E24B4 /* Vanmino.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Vanmino.xcdatamodel; sourceTree = "<group>"; };
+		66BF183121B48DDC002E24B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		66BF183421B48DDC002E24B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		66BF183621B48DDC002E24B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66BF183B21B48DDC002E24B4 /* VanminoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VanminoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		66BF183F21B48DDC002E24B4 /* VanminoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VanminoTests.swift; sourceTree = "<group>"; };
+		66BF184121B48DDC002E24B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66BF184621B48DDC002E24B4 /* VanminoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VanminoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		66BF184A21B48DDC002E24B4 /* VanminoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VanminoUITests.swift; sourceTree = "<group>"; };
+		66BF184C21B48DDC002E24B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		66BF182121B48DDC002E24B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66BF183821B48DDC002E24B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66BF184321B48DDC002E24B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		66BF181B21B48DDC002E24B4 = {
+			isa = PBXGroup;
+			children = (
+				66BF182621B48DDC002E24B4 /* Vanmino */,
+				66BF183E21B48DDC002E24B4 /* VanminoTests */,
+				66BF184921B48DDC002E24B4 /* VanminoUITests */,
+				66BF182521B48DDC002E24B4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		66BF182521B48DDC002E24B4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66BF182421B48DDC002E24B4 /* Vanmino.app */,
+				66BF183B21B48DDC002E24B4 /* VanminoTests.xctest */,
+				66BF184621B48DDC002E24B4 /* VanminoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		66BF182621B48DDC002E24B4 /* Vanmino */ = {
+			isa = PBXGroup;
+			children = (
+				66BF182721B48DDC002E24B4 /* AppDelegate.swift */,
+				66BF182921B48DDC002E24B4 /* ViewController.swift */,
+				66BF182B21B48DDC002E24B4 /* Main.storyboard */,
+				66BF183121B48DDC002E24B4 /* Assets.xcassets */,
+				66BF183321B48DDC002E24B4 /* LaunchScreen.storyboard */,
+				66BF183621B48DDC002E24B4 /* Info.plist */,
+				66BF182E21B48DDC002E24B4 /* Vanmino.xcdatamodeld */,
+			);
+			path = Vanmino;
+			sourceTree = "<group>";
+		};
+		66BF183E21B48DDC002E24B4 /* VanminoTests */ = {
+			isa = PBXGroup;
+			children = (
+				66BF183F21B48DDC002E24B4 /* VanminoTests.swift */,
+				66BF184121B48DDC002E24B4 /* Info.plist */,
+			);
+			path = VanminoTests;
+			sourceTree = "<group>";
+		};
+		66BF184921B48DDC002E24B4 /* VanminoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				66BF184A21B48DDC002E24B4 /* VanminoUITests.swift */,
+				66BF184C21B48DDC002E24B4 /* Info.plist */,
+			);
+			path = VanminoUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		66BF182321B48DDC002E24B4 /* Vanmino */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66BF184F21B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "Vanmino" */;
+			buildPhases = (
+				66BF182021B48DDC002E24B4 /* Sources */,
+				66BF182121B48DDC002E24B4 /* Frameworks */,
+				66BF182221B48DDC002E24B4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Vanmino;
+			productName = Vanmino;
+			productReference = 66BF182421B48DDC002E24B4 /* Vanmino.app */;
+			productType = "com.apple.product-type.application";
+		};
+		66BF183A21B48DDC002E24B4 /* VanminoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66BF185221B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "VanminoTests" */;
+			buildPhases = (
+				66BF183721B48DDC002E24B4 /* Sources */,
+				66BF183821B48DDC002E24B4 /* Frameworks */,
+				66BF183921B48DDC002E24B4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				66BF183D21B48DDC002E24B4 /* PBXTargetDependency */,
+			);
+			name = VanminoTests;
+			productName = VanminoTests;
+			productReference = 66BF183B21B48DDC002E24B4 /* VanminoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		66BF184521B48DDC002E24B4 /* VanminoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66BF185521B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "VanminoUITests" */;
+			buildPhases = (
+				66BF184221B48DDC002E24B4 /* Sources */,
+				66BF184321B48DDC002E24B4 /* Frameworks */,
+				66BF184421B48DDC002E24B4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				66BF184821B48DDC002E24B4 /* PBXTargetDependency */,
+			);
+			name = VanminoUITests;
+			productName = VanminoUITests;
+			productReference = 66BF184621B48DDC002E24B4 /* VanminoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		66BF181C21B48DDC002E24B4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = "Gustavo Ferrufino";
+				TargetAttributes = {
+					66BF182321B48DDC002E24B4 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					66BF183A21B48DDC002E24B4 = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = 66BF182321B48DDC002E24B4;
+					};
+					66BF184521B48DDC002E24B4 = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = 66BF182321B48DDC002E24B4;
+					};
+				};
+			};
+			buildConfigurationList = 66BF181F21B48DDC002E24B4 /* Build configuration list for PBXProject "Vanmino" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 66BF181B21B48DDC002E24B4;
+			productRefGroup = 66BF182521B48DDC002E24B4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				66BF182321B48DDC002E24B4 /* Vanmino */,
+				66BF183A21B48DDC002E24B4 /* VanminoTests */,
+				66BF184521B48DDC002E24B4 /* VanminoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		66BF182221B48DDC002E24B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66BF183521B48DDC002E24B4 /* LaunchScreen.storyboard in Resources */,
+				66BF183221B48DDC002E24B4 /* Assets.xcassets in Resources */,
+				66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66BF183921B48DDC002E24B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66BF184421B48DDC002E24B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		66BF182021B48DDC002E24B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66BF182A21B48DDC002E24B4 /* ViewController.swift in Sources */,
+				66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */,
+				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66BF183721B48DDC002E24B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66BF184021B48DDC002E24B4 /* VanminoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66BF184221B48DDC002E24B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66BF184B21B48DDC002E24B4 /* VanminoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		66BF183D21B48DDC002E24B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 66BF182321B48DDC002E24B4 /* Vanmino */;
+			targetProxy = 66BF183C21B48DDC002E24B4 /* PBXContainerItemProxy */;
+		};
+		66BF184821B48DDC002E24B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 66BF182321B48DDC002E24B4 /* Vanmino */;
+			targetProxy = 66BF184721B48DDC002E24B4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		66BF182B21B48DDC002E24B4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66BF182C21B48DDC002E24B4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		66BF183321B48DDC002E24B4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66BF183421B48DDC002E24B4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		66BF184D21B48DDC002E24B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		66BF184E21B48DDC002E24B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		66BF185021B48DDC002E24B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C5UP27Z5YP;
+				INFOPLIST_FILE = Vanmino/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.Vanmino;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		66BF185121B48DDC002E24B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C5UP27Z5YP;
+				INFOPLIST_FILE = Vanmino/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.Vanmino;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		66BF185321B48DDC002E24B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C5UP27Z5YP;
+				INFOPLIST_FILE = VanminoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.VanminoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vanmino.app/Vanmino";
+			};
+			name = Debug;
+		};
+		66BF185421B48DDC002E24B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C5UP27Z5YP;
+				INFOPLIST_FILE = VanminoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.VanminoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vanmino.app/Vanmino";
+			};
+			name = Release;
+		};
+		66BF185621B48DDC002E24B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C5UP27Z5YP;
+				INFOPLIST_FILE = VanminoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.VanminoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Vanmino;
+			};
+			name = Debug;
+		};
+		66BF185721B48DDC002E24B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C5UP27Z5YP;
+				INFOPLIST_FILE = VanminoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.VanminoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Vanmino;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		66BF181F21B48DDC002E24B4 /* Build configuration list for PBXProject "Vanmino" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66BF184D21B48DDC002E24B4 /* Debug */,
+				66BF184E21B48DDC002E24B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66BF184F21B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "Vanmino" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66BF185021B48DDC002E24B4 /* Debug */,
+				66BF185121B48DDC002E24B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66BF185221B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "VanminoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66BF185321B48DDC002E24B4 /* Debug */,
+				66BF185421B48DDC002E24B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66BF185521B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "VanminoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66BF185621B48DDC002E24B4 /* Debug */,
+				66BF185721B48DDC002E24B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		66BF182E21B48DDC002E24B4 /* Vanmino.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				66BF182F21B48DDC002E24B4 /* Vanmino.xcdatamodel */,
+			);
+			currentVersion = 66BF182F21B48DDC002E24B4 /* Vanmino.xcdatamodel */;
+			path = Vanmino.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 66BF181C21B48DDC002E24B4 /* Project object */;
+}
