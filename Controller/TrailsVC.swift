@@ -28,9 +28,9 @@ class TrailsVC: UIViewController {
         tableView.isHidden = false
         
         self.readTrailsFromFirebase()
-        
-        
+        //self.deleteAllData("Trail")
          fetchCoreDataObjects()
+         tableView.reloadData()
         // Do any additional setup after loading the view, typically from a nib.
     }
     func fetchCoreDataObjects(){
@@ -49,7 +49,7 @@ class TrailsVC: UIViewController {
       //  let root = Database.database().reference()
        // let childRef = Database.database().referen
         
-        tableView.reloadData()
+        
     }
 
     
@@ -71,7 +71,6 @@ extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
         // set the text from the data model
         //cell.textLabel?.text = self.animals[indexPath.row]
         let trail = trails[indexPath.row]
-        print(trail)
         cell.configCell(trail: trail)
         return cell
     }
@@ -94,6 +93,25 @@ extension TrailsVC {
             debugPrint("Could not fetch: \(error.localizedDescription)")
             completion(false)
         }
+    }
+    
+    func deleteAllData(_ entity:String) {
+        guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
+        let fetchRequest = NSFetchRequest<Trail>(entityName: "Trail")
+        fetchRequest.includesPropertyValues = false
+        
+        do{
+            let items = try managedContext.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>) as! [NSManagedObject]
+            
+            for item in items {
+                managedContext.delete(item)
+            }
+            
+            print("Model \(entity) successfully delted")
+        } catch {
+            debugPrint("Could not delete entry: \(error.localizedDescription)")
+        }
+        
     }
     
     
