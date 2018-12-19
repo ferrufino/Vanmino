@@ -10,15 +10,20 @@ import UIKit
 
 class TrailCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+   
+    @IBOutlet weak var trailName: UILabel!
+    @IBOutlet weak var trailDistanceLbl: UILabel!
+    @IBOutlet weak var trailElevationLbl: UILabel!
+    @IBOutlet weak var trailTimeLbl: UILabel!
+    
+    func configCell(trail: Trail){
+        
+        self.trailDistanceLbl.text = trail.distance
+        self.trailName.text = trail.name
+        self.trailElevationLbl.text = trail.elevation
+        self.trailTimeLbl.text = trail.time
+        
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
+
+
