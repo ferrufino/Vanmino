@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */; };
 		468113D20EF29CA4F03F44E9 /* Pods_VanminoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */; };
+		66BA0F2821CC485D00E4D6DA /* HikeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2721CC485D00E4D6DA /* HikeCard.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
 		66BF182A21B48DDC002E24B4 /* TrailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182921B48DDC002E24B4 /* TrailsVC.swift */; };
 		66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BF182B21B48DDC002E24B4 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66BA0F2721CC485D00E4D6DA /* HikeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeCard.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BF182721B48DDC002E24B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BF182921B48DDC002E24B4 /* TrailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailsVC.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				66BF186221B4B09E002E24B4 /* TrailCell.swift */,
+				66BA0F2721CC485D00E4D6DA /* HikeCard.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				66BF182A21B48DDC002E24B4 /* TrailsVC.swift in Sources */,
 				66BF186321B4B09E002E24B4 /* TrailCell.swift in Sources */,
 				66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */,
+				66BA0F2821CC485D00E4D6DA /* HikeCard.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
