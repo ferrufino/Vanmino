@@ -8,7 +8,8 @@ target 'Vanmino' do
   # Pods for Vanmino
 pod 'Firebase/Core'
 pod 'Firebase/Database'
-
+pod 'MapboxNavigation', '~> 0.27.0'
+  
   target 'VanminoTests' do
     inherit! :search_paths
     # Pods for testing

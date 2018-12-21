@@ -15,6 +15,8 @@ class TrailCell: UITableViewCell {
     @IBOutlet weak var trailDistanceLbl: UILabel!
     @IBOutlet weak var trailElevationLbl: UILabel!
     @IBOutlet weak var trailTimeLbl: UILabel!
+    @IBOutlet weak var trailCard: UIView!
+    @IBOutlet weak var trailSeasonLbl: UILabel!
     
     func configCell(trail: Trail){
         
@@ -22,8 +24,11 @@ class TrailCell: UITableViewCell {
         self.trailName.text = trail.name
         self.trailElevationLbl.text = trail.elevation
         self.trailTimeLbl.text = trail.time
+        self.trailCard.layer.cornerRadius = 5
+        self.trailSeasonLbl.text = trail.season
         
     }
+    
 }
 
 

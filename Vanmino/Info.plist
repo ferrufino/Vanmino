@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -39,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiZmVycnVmaW5vIiwiYSI6ImNqcHlvNnNjdzAzYXM0M3M3cmN1amxpeWoifQ.mrGA90UjJN7HufE5IG3u4w</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Shows your location on the map and helps improve OpenStreetMap.</string>
 </dict>
 </plist>

@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */; };
 		468113D20EF29CA4F03F44E9 /* Pods_VanminoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */; };
-		66BA0F2821CC485D00E4D6DA /* HikeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2721CC485D00E4D6DA /* HikeCard.swift */; };
+		66BA0F2A21CC56EA00E4D6DA /* TrailDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* TrailDescriptionVC.swift */; };
+		66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
 		66BF182A21B48DDC002E24B4 /* TrailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182921B48DDC002E24B4 /* TrailsVC.swift */; };
 		66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BF182B21B48DDC002E24B4 /* Main.storyboard */; };
@@ -44,7 +45,8 @@
 /* Begin PBXFileReference section */
 		2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		66BA0F2721CC485D00E4D6DA /* HikeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeCard.swift; sourceTree = "<group>"; };
+		66BA0F2921CC56EA00E4D6DA /* TrailDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailDescriptionVC.swift; sourceTree = "<group>"; };
+		66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BF182721B48DDC002E24B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BF182921B48DDC002E24B4 /* TrailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailsVC.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				66BF182921B48DDC002E24B4 /* TrailsVC.swift */,
+				66BA0F2921CC56EA00E4D6DA /* TrailDescriptionVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -182,7 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				66BF186221B4B09E002E24B4 /* TrailCell.swift */,
-				66BA0F2721CC485D00E4D6DA /* HikeCard.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -198,6 +200,7 @@
 		66BF185D21B4A68A002E24B4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -376,6 +379,18 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MapboxCoreNavigation/MapboxCoreNavigation.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxDirections.swift/MapboxDirections.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxNavigation/MapboxNavigation.framework",
+				"${PODS_ROOT}/MapboxNavigationNative/MapboxNavigationNative.framework",
+				"${PODS_ROOT}/MapboxNavigationNative/MapboxNavigationNative.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MapboxSpeech/MapboxSpeech.framework",
+				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
+				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
+				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -384,6 +399,18 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCoreNavigation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxDirections.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxNavigation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxNavigationNative.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/MapboxNavigationNative.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxSpeech.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -445,9 +472,10 @@
 			files = (
 				66BF186121B4ACE1002E24B4 /* TrailType.swift in Sources */,
 				66BF182A21B48DDC002E24B4 /* TrailsVC.swift in Sources */,
+				66BA0F2A21CC56EA00E4D6DA /* TrailDescriptionVC.swift in Sources */,
 				66BF186321B4B09E002E24B4 /* TrailCell.swift in Sources */,
 				66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */,
-				66BA0F2821CC485D00E4D6DA /* HikeCard.swift in Sources */,
+				66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -74,11 +74,19 @@ extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
         cell.configCell(trail: trail)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //print("section: \(indexPath.section)")
+        print("row: \(indexPath.row)")
+        guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? TrailDescriptionVC else {return}
+        trailDescriptionVC.initData(trail: trails[indexPath.row])
+        presentDescription(trailDescriptionVC)
+    }
 
 
 }
 
-    //USE CORE DATA
+ //Core Data
 extension TrailsVC {
 
     func fetch(completion: (_ complete:Bool) -> ()){
@@ -114,24 +122,9 @@ extension TrailsVC {
         
     }
     
-    
-
-//    func loadData(completion: (_ finished: Bool)->()){
-//        guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
-//
-//        let trail = Trail(context: managedContext)
-//
-//        do{
-//            try managedContext.save()//persistant storage
-//            print("Successfully build data")
-//            completion(true)
-//        } catch {
-//            debugPrint("Could not save: \(error.localizedDescription)")
-//            completion(false)
-//        }
-//    }
 }
 
+//Firebase
 extension TrailsVC {
     
     func readTrailsFromFirebase(){
