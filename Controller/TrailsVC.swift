@@ -10,15 +10,17 @@ import UIKit
 import CoreData
 import Firebase
 import FirebaseDatabase
-
+import CoreLocation
+import MapKit
 
 let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 
-class TrailsVC: UIViewController {
+class TrailsVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    
+    let locationManager = CLLocationManager()
+    var userLocation: CLLocationCoordinate2D!
     var trails: [Trail] = []
     
     override func viewDidLoad() {
@@ -32,6 +34,20 @@ class TrailsVC: UIViewController {
          fetchCoreDataObjects()
          tableView.reloadData()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //location
+        // Ask for Authorisation from the User.
+        //self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+
     }
     func fetchCoreDataObjects(){
         self.fetch { (complete) in
@@ -77,9 +93,9 @@ extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print("section: \(indexPath.section)")
-        print("row: \(indexPath.row)")
+       // print("row: \(indexPath.row)")
         guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? TrailDescriptionVC else {return}
-        trailDescriptionVC.initData(trail: trails[indexPath.row])
+        trailDescriptionVC.initData(trail: trails[indexPath.row], userLocation: self.userLocation)
         presentDescription(trailDescriptionVC)
     }
 
@@ -96,6 +112,7 @@ extension TrailsVC {
         
         do{
             trails = try manageContext.fetch(fetchRequest)
+            print("Amount of trails: \(trails.count)")
             completion(true)
         } catch{
             debugPrint("Could not fetch: \(error.localizedDescription)")
@@ -115,7 +132,7 @@ extension TrailsVC {
                 managedContext.delete(item)
             }
             
-            print("Model \(entity) successfully delted")
+            print("Model \(entity) successfully deleted")
         } catch {
             debugPrint("Could not delete entry: \(error.localizedDescription)")
         }
@@ -134,7 +151,10 @@ extension TrailsVC {
             let value = snapshot.value as! [String: AnyObject]
             
             for (nameOfHike,infoOfHike) in value {
-                self.save(nameOfHike: nameOfHike, descriptionOfHike: infoOfHike)
+                if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have a location
+                    //print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
+                    self.save(nameOfHike: nameOfHike, descriptionOfHike: infoOfHike)
+                }
             }
         }){ (error) in
             print(error.localizedDescription)
@@ -152,10 +172,11 @@ extension TrailsVC {
         trail.elevation = descriptionOfHike["elevation"] as? String ?? ""
         trail.season = descriptionOfHike["season"] as? String ?? ""
         trail.time = descriptionOfHike["time"] as? String ?? "" 
+        trail.startLocation = descriptionOfHike["location"] as? String ?? ""
         
         do{
             try managedContext.save()//persistant storage
-            print("Successfully build data")
+           // print("Successfully build data")
             
         } catch {
             debugPrint("Could not save: \(error.localizedDescription)")
@@ -165,6 +186,15 @@ extension TrailsVC {
     }
 
     
+}
+
+//
+extension TrailsVC{
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        self.userLocation = locValue
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
 }
 
 
