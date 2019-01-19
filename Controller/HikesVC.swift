@@ -16,7 +16,7 @@ import MapKit
 let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 
-class TrailsVC: UIViewController, CLLocationManagerDelegate {
+class HikesVC: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     let locationManager = CLLocationManager()
@@ -32,7 +32,7 @@ class TrailsVC: UIViewController, CLLocationManagerDelegate {
         self.readTrailsFromFirebase()
         //self.deleteAllData("Trail")
          fetchCoreDataObjects()
-         tableView.reloadData()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         //location
@@ -62,6 +62,7 @@ class TrailsVC: UIViewController, CLLocationManagerDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tableView.reloadData()
       //  let root = Database.database().reference()
        // let childRef = Database.database().referen
         
@@ -72,7 +73,7 @@ class TrailsVC: UIViewController, CLLocationManagerDelegate {
    
 }
 
-extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
+extension HikesVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -82,7 +83,7 @@ extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // create a new cell if needed or reuse an old one
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "trailCell") as? TrailCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "trailCell") as? HikeTableViewCell else {return UITableViewCell()}
         
         // set the text from the data model
         //cell.textLabel?.text = self.animals[indexPath.row]
@@ -94,8 +95,10 @@ extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print("section: \(indexPath.section)")
        // print("row: \(indexPath.row)")
-        guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? TrailDescriptionVC else {return}
+        guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
         trailDescriptionVC.initData(trail: trails[indexPath.row], userLocation: self.userLocation)
+        
+        
         presentDescription(trailDescriptionVC)
     }
 
@@ -103,7 +106,7 @@ extension TrailsVC: UITableViewDelegate, UITableViewDataSource {
 }
 
  //Core Data
-extension TrailsVC {
+extension HikesVC {
 
     func fetch(completion: (_ complete:Bool) -> ()){
         guard let manageContext = appDelegate?.persistentContainer.viewContext else { return }
@@ -142,7 +145,7 @@ extension TrailsVC {
 }
 
 //Firebase
-extension TrailsVC {
+extension HikesVC {
     
     func readTrailsFromFirebase(){
         let trailsReference = Database.database().reference()
@@ -189,7 +192,7 @@ extension TrailsVC {
 }
 
 //
-extension TrailsVC{
+extension HikesVC{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         self.userLocation = locValue

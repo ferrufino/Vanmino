@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TrailCell: UITableViewCell {
+class HikeTableViewCell: UITableViewCell {
 
    
     @IBOutlet weak var trailName: UILabel!
