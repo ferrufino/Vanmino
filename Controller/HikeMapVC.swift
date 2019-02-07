@@ -12,6 +12,7 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
+
 class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDelegate {
     
     /// Container View Top Constraint
@@ -27,46 +28,63 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     var navigateButton: UIButton!
     var backButton: UIButton!
     var directionsRoute: Route?
-    var hike: Trail?
+   // var hike: Trail?
     
-    var startOfHike: CLLocationCoordinate2D!
+    var startOfHikeLocation: CLLocationCoordinate2D!
+    var startHikeLocationString: [String] = []
     var userLocation: CLLocationCoordinate2D!
+    let hikeModel = Hike()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView = NavigationMapView(frame: view.bounds)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            let group = DispatchGroup()
+            group.enter()
         
-        view.addSubview(mapView)
-        view.sendSubviewToBack(mapView)
-        mapView.delegate = self
-        mapView.showsUserLocation = true
-        //mapView.setUserTrackingMode(.follow, animated: true)
-        // Do any additional setup after loading the view.
-        pinRoute()
-        addNavigationButton()
-        addBackButton()
+            DispatchQueue.main.async {
+                group.leave()
+            }
         
-        configureDrawerViewController()
+      
+            self.mapView = NavigationMapView(frame: self.view.bounds)
+            self.mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            
+            self.view.addSubview(self.mapView)
+            self.view.sendSubviewToBack(self.mapView)
+            self.mapView.delegate = self
+            self.mapView.showsUserLocation = true
+            //mapView.setUserTrackingMode(.follow, animated: true)
+            // Do any additional setup after loading the view.
+            self.pinRoute()
+            self.addNavigationButton()
+            self.addBackButton()
+            
+        
+      
         
         
        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       // tableView.reloadData()
+        self.configureDrawerViewController()
+
+        
     }
     
     func initData(trail: Trail, userLocation: CLLocationCoordinate2D){
        
         //print(trail.startLocation)
-        let location = trail.startLocation!.components(separatedBy: ",") // what if there is no location??
-        self.startOfHike = CLLocationCoordinate2D(latitude: Double(location[0])!, longitude: Double(location[1])!)
+        startHikeLocationString = trail.startLocation!.components(separatedBy: ",") // what if there is no location??
+        
+        self.startOfHikeLocation = CLLocationCoordinate2D(latitude: Double(startHikeLocationString[0])!, longitude: Double(startHikeLocationString[1])!)
         self.userLocation = userLocation
-        
-        hike = trail
-       
-        
-        
-    }
 
+       self.hikeModel.initVariables(hike: trail)
+        print("initData trail id: \(trail.id!)")
+    }
 }
 
 
@@ -90,6 +108,7 @@ extension HikeMapVC {
         backButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         backButton.setTitleColor(#colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1), for: .normal)
         backButton.addTarget(self, action: #selector( backButtonWasPressed(_:)), for: .touchUpInside)
+        //backButton.contentHorizontalAlignment = .left
         //view.addSubview(backButton)
         view.insertSubview(backButton, aboveSubview: mapView)
 
@@ -130,12 +149,12 @@ extension HikeMapVC {
         mapView.setUserTrackingMode(.none, animated: true)
         
         let annotation = MGLPointAnnotation()
-        annotation.coordinate = startOfHike
+        annotation.coordinate = startOfHikeLocation
         annotation.title = "Start Navigation"
         
         mapView.addAnnotation(annotation)
         //print("User location \(userLocation) vs \(mapView.userLocation!.coordinate)")
-        calculateRoute(from: userLocation, to: startOfHike) { (route, error) in
+        calculateRoute(from: userLocation, to: startOfHikeLocation) { (route, error) in
             if error != nil {
                 print("Error getting route")
             }
@@ -203,12 +222,19 @@ extension HikeMapVC {
     
 }
 
+//Firebase
+extension HikeMapVC {
+    
+    
+}
+
 // DrawerVC relation
 extension HikeMapVC {
     
    
     
     private func configureDrawerViewController() {
+        
         let compressedHeight = ExpansionState.height(forState: .compressed, inContainer: view.bounds)
         let compressedTopConstraint = view.bounds.height - compressedHeight
         containerViewTopConstraint.constant = compressedTopConstraint
@@ -218,7 +244,8 @@ extension HikeMapVC {
         if let drawerViewController = children.first as? DrawerViewController {
             //send distnace too
             drawerViewController.delegate = self
-            drawerViewController.fillDrawer(hike: self.hike!, userLocation: self.userLocation)
+            print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
+            drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation) // change to hike model
         }
         
         

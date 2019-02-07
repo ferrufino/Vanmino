@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import Firebase
+import FirebaseDatabase
 
 class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
 
@@ -17,9 +19,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
     @IBOutlet weak var userDistanceFromHike: UILabel!
     
      let hikeModel = Hike() // THIS SHOULD BE PRIVATE - make request function in model get/set
-    
-   // @IBOutlet weak var searchbar: UISearchBar!
-    
     
     /// Pan Gesture Recognizer
     internal var panGestureRecognizer: UIPanGestureRecognizer?
@@ -47,10 +46,20 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
         
         setupGestureRecognizers()
         configureAppearance()
-        configureTableView()
+       
         configure(forExpansionState: expansionState)
+        configureTableView()
         
       
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // tableView.reloadData()
+        
+       
+        tableView.reloadData()
         
     }
     
@@ -93,7 +102,7 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
                                                           action: #selector(panGestureDidMove(sender:)))
         panGestureRecognizer.cancelsTouchesInView = false
         panGestureRecognizer.delegate = self
-        
+    
         view.addGestureRecognizer(panGestureRecognizer)
         self.panGestureRecognizer = panGestureRecognizer
     }
@@ -166,80 +175,68 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
         }
     }
     
-
-    
-   
-
 }
 
 
 extension DrawerViewController {
 
     
-    func fillDrawer(hike: Trail, userLocation: CLLocationCoordinate2D){
+    func fillDrawer(hike: Hike, userLocation: CLLocationCoordinate2D){
        // print("drawer name of hike: \(hike.name!)")
         
+
+         let hikeLocation = hike.startLocation!.components(separatedBy: ",")
+        setDistanceFromTwoLocations(hikeLocation: hikeLocation, userLocation: userLocation)
+        
+        //if no weather return make sure to show a text with that
+        //add loading to cell
+        getWeatherConditions(trailId: hike.id)
         hikeName.text = hike.name
-        
+        hikeModel.copyData(hike: hike)
+        //print("Hike weather \(hikeModel.weather)")
+       
+    }
+    
+    func setDistanceFromTwoLocations(hikeLocation: [String], userLocation: CLLocationCoordinate2D){
         //HOW OFTEN DOES THIS GET UPDATED?
-        let hikelocation = hike.startLocation!.components(separatedBy: ",")
+       
         let coordinate₀ = userLocation
-        let coordinate₁ = CLLocationCoordinate2D(latitude: Double(hikelocation[0])!, longitude: Double(hikelocation[1])!)
-        let distanceInKms = coordinate₀.distance(to: coordinate₁)/1000 // result is in meters
-        
-        let urlRequestPath = "api.openweathermap.org/data/2.5/weather?lat="+hikelocation[0]+"&lon="+hikelocation[1]+"&APPID=40007f41ed0a8967d15e8207d7cc71b6"
-        //Make APPID more secure. Maybe get it from firebase..
-        //
-        let url = URL(string: urlRequestPath)!
-          
-        let urlRequest = URLRequest(url: url)
-        
-        // set up the session
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        // make the request
-        let task = session.dataTask(with: urlRequest) {
-            (data, response, error) in
-            // check for any errors
-            guard error == nil else {
-                print("error calling GET on /todos/1")
-                print(error!)
-                return
-            }
-            // make sure we got data
-            guard let responseData = data else {
-                print("Error: did not receive data")
-                return
-            }
-            // parse the result as JSON, since that's what the API provides
-            do {
-                guard let todo = try JSONSerialization.jsonObject(with: responseData, options: [])
-                    as? [String: Any] else {
-                        print("error trying to convert data to JSON")
-                        return
-                }
-            } catch  {
-                print("error trying to convert data to JSON")
-                return
-            }
-        }
-        task.resume()
-        
-        
+        let coordinate₁ = CLLocationCoordinate2D(latitude: Double(hikeLocation[0])!, longitude: Double(hikeLocation[1])!)
+        let distanceInKms = coordinate₀.distance(to: coordinate₁)/1000 // result is in kms
+
         
         userDistanceFromHike.text = String(distanceInKms.rounded(.up))
-        hikeModel.difficulty = hike.difficulty
-        hikeModel.distance = hike.distance
-        hikeModel.elevation = hike.elevation
-        hikeModel.startLocation = hike.startLocation
-        hikeModel.time = hike.time
+    }
+}
+
+
+//Firebase
+extension DrawerViewController {
+    func getWeatherConditions(trailId: String?){
         
+        print("getWeatherConfitions trailid: \(trailId!)")
+        let trailsReference = Database.database().reference()
+        let itemsRef = trailsReference.child("weatherStartLocation").child(trailId!)
+        itemsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let value = snapshot.value as AnyObject
+            
+            self.hikeModel.barometer =  String(format: "%@", value["barometer"] as! CVarArg)
+            self.hikeModel.weather = value["weather"] as? String
+            self.hikeModel.weatherIcon = value["weatherIcon"] as? String
+            self.hikeModel.humidity = String(format: "%@", value["humidity"] as! CVarArg)
+            self.hikeModel.temperature = String(format: "%@", value["temperature"] as! CVarArg)
+            self.hikeModel.sunrise = value["sunrise"] as? String
+            self.hikeModel.sunset = value["sunset"] as? String
+            
+            let indexPath = IndexPath(item: 1, section: 0)
+            self.tableView.reloadRows(at: [indexPath], with: .top)
+            
+        }){ (error) in
+            print(error.localizedDescription)
+        }
     }
     
-    func getDistanceFromTwoLocations(userLocation: CLLocationCoordinate2D){
-        //move here that code you know
-    }
-    
+    //reload cell
 }
 

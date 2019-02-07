@@ -34,27 +34,43 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        if indexPath.row == 1 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LiveInfoTableViewCell", for: indexPath) as? LiveInfoTableViewCell {
                 
                 cell.selectionStyle = .none
-                ///get data and assign it to hike
-                //assign hike to respective labels in cell and return cell
-                //hike = DrawerViewController.hike
-                // cell.descriptionLabel.text = subtitleText
+                       print("live cell test")
+                        print("Live data Cell: \(hikeModel.temperature), \(hikeModel.weather), \(hikeModel.humidity)")
+                        ////// do your remaining work
+                if(hikeModel.temperature != nil){
+                    cell.temperature.text = hikeModel.temperature! + " C"
+                    cell.weather.text = hikeModel.weather
+                    cell.weatherIcon.image = UIImage(named:hikeModel.weatherIcon!)
+                    cell.humidity.text = hikeModel.humidity! + "%"
+                    cell.barometer.text = hikeModel.barometer! + "hPa"
+                    cell.sunrise.text = hikeModel.sunrise
+                    cell.sunset.text = hikeModel.sunset
+                  
+                }
+                
+                
                 return cell
             }
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == 0 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "FactInfoTableViewCell", for: indexPath) as? FactInfoTableViewCell {
                 cell.selectionStyle = .none
                 cell.hikeDifficulty.text = hikeModel.difficulty
                 cell.hikeDistance.text = hikeModel.distance
                 cell.hikeElevation.text = hikeModel.elevation
                 cell.hikeTime.text = hikeModel.time
-                ///get data and assign it to hike
-                //assign hike to respective labels in cell and return cell
-                //hike = DrawerViewController.hike
-                // cell.descriptionLabel.text = subtitleText
+               
+                if hikeModel.dogFriendly {
+                    cell.dogIcon.image = UIImage(named:"dog")
+                }
+                
+                if hikeModel.camping {
+                    cell.campingIcon.image = UIImage(named:"camping")
+                }
+
                 return cell
             }
         }

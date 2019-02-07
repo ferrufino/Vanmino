@@ -10,10 +10,10 @@
 		402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */; };
 		468113D20EF29CA4F03F44E9 /* Pods_VanminoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */; };
 		6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59821E1A89B00DF141A /* Assets.xcassets */; };
-		6614D59B21E9D30700DF141A /* LiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59A21E9D30700DF141A /* LiveInfoTableViewCell.xib */; };
 		6614D59D21E9D9ED00DF141A /* FactInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */; };
 		6614D5A021EB0FC800DF141A /* Hike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D59F21EB0FC800DF141A /* Hike.swift */; };
 		6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */; };
+		665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */; };
 		66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */; };
 		66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
@@ -54,10 +54,10 @@
 		2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6614D59821E1A89B00DF141A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6614D59A21E9D30700DF141A /* LiveInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveInfoTableViewCell.xib; sourceTree = "<group>"; };
-		6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FactInfoTableViewCell.xib; path = "../../../../Downloads/shortcuts-drawer-view-master/ShortcutsDrawer/FactInfoTableViewCell.xib"; sourceTree = "<group>"; };
+		6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FactInfoTableViewCell.xib; sourceTree = "<group>"; };
 		6614D59F21EB0FC800DF141A /* Hike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hike.swift; sourceTree = "<group>"; };
 		6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactInfoTableViewCell.swift; sourceTree = "<group>"; };
+		665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeMapVC.swift; sourceTree = "<group>"; };
 		66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +130,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		6613C24821F987E000BB5369 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				66BF929F21CECD0D007D5D6D /* DrawerViewControllerDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		6614D59E21EB0DE900DF141A /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +149,7 @@
 		66BF181B21B48DDC002E24B4 = {
 			isa = PBXGroup;
 			children = (
+				6613C24821F987E000BB5369 /* Protocol */,
 				6614D59E21EB0DE900DF141A /* Model */,
 				66BF185D21B4A68A002E24B4 /* Extensions */,
 				66BF185C21B4A682002E24B4 /* Enums */,
@@ -212,9 +221,9 @@
 			children = (
 				66BF186221B4B09E002E24B4 /* HikeTableViewCell.swift */,
 				66BF92A521CEDB4D007D5D6D /* LiveInfoTableViewCell.swift */,
-				6614D59A21E9D30700DF141A /* LiveInfoTableViewCell.xib */,
 				6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */,
 				6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */,
+				665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */,
-				66BF929F21CECD0D007D5D6D /* DrawerViewControllerDelegate.swift */,
 				66BF92A321CEDAFF007D5D6D /* DrawerViewController+TableView.swift */,
 			);
 			path = Extensions;
@@ -363,7 +371,7 @@
 				6614D59D21E9D9ED00DF141A /* FactInfoTableViewCell.xib in Resources */,
 				66BF183521B48DDC002E24B4 /* LaunchScreen.storyboard in Resources */,
 				66BF185921B48E09002E24B4 /* GoogleService-Info.plist in Resources */,
-				6614D59B21E9D30700DF141A /* LiveInfoTableViewCell.xib in Resources */,
+				665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */,
 				6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */,
 				66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */,
 			);

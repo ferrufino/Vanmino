@@ -29,9 +29,9 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
         tableView.dataSource = self
         tableView.isHidden = false
         
-        self.readTrailsFromFirebase()
-        //self.deleteAllData("Trail")
-         fetchCoreDataObjects()
+        //self.readTrailsFromFirebase()
+        //self.deleteAllTrailRecords()
+        self.fetchCoreDataObjects()
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -49,17 +49,7 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
         }
 
     }
-    func fetchCoreDataObjects(){
-        self.fetch { (complete) in
-            if complete {
-                if trails.count >= 1 {
-                    print("Data read into obj from model")
-                } else {
-                    print("Data NOT read into obj from model")
-                }
-            }
-        }
-    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -86,7 +76,7 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "trailCell") as? HikeTableViewCell else {return UITableViewCell()}
         
         // set the text from the data model
-        //cell.textLabel?.text = self.animals[indexPath.row]
+        
         let trail = trails[indexPath.row]
         cell.configCell(trail: trail)
         return cell
@@ -98,7 +88,6 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
         trailDescriptionVC.initData(trail: trails[indexPath.row], userLocation: self.userLocation)
         
-        
         presentDescription(trailDescriptionVC)
     }
 
@@ -108,6 +97,33 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
  //Core Data
 extension HikesVC {
 
+    func deleteAllTrailRecords() {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let context = delegate.persistentContainer.viewContext
+        
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Trail")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch {
+            print ("There was an error")
+        }
+    }
+    
+    func fetchCoreDataObjects(){
+        self.fetch { (complete) in
+            if complete {
+                if trails.count >= 1 {
+                    print("Data read into obj from CoreData")
+                } else {
+                    print("Data NOT read into obj from CoreData")
+                }
+            }
+        }
+    }
+    
     func fetch(completion: (_ complete:Bool) -> ()){
         guard let manageContext = appDelegate?.persistentContainer.viewContext else { return }
         
@@ -154,8 +170,8 @@ extension HikesVC {
             let value = snapshot.value as! [String: AnyObject]
             
             for (nameOfHike,infoOfHike) in value {
-                if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have a location
-                    //print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
+                if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
+                    print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
                     self.save(nameOfHike: nameOfHike, descriptionOfHike: infoOfHike)
                 }
             }
@@ -168,15 +184,18 @@ extension HikesVC {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
         
         let trail = Trail(context: managedContext)
-        
+        print("dog friendly: \(descriptionOfHike["dog-friendly"] as? Bool ?? false)")
         trail.name = nameOfHike
+        trail.id = descriptionOfHike["id"] as? String ?? ""
         trail.difficulty = descriptionOfHike["difficulty"] as? String ?? ""
         trail.distance = descriptionOfHike["distance"] as? String ?? ""
         trail.elevation = descriptionOfHike["elevation"] as? String ?? ""
         trail.season = descriptionOfHike["season"] as? String ?? ""
         trail.time = descriptionOfHike["time"] as? String ?? "" 
         trail.startLocation = descriptionOfHike["location"] as? String ?? ""
-        
+        trail.region = descriptionOfHike["region"] as? String ?? ""
+        trail.dogFriendly = descriptionOfHike["dog-friendly"] as? Bool ?? false
+        trail.camping = descriptionOfHike["camping"] as? Bool ?? false
         do{
             try managedContext.save()//persistant storage
            // print("Successfully build data")

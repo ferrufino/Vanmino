@@ -20,6 +20,7 @@ class FactInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var hikeTime: UILabel!
     @IBOutlet weak var hikeDistance: UILabel!
     @IBOutlet weak var hikeDifficulty: UILabel!
-    
+    @IBOutlet weak var dogIcon: UIImageView!
+    @IBOutlet weak var campingIcon: UIImageView!
     
 }

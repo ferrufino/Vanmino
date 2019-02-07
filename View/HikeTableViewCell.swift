@@ -17,6 +17,7 @@ class HikeTableViewCell: UITableViewCell {
     @IBOutlet weak var trailTimeLbl: UILabel!
     @IBOutlet weak var trailCard: UIView!
     @IBOutlet weak var trailSeasonLbl: UILabel!
+    @IBOutlet weak var trailRegion: UILabel!
     
     func configCell(trail: Trail){
         
@@ -26,7 +27,7 @@ class HikeTableViewCell: UITableViewCell {
         self.trailTimeLbl.text = trail.time
         self.trailCard.layer.cornerRadius = 5
         self.trailSeasonLbl.text = trail.season
-        
+        self.trailRegion.text = trail.region
     }
     
 }

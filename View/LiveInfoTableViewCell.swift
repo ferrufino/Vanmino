@@ -20,7 +20,15 @@ class LiveInfoTableViewCell: UITableViewCell {
     /// Static Cell Height
     static let cellHeight: CGFloat = 100.0
     
-  ///Save weather data. So request are done once per day and updates all apps - this should be done somewhere else then
-   
+
+    @IBOutlet weak var temperature: UILabel!
+    @IBOutlet weak var weather: UILabel!
+    @IBOutlet weak var weatherIcon: UIImageView!
+    @IBOutlet weak var humidity: UILabel!
+    @IBOutlet weak var barometer: UILabel!
+    @IBOutlet weak var sunrise: UILabel!
+    @IBOutlet weak var sunset: UILabel!
+    
+    
 }
 
