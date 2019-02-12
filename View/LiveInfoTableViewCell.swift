@@ -24,11 +24,10 @@ class LiveInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var temperature: UILabel!
     @IBOutlet weak var weather: UILabel!
     @IBOutlet weak var weatherIcon: UIImageView!
-    @IBOutlet weak var humidity: UILabel!
-    @IBOutlet weak var barometer: UILabel!
+    @IBOutlet weak var tempMin: UILabel!
+    @IBOutlet weak var tempMax: UILabel!
     @IBOutlet weak var sunrise: UILabel!
     @IBOutlet weak var sunset: UILabel!
-    
     
 }
 

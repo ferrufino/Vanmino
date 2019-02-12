@@ -22,5 +22,5 @@ class FactInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var hikeDifficulty: UILabel!
     @IBOutlet weak var dogIcon: UIImageView!
     @IBOutlet weak var campingIcon: UIImageView!
-    
+   
 }

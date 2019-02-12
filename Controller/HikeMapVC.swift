@@ -17,18 +17,19 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     
     /// Container View Top Constraint
     @IBOutlet weak var containerViewTopConstraint: NSLayoutConstraint!
-
+    
     /// Previous Container View Top Constraint
     private var previousContainerViewTopConstraint: CGFloat = 0.0
-
+    
     /// Background Overlay Alpha
     private static let kBackgroundColorOverlayTargetAlpha: CGFloat = 0.4
-
+    
     var mapView: NavigationMapView!
     var navigateButton: UIButton!
     var backButton: UIButton!
     var directionsRoute: Route?
-   // var hike: Trail?
+    var hikeRoute: Route?
+    // var hike: Trail?
     
     var startOfHikeLocation: CLLocationCoordinate2D!
     var startHikeLocationString: [String] = []
@@ -38,51 +39,50 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-            let group = DispatchGroup()
-            group.enter()
-        
-            DispatchQueue.main.async {
-                group.leave()
-            }
-        
-      
-            self.mapView = NavigationMapView(frame: self.view.bounds)
-            self.mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            
-            self.view.addSubview(self.mapView)
-            self.view.sendSubviewToBack(self.mapView)
-            self.mapView.delegate = self
-            self.mapView.showsUserLocation = true
-            //mapView.setUserTrackingMode(.follow, animated: true)
-            // Do any additional setup after loading the view.
-            self.pinRoute()
-            self.addNavigationButton()
-            self.addBackButton()
-            
-        
-      
         
         
-       
+        let styleURL = URL(string: "mapbox://styles/mapbox/outdoors-v9")
+        self.mapView = NavigationMapView(frame: self.view.bounds,
+                                         styleURL: styleURL)
+        
+        //let mapView = MGLMapView(frame: self.view.bounds,
+        //  styleURL: styleURL)
+        self.mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        self.view.addSubview(self.mapView)
+        self.view.sendSubviewToBack(self.mapView)
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
+        //mapView.setUserTrackingMode(.follow, animated: true)
+        // Do any additional setup after loading the view.
+        self.pinRoute()
+        self.addNavigationButton()
+        self.addBackButton()
+        
+        
+        
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       // tableView.reloadData()
+        // tableView.reloadData()
         self.configureDrawerViewController()
-
+        
         
     }
     
     func initData(trail: Trail, userLocation: CLLocationCoordinate2D){
-       
+        
         //print(trail.startLocation)
         startHikeLocationString = trail.startLocation!.components(separatedBy: ",") // what if there is no location??
         
         self.startOfHikeLocation = CLLocationCoordinate2D(latitude: Double(startHikeLocationString[0])!, longitude: Double(startHikeLocationString[1])!)
         self.userLocation = userLocation
-
-       self.hikeModel.initVariables(hike: trail)
+        
+        self.hikeModel.initVariables(hike: trail)
         print("initData trail id: \(trail.id!)")
     }
 }
@@ -111,7 +111,7 @@ extension HikeMapVC {
         //backButton.contentHorizontalAlignment = .left
         //view.addSubview(backButton)
         view.insertSubview(backButton, aboveSubview: mapView)
-
+        
         
     }
     
@@ -133,7 +133,7 @@ extension HikeMapVC {
         navigateButton.addTarget(self, action: #selector(navigateButtonWasPressed(_:)), for: .touchUpInside)
         //view.addSubview(navigateButton)
         view.insertSubview(navigateButton, aboveSubview: mapView)
-      
+        
     }
     @objc func navigateButtonWasPressed(_ sender: UIButton){
         let navigationVC = NavigationViewController(for: directionsRoute!)
@@ -145,14 +145,9 @@ extension HikeMapVC {
 //Mapbox features
 extension HikeMapVC {
     
-    func pinRoute(){
+    func pinRoute(){ // moves map to location specified, calls parent method to draw route
         mapView.setUserTrackingMode(.none, animated: true)
         
-        let annotation = MGLPointAnnotation()
-        annotation.coordinate = startOfHikeLocation
-        annotation.title = "Start Navigation"
-        
-        mapView.addAnnotation(annotation)
         //print("User location \(userLocation) vs \(mapView.userLocation!.coordinate)")
         calculateRoute(from: userLocation, to: startOfHikeLocation) { (route, error) in
             if error != nil {
@@ -160,54 +155,167 @@ extension HikeMapVC {
             }
             
         }
+        
+        let coor =
+            [
+                CLLocationCoordinate2D(latitude: 49.275812, longitude: -123.135539),
+                CLLocationCoordinate2D(latitude: 49.275808, longitude: -123.114822),
+                CLLocationCoordinate2D(latitude: 49.282338, longitude: -123.111090),
+                CLLocationCoordinate2D(latitude: 49.292244, longitude:  -123.134354)
+                
+        ]
+        
+        drawHikeTrail(coordinates: coor)
+        
     }
     
     func calculateRoute(from originCoor: CLLocationCoordinate2D, to destinationCoor: CLLocationCoordinate2D, completion: @escaping (Route?, Error?) -> Void){
         let origin = Waypoint(coordinate: originCoor, coordinateAccuracy: -1, name: "Start")
         let destination = Waypoint(coordinate: destinationCoor, coordinateAccuracy: -1, name: "Finish")
         
+        
+        
         let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
         
         _ = Directions.shared.calculate(options, completionHandler: { (waypoints, routes, error) in
             self.directionsRoute = routes?.first
             
-            //draw line
-            if self.directionsRoute != nil{
-                self.drawRoute(route: self.directionsRoute!)
-                
-                
-                let coordinateBounds = MGLCoordinateBounds(sw: destinationCoor, ne: originCoor)
-                let insets = UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
-                let routeCam = self.mapView.cameraThatFitsCoordinateBounds(coordinateBounds, edgePadding: insets)
-                self.mapView.setCamera(routeCam, animated: true)
-            }else{
-                // TO-DO: Banner saying no valid route found
-            }
-            
             
         })
     }
     
+    func  drawHikeTrail(coordinates: [CLLocationCoordinate2D])-> Void{
+        
+        
+        let options = NavigationRouteOptions(coordinates: coordinates, profileIdentifier: MBDirectionsProfileIdentifier.walking)
+        
+        _ = Directions.shared.calculate(options, completionHandler: { (waypoints, routes, error) in
+            self.hikeRoute = routes?.first
+            
+            //draw line
+            if self.hikeRoute != nil{
+                self.drawRoute(route: self.hikeRoute!)
+                
+                self.mapView?.setVisibleCoordinates(
+                    coordinates,
+                    count: UInt(coordinates.count),
+                    edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
+                    animated: true
+                )
+            }else{
+                // TO-DO: Banner saying no valid route found
+            }
+            
+        })
+        
+        
+        
+        // Point Annotations
+        // Add a custom point annotation for every coordinate (vertex) in the polyline.
+        var pointAnnotations = [CustomPointAnnotation]()
+        for coordinate in coordinates {
+            let count = pointAnnotations.count + 1
+            let point = CustomPointAnnotation(coordinate: coordinate,
+                                              title: "Custom Point Annotation \(count)",
+                subtitle: nil)
+            
+            // Set the custom `image` and `reuseIdentifier` properties, later used in the `mapView:imageForAnnotation:` delegate method.
+            // Create a unique reuse identifier for each new annotation image.
+            point.reuseIdentifier = "customAnnotation\(count)"
+            // This dot image grows in size as more annotations are added to the array.
+            point.image = dot(size: 15)
+            
+            // Append each annotation to the array, which will be added to the map all at once.
+            pointAnnotations.append(point)
+        }
+        
+        // Add the point annotations to the map. This time the method name is plural.
+        // If you have multiple annotations to add, batching their addition to the map is more efficient.
+        mapView.addAnnotations(pointAnnotations)
+        
+        //Fix the map to see exact position
+        //mapView.setCenter(coordinates[3], zoomLevel: 10, direction: 0, animated: false)
+        
+        
+    }
     func drawRoute(route: Route){
         guard route.coordinateCount > 0 else {return}
         var routeCoordinates = route.coordinates!
         
         let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-        if let source = mapView.style?.source(withIdentifier: "route-source") as? MGLShapeSource {
-            source.shape = polyline
-        }else{
-            let source = MGLShapeSource(identifier: "route-source", features: [polyline], options: nil)
+        
+        let source = MGLShapeSource(identifier: "route-line", features: [polyline], options: nil)
+
+        let layer = MGLLineStyleLayer(identifier: "line-layer", source: source)
+        layer.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
+        
+        
+        
+        
+        layer.lineColor = NSExpression(mglJSONObject: #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1))
+        layer.lineWidth = NSExpression(mglJSONObject: 3.0)
+        
+        mapView.style?.addSource(source)
+        mapView.style?.addLayer(layer)
+        
+        
+        
+    }
+    
+    
+    
+    func dot(size: Int) -> UIImage {
+        let floatSize = CGFloat(size)
+        let rect = CGRect(x: 0, y: 0, width: floatSize, height: floatSize)
+        let strokeWidth: CGFloat = 1
+        
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
+        
+        let ovalPath = UIBezierPath(ovalIn: rect.insetBy(dx: strokeWidth, dy: strokeWidth))
+        #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1).setFill()
+        ovalPath.fill()
+        
+        UIColor.white.setStroke()
+        ovalPath.lineWidth = strokeWidth
+        ovalPath.stroke()
+        
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+    
+    
+}
+
+// MARK: - MGLMapViewDelegate methods
+extension HikeMapVC {
+    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+        if let point = annotation as? CustomPointAnnotation,
+            let image = point.image,
+            let reuseIdentifier = point.reuseIdentifier {
             
-            let lineStyle = MGLLineStyleLayer(identifier: "route-style", source: source)
-            lineStyle.lineColor = NSExpression(mglJSONObject: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
-            lineStyle.lineWidth = NSExpression(mglJSONObject: 4.0)
-            
-            mapView.style?.addSource(source)
-            mapView.style?.addLayer(lineStyle)
-            
-            
+            if let annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: reuseIdentifier) {
+                // The annotatation image has already been cached, just reuse it.
+                return annotationImage
+            } else {
+                // Create a new annotation image.
+                return MGLAnnotationImage(image: image, reuseIdentifier: reuseIdentifier)
+            }
         }
         
+        // Fallback to the default marker image.
+        return nil
+    }
+    
+    func mapView(_ mapView: MGLMapView, strokeColorForShapeAnnotation annotation: MGLShape) -> UIColor {
+        if let annotation = annotation as? CustomPolyline {
+            // Return orange if the polyline does not have a custom color.
+            return annotation.color ?? .orange
+        }
+        
+        // Fallback to the default tint color.
+        return mapView.tintColor
     }
     
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
@@ -219,19 +327,12 @@ extension HikeMapVC {
         present(navigationVC, animated: true, completion: nil)
     }
     
-    
-}
-
-//Firebase
-extension HikeMapVC {
-    
-    
 }
 
 // DrawerVC relation
 extension HikeMapVC {
     
-   
+    
     
     private func configureDrawerViewController() {
         

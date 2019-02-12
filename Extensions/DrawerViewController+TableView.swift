@@ -20,6 +20,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
         //Register cells with identifier
         tableView.register(UINib(nibName: "LiveInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "LiveInfoTableViewCell")
         tableView.register(UINib(nibName: "FactInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "FactInfoTableViewCell")
+        tableView.register(UINib(nibName: "SecLiveInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "SecLiveInfoTableViewCell")
     }
     
     // MARK: - UITableViewDataSource
@@ -29,7 +30,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -38,15 +39,13 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LiveInfoTableViewCell", for: indexPath) as? LiveInfoTableViewCell {
                 
                 cell.selectionStyle = .none
-                       print("live cell test")
-                        print("Live data Cell: \(hikeModel.temperature), \(hikeModel.weather), \(hikeModel.humidity)")
-                        ////// do your remaining work
+
                 if(hikeModel.temperature != nil){
                     cell.temperature.text = hikeModel.temperature! + " C"
                     cell.weather.text = hikeModel.weather
                     cell.weatherIcon.image = UIImage(named:hikeModel.weatherIcon!)
-                    cell.humidity.text = hikeModel.humidity! + "%"
-                    cell.barometer.text = hikeModel.barometer! + "hPa"
+                    cell.tempMax.text = hikeModel.tempMax! + " C"
+                    cell.tempMin.text = hikeModel.tempMin! + " C"
                     cell.sunrise.text = hikeModel.sunrise
                     cell.sunset.text = hikeModel.sunset
                   
@@ -71,6 +70,21 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.campingIcon.image = UIImage(named:"camping")
                 }
 
+                return cell
+            }
+        } else if indexPath.row == 2 {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "SecLiveInfoTableViewCell", for: indexPath) as? SecLiveInfoTableViewCell {
+              
+                cell.selectionStyle = .none
+                
+                if(hikeModel.temperature != nil){
+                  cell.visibility.text = hikeModel.visibility! + " m"
+                  cell.cloudsPercentage.text = hikeModel.clouds! + " %"
+                  cell.windSpeed.text = hikeModel.windSpeed! + " m/s"
+                  cell.windDirection.text = hikeModel.windDirection
+                  cell.barometer.text = hikeModel.barometer! + " hPa"
+                  cell.humidity.text = hikeModel.humidity! + " %"
+                }
                 return cell
             }
         }

@@ -212,6 +212,36 @@ extension DrawerViewController {
 
 //Firebase
 extension DrawerViewController {
+    
+    
+    func getDirectionOfWind(degree: Double)-> String{
+        print("degree:\(degree)")
+        switch degree {
+            case 0, 360:
+                return "N"
+            case 90:
+                 return "E"
+            case 180:
+                return "S"
+            case 270:
+                return "W"
+            case _ where degree > 0 && degree < 90:
+                return "NE"
+            case _ where degree > 90 && degree < 180:
+                return "SE"
+            case _ where degree > 180 && degree < 270:
+                return "SW"
+            case _ where degree > 270 && degree < 360:
+                 return "NW"
+            
+            default:
+                return "NoData"
+        }
+        
+    }
+    
+    
+    
     func getWeatherConditions(trailId: String?){
         
         print("getWeatherConfitions trailid: \(trailId!)")
@@ -221,16 +251,29 @@ extension DrawerViewController {
             
             let value = snapshot.value as AnyObject
             
-            self.hikeModel.barometer =  String(format: "%@", value["barometer"] as! CVarArg)
-            self.hikeModel.weather = value["weather"] as? String
-            self.hikeModel.weatherIcon = value["weatherIcon"] as? String
-            self.hikeModel.humidity = String(format: "%@", value["humidity"] as! CVarArg)
-            self.hikeModel.temperature = String(format: "%@", value["temperature"] as! CVarArg)
-            self.hikeModel.sunrise = value["sunrise"] as? String
-            self.hikeModel.sunset = value["sunset"] as? String
-            
-            let indexPath = IndexPath(item: 1, section: 0)
-            self.tableView.reloadRows(at: [indexPath], with: .top)
+            if let tempNSNumber = value["temperature"] {
+                print(value)
+              
+                let windSpeedNSNumber = value["windSpeed"] as! Double
+                let windDegree = value["windDeg"] as! Double
+                self.hikeModel.barometer =  String(format: "%@", value["barometer"] as! CVarArg)
+                self.hikeModel.weather = value["weather"] as? String
+                self.hikeModel.weatherIcon = value["weatherIcon"] as? String
+                self.hikeModel.humidity = String(format: "%@", value["humidity"] as! CVarArg)
+                self.hikeModel.temperature = String(format:"%.f", tempNSNumber as! Double)
+                self.hikeModel.sunrise = value["sunrise"] as? String
+                self.hikeModel.sunset = value["sunset"] as? String
+                self.hikeModel.visibility = String(format: "%@", value["visibility"] as! CVarArg)
+                self.hikeModel.tempMin = String(format: "%@", value["tempMin"] as! CVarArg)
+                self.hikeModel.tempMax = String(format: "%@", value["tempMax"] as! CVarArg)
+                self.hikeModel.clouds = String(format: "%@", value["clouds"] as! CVarArg)
+                self.hikeModel.windDirection = self.getDirectionOfWind(degree: windDegree)
+                self.hikeModel.windSpeed = String(format:"%.f", windSpeedNSNumber)
+                let indexPath = IndexPath(item: 1, section: 0)
+                self.tableView.reloadRows(at: [indexPath], with: .top)
+            }else{
+                print("NO DATA FOR THIS ID")
+            }
             
         }){ (error) in
             print(error.localizedDescription)

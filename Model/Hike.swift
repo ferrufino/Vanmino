@@ -27,9 +27,14 @@ class Hike {
     var barometer: String?
     var weather: String?
     var weatherIcon: String?
-    var wind: String?
+    var windSpeed: String?
+    var windDirection: String?
     var sunrise: String?
     var sunset: String?
+    var visibility: String?
+    var tempMin: String?
+    var tempMax: String?
+    var clouds: String?
     
     var dogFriendly: Bool!
     var camping: Bool!
@@ -45,6 +50,7 @@ class Hike {
         time = hike.time
         dogFriendly = hike.dogFriendly
         camping = hike.camping
+        
     }
     
     func copyData(hike: Hike){

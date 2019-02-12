@@ -14,6 +14,9 @@
 		6614D5A021EB0FC800DF141A /* Hike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D59F21EB0FC800DF141A /* Hike.swift */; };
 		6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */; };
 		665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */; };
+		665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */; };
+		665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */; };
+		665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */; };
 		66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */; };
 		66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
@@ -58,6 +61,9 @@
 		6614D59F21EB0FC800DF141A /* Hike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hike.swift; sourceTree = "<group>"; };
 		6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactInfoTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LiveInfoTableViewCell.xib; sourceTree = "<group>"; };
+		665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecLiveInfoTableViewCell.swift; sourceTree = "<group>"; };
+		665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecLiveInfoTableViewCell.xib; sourceTree = "<group>"; };
+		665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGLAnnotationProtocol.swift; sourceTree = "<group>"; };
 		66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeMapVC.swift; sourceTree = "<group>"; };
 		66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				66BF929F21CECD0D007D5D6D /* DrawerViewControllerDelegate.swift */,
+				665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -220,10 +227,12 @@
 			isa = PBXGroup;
 			children = (
 				66BF186221B4B09E002E24B4 /* HikeTableViewCell.swift */,
-				66BF92A521CEDB4D007D5D6D /* LiveInfoTableViewCell.swift */,
 				6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */,
 				6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */,
+				66BF92A521CEDB4D007D5D6D /* LiveInfoTableViewCell.swift */,
 				665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */,
+				665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */,
+				665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -372,6 +381,7 @@
 				66BF183521B48DDC002E24B4 /* LaunchScreen.storyboard in Resources */,
 				66BF185921B48E09002E24B4 /* GoogleService-Info.plist in Resources */,
 				665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */,
+				665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */,
 				6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */,
 				66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */,
 			);
@@ -529,7 +539,9 @@
 				66BF92A221CED212007D5D6D /* ExpansionState.swift in Sources */,
 				66BF92A421CEDAFF007D5D6D /* DrawerViewController+TableView.swift in Sources */,
 				66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */,
+				665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
+				665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
