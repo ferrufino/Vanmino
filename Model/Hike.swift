@@ -21,6 +21,7 @@ class Hike {
     var season: String?
     var startLocation: String?
     var time: String?
+    var coordinates: [String]?
     
     var temperature: String?
     var humidity: String?
@@ -50,6 +51,7 @@ class Hike {
         time = hike.time
         dogFriendly = hike.dogFriendly
         camping = hike.camping
+        coordinates = hike.coordinates
         
     }
     
@@ -64,6 +66,7 @@ class Hike {
         time = hike.time
         dogFriendly = hike.dogFriendly
         camping = hike.camping
+        coordinates = hike.coordinates
     }
     
 }

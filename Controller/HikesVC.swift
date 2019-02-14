@@ -185,7 +185,7 @@ extension HikesVC {
         let itemsRef = trailsReference.child("trails")
         itemsRef.observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as! [String: AnyObject]
-            
+            print(value)
             for (nameOfHike,infoOfHike) in value {
                 if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
                     print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
@@ -201,7 +201,7 @@ extension HikesVC {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
            print(type(of: descriptionOfHike) )
         let trail = Trail(context: managedContext)
-        /*
+        
         print("dog friendly: \(descriptionOfHike["dog-friendly"] as? Bool ?? false)")
         trail.name = nameOfHike
         trail.id = descriptionOfHike["id"] as? String ?? ""
@@ -215,7 +215,7 @@ extension HikesVC {
         trail.dogFriendly = descriptionOfHike["dog-friendly"] as? Bool ?? false
         trail.camping = descriptionOfHike["camping"] as? Bool ?? false
         trail.coordinates = descriptionOfHike["coordinates"] as? [String]
-        */
+        
         do{
             try managedContext.save()//persistant storage
            // print("Successfully build data")
