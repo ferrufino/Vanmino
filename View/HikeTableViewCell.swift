@@ -19,7 +19,7 @@ class HikeTableViewCell: UITableViewCell {
     @IBOutlet weak var trailSeasonLbl: UILabel!
     @IBOutlet weak var trailRegion: UILabel!
     
-    func configCell(trail: Trail){
+    func configCell(trail: Hike){
         
         self.trailDistanceLbl.text = trail.distance
         self.trailName.text = trail.name

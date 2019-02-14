@@ -21,6 +21,7 @@ class Hike {
     var season: String?
     var startLocation: String?
     var time: String?
+    var region:String?
     var coordinates: [String]?
     
     var temperature: String?
@@ -40,19 +41,19 @@ class Hike {
     var dogFriendly: Bool!
     var camping: Bool!
     
-    func initVariables(hike: Trail){
-        id = hike.id
-        difficulty = hike.difficulty
-        distance = hike.distance
-        elevation = hike.elevation
-        name = hike.name
-        season = hike.season
-        startLocation = hike.startLocation
-        time = hike.time
-        dogFriendly = hike.dogFriendly
-        camping = hike.camping
-        coordinates = hike.coordinates
-        
+    func initVariables(nameOfHike: String, hikeDetails: AnyObject){
+        id = hikeDetails["id"] as? String ?? ""
+        difficulty = hikeDetails["difficulty"] as? String ?? ""
+        distance = hikeDetails["distance"] as? String ?? ""
+        elevation = hikeDetails["elevation"] as? String ?? ""
+        name = nameOfHike
+        season = hikeDetails["season"] as? String ?? ""
+        region = hikeDetails["region"] as? String ?? ""
+        startLocation = hikeDetails["location"] as? String ?? ""
+        time = hikeDetails["time"] as? String ?? ""
+        dogFriendly = hikeDetails["dog-friendly"] as? Bool ?? false
+        camping = hikeDetails["camping"] as? Bool ?? false
+        coordinates = hikeDetails["coordinates"] as? [String]
     }
     
     func copyData(hike: Hike){

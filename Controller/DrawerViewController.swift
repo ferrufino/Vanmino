@@ -246,8 +246,9 @@ extension DrawerViewController {
         
         print("getWeatherConfitions trailid: \(trailId!)")
         let trailsReference = Database.database().reference()
+        trailsReference.keepSynced(true)
         let itemsRef = trailsReference.child("weatherStartLocation").child(trailId!)
-        itemsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as AnyObject
             

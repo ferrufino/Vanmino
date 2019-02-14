@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Trail" representedClassName="Trail" syncable="YES" codeGenerationType="class">
-        <attribute name="camping" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="coordinates" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="difficulty" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="distance" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="dogFriendly" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="elevation" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="region" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="season" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="startLocation" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <elements>
-        <element name="Trail" positionX="-63" positionY="-18" width="128" height="225"/>
-    </elements>
+    <elements/>
 </model>

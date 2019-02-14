@@ -74,16 +74,16 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         
     }
     
-    func initData(trail: Trail, userLocation: CLLocationCoordinate2D){
+    func initData(hike: Hike, userLocation: CLLocationCoordinate2D){
         
         //print(trail.startLocation)
-        startHikeLocationString = trail.startLocation!.components(separatedBy: ",") // what if there is no location??
+        startHikeLocationString = hike.startLocation!.components(separatedBy: ",") // what if there is no location??
         
         self.startOfHikeLocation = CLLocationCoordinate2D(latitude: Double(startHikeLocationString[0])!, longitude: Double(startHikeLocationString[1])!)
         self.userLocation = userLocation
         
-        self.hikeModel.initVariables(hike: trail)
-        print("initData trail id: \(trail.id!)")
+        self.hikeModel.copyData(hike: hike)
+        print("initData trail id: \(hike.id!)")
     }
 }
 
