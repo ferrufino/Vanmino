@@ -156,15 +156,7 @@ extension HikeMapVC {
             
         }
         
-        let coor =
-            [
-                CLLocationCoordinate2D(latitude: 49.275812, longitude: -123.135539),
-                CLLocationCoordinate2D(latitude: 49.275808, longitude: -123.114822),
-                CLLocationCoordinate2D(latitude: 49.282338, longitude: -123.111090),
-                CLLocationCoordinate2D(latitude: 49.292244, longitude:  -123.134354)
-                
-        ]
-        
+        let coor: [CLLocationCoordinate2D] = convertCoordinates(coordinatesArray: hikeModel.coordinates!)
         drawHikeTrail(coordinates: coor)
         
     }
@@ -199,7 +191,7 @@ extension HikeMapVC {
                 self.mapView?.setVisibleCoordinates(
                     coordinates,
                     count: UInt(coordinates.count),
-                    edgePadding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20),
+                    edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
                     animated: true
                 )
             }else{
@@ -245,7 +237,7 @@ extension HikeMapVC {
         let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
         
         let source = MGLShapeSource(identifier: "route-line", features: [polyline], options: nil)
-
+        
         let layer = MGLLineStyleLayer(identifier: "line-layer", source: source)
         layer.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
         
@@ -285,6 +277,23 @@ extension HikeMapVC {
         return image
     }
     
+    func convertCoordinates(coordinatesArray: [String])-> [CLLocationCoordinate2D]{
+        var coordinates: [CLLocationCoordinate2D] = []
+        for var coor in coordinatesArray{
+            
+            var coorTemp = coor.components(separatedBy: ",")
+            print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
+            
+            
+            coordinates.append(
+                CLLocationCoordinate2D(latitude: Double(coorTemp[0])!, longitude: Double(coorTemp[1])!)
+            )
+            
+        }
+        
+        
+        return coordinates
+    }
     
 }
 
