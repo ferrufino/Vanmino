@@ -150,7 +150,7 @@
                         </subviews>
                     </stackView>
                 </subviews>
-                <color key="backgroundColor" red="0.38431372549999998" green="0.67450980390000004" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="5fc-S2-KSN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="B68-6B-JZy"/>
                     <constraint firstItem="wkU-70-QIm" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="P5p-dw-axW"/>

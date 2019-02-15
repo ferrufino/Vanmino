@@ -11,7 +11,7 @@ import Mapbox
 import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
-
+import SystemConfiguration
 
 class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDelegate {
     
@@ -24,9 +24,13 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     /// Background Overlay Alpha
     private static let kBackgroundColorOverlayTargetAlpha: CGFloat = 0.4
     
+    /// Array of offline packs for the delegate work around (and your UI, potentially)
+    var offlinePacks = [MGLOfflinePack]()
+    
     var mapView: NavigationMapView!
     var navigateButton: UIButton!
     var backButton: UIButton!
+    var saveButton: UIButton!
     var directionsRoute: Route?
     var hikeRoute: Route?
     // var hike: Trail?
@@ -35,6 +39,8 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     var startHikeLocationString: [String] = []
     var userLocation: CLLocationCoordinate2D!
     let hikeModel = Hike()
+    
+    var progressView: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +64,13 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         self.pinRoute()
         self.addNavigationButton()
         self.addBackButton()
+        //self.addSaveButton()
         
         
-        
+        // Setup offline pack notification handlers.
+        NotificationCenter.default.addObserver(self, selector: #selector(offlinePackProgressDidChange), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(offlinePackDidReceiveError), name: NSNotification.Name.MGLOfflinePackError, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(offlinePackDidReceiveMaximumAllowedMapboxTiles), name: NSNotification.Name.MGLOfflinePackMaximumMapboxTilesReached, object: nil)
         
         
         
@@ -85,12 +95,126 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         self.hikeModel.copyData(hike: hike)
         print("initData trail id: \(hike.id!)")
     }
+    
+    deinit {
+        // Remove offline pack observers.
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        // Start downloading tiles and resources for z13-16.
+        
+        //Add feature to save Map if button pressed or paid version
+        // startOfflinePackDownload()
+    }
+    
+    
+    func startOfflinePackDownload() {
+        // Create a region that includes the current viewport and any tiles needed to view it when zoomed further in.
+        // Because tile count grows exponentially with the maximum zoom level, you should be conservative with your `toZoomLevel` setting.
+        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: 16)
+        
+        // Store some data for identification purposes alongside the downloaded resources.
+        let userInfo = ["name": "My Offline Pack"]
+        let context = NSKeyedArchiver.archivedData(withRootObject: userInfo)
+        
+        // Create and register an offline pack with the shared offline storage object.
+        
+        MGLOfflineStorage.shared.addPack(for: region, withContext: context) { (pack, error) in
+            guard error == nil else {
+                // The pack couldn’t be created for some reason.
+                print("Error downloading map: \(error?.localizedDescription ?? "unknown error")")
+                return
+            }
+            
+            // Start downloading.
+            pack!.resume()
+            
+            // Retain reference to pack to work around it being lost and not sending delegate messages
+            self.offlinePacks.append(pack!)
+        }
+        
+    }
+    
+    // MARK: - MGLOfflinePack notification handlers
+    
+    @objc func offlinePackProgressDidChange(notification: NSNotification) {
+        // Get the offline pack this notification is regarding,
+        // and the associated user info for the pack; in this case, `name = My Offline Pack`
+        if let pack = notification.object as? MGLOfflinePack,
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String] {
+            let progress = pack.progress
+            // or notification.userInfo![MGLOfflinePackProgressUserInfoKey]!.MGLOfflinePackProgressValue
+            let completedResources = progress.countOfResourcesCompleted
+            let expectedResources = progress.countOfResourcesExpected
+            
+            // Calculate current progress percentage.
+            let progressPercentage = Float(completedResources) / Float(expectedResources)
+            
+            // Setup the progress bar.
+            if progressView == nil {
+                progressView = UIProgressView(progressViewStyle: .default)
+                let frame = view.bounds.size
+                progressView.frame = CGRect(x: frame.width / 4, y: frame.height * 0.75, width: frame.width / 2, height: 10)
+                view.addSubview(progressView)
+            }
+            
+            progressView.progress = progressPercentage
+            
+            // If this pack has finished, print its size and resource count.
+            if completedResources == expectedResources {
+                let byteCount = ByteCountFormatter.string(fromByteCount: Int64(pack.progress.countOfBytesCompleted), countStyle: ByteCountFormatter.CountStyle.memory)
+                print("Offline pack “\(userInfo["name"] ?? "unknown")” completed: \(byteCount), \(completedResources) resources")
+            } else {
+                // Otherwise, print download/verification progress.
+                print("Offline pack “\(userInfo["name"] ?? "unknown")” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
+            }
+        }
+    }
+    
+    
+    @objc func offlinePackDidReceiveError(notification: NSNotification) {
+        if let pack = notification.object as? MGLOfflinePack,
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
+            let error = notification.userInfo?[MGLOfflinePackUserInfoKey.error] as? NSError {
+            print("Offline pack “\(userInfo["name"] ?? "unknown")” received error: \(error.localizedFailureReason ?? "unknown error")")
+        }
+    }
+    
+    @objc func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
+        if let pack = notification.object as? MGLOfflinePack,
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
+            let maximumCount = (notification.userInfo?[MGLOfflinePackUserInfoKey.maximumCount] as AnyObject).uint64Value {
+            print("Offline pack “\(userInfo["name"] ?? "unknown")” reached limit of \(maximumCount) tiles.")
+        }
+    }
 }
 
 
 
 //Map created features
 extension HikeMapVC {
+    func addSaveButton() {
+        ///https://stackoverflow.com/questions/41477775/why-does-my-uitableview-only-show-the-list-of-available-mglofflinepacks-after-i
+        saveButton = UIButton(frame: CGRect(x: view.frame.width * 0.70, y: view.frame.height * 0.05, width: 100, height: 50))
+        saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        saveButton.layer.cornerRadius = 25
+        saveButton.layer.shadowOffset = CGSize(width: 0, height: 10)
+        saveButton.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        saveButton.layer.shadowRadius = 5
+        saveButton.layer.shadowOpacity = 0.3
+        
+        
+        saveButton.tintColor = #colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1)
+        saveButton.setTitle("Save Offline", for: .normal)
+        saveButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        saveButton.setTitleColor(#colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1), for: .normal)
+        saveButton.addTarget(self, action: #selector( saveButtonWasPressed(_:)), for: .touchUpInside)
+        
+        view.insertSubview(saveButton, aboveSubview: mapView)
+        
+        
+    }
     
     func addBackButton() {
         let backbtnImg = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
@@ -117,6 +241,10 @@ extension HikeMapVC {
     
     @objc func backButtonWasPressed(_ sender: UIButton){
         dismissDetail()
+    }
+    
+    @objc func saveButtonWasPressed(_ sender: UIButton){
+        startOfflinePackDownload()
     }
     
     func addNavigationButton() {
@@ -148,7 +276,7 @@ extension HikeMapVC {
     func pinRoute(){ // moves map to location specified, calls parent method to draw route
         mapView.setUserTrackingMode(.none, animated: true)
         
-        //print("User location \(userLocation) vs \(mapView.userLocation!.coordinate)")
+        //print("HikeMapVC: User location \(userLocation) vs \(mapView.userLocation!.coordinate)")
         calculateRoute(from: userLocation, to: startOfHikeLocation) { (route, error) in
             if error != nil {
                 print("Error getting route")
@@ -178,55 +306,71 @@ extension HikeMapVC {
     
     func  drawHikeTrail(coordinates: [CLLocationCoordinate2D])-> Void{
         
-        
-        let options = NavigationRouteOptions(coordinates: coordinates, profileIdentifier: MBDirectionsProfileIdentifier.walking)
-        
-        _ = Directions.shared.calculate(options, completionHandler: { (waypoints, routes, error) in
-            self.hikeRoute = routes?.first
+        if !isConnectedToNetwork(){
+             print("no wifi")
+            for map in offlinePacks{
+                 print(map)
+            }
+            print(MGLOfflineStorage.shared.packs)
             
-            //draw line
-            if self.hikeRoute != nil{
-                self.drawRoute(route: self.hikeRoute!)
+        }else{
+            
+            let options = NavigationRouteOptions(coordinates: coordinates, profileIdentifier: MBDirectionsProfileIdentifier.walking)
+            
+            _ = Directions.shared.calculate(options, completionHandler: { (waypoints, routes, error) in
+                self.hikeRoute = routes?.first
                 
+                //Set where map will focus on
                 self.mapView?.setVisibleCoordinates(
                     coordinates,
                     count: UInt(coordinates.count),
                     edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
                     animated: true
                 )
-            }else{
-                // TO-DO: Banner saying no valid route found
+                
+                //draw line
+                if self.hikeRoute != nil{
+                    
+                    self.drawRoute(route: self.hikeRoute!)
+                    
+                }else{
+                    // TO-DO: Banner saying no valid route found
+                    print("No valid route found")
+                }
+                
+            })
+            
+            
+            
+            // Point Annotations
+            // Add a custom point annotation for every coordinate (vertex) in the polyline.
+            var pointAnnotations = [CustomPointAnnotation]()
+            for coordinate in coordinates {
+                let count = pointAnnotations.count + 1
+                let point = CustomPointAnnotation(coordinate: coordinate,
+                                                  title: "Custom Point Annotation \(count)",
+                    subtitle: nil)
+                
+                // Set the custom `image` and `reuseIdentifier` properties, later used in the `mapView:imageForAnnotation:` delegate method.
+                // Create a unique reuse identifier for each new annotation image.
+                point.reuseIdentifier = "customAnnotation\(count)"
+                // This dot image grows in size as more annotations are added to the array.
+                point.image = dot(size: 15)
+                
+                // Append each annotation to the array, which will be added to the map all at once.
+                pointAnnotations.append(point)
             }
             
-        })
-        
-        
-        
-        // Point Annotations
-        // Add a custom point annotation for every coordinate (vertex) in the polyline.
-        var pointAnnotations = [CustomPointAnnotation]()
-        for coordinate in coordinates {
-            let count = pointAnnotations.count + 1
-            let point = CustomPointAnnotation(coordinate: coordinate,
-                                              title: "Custom Point Annotation \(count)",
-                subtitle: nil)
+            // Add the point annotations to the map. This time the method name is plural.
+            // If you have multiple annotations to add, batching their addition to the map is more efficient.
+            mapView.addAnnotations(pointAnnotations)
             
-            // Set the custom `image` and `reuseIdentifier` properties, later used in the `mapView:imageForAnnotation:` delegate method.
-            // Create a unique reuse identifier for each new annotation image.
-            point.reuseIdentifier = "customAnnotation\(count)"
-            // This dot image grows in size as more annotations are added to the array.
-            point.image = dot(size: 15)
-            
-            // Append each annotation to the array, which will be added to the map all at once.
-            pointAnnotations.append(point)
+            //Fix the map to see exact position
+            //mapView.setCenter(coordinates[3], zoomLevel: 10, direction: 0, animated: false)
         }
         
-        // Add the point annotations to the map. This time the method name is plural.
-        // If you have multiple annotations to add, batching their addition to the map is more efficient.
-        mapView.addAnnotations(pointAnnotations)
         
-        //Fix the map to see exact position
-        //mapView.setCenter(coordinates[3], zoomLevel: 10, direction: 0, animated: false)
+       
         
         
     }
@@ -282,7 +426,7 @@ extension HikeMapVC {
         for var coor in coordinatesArray{
             
             var coorTemp = coor.components(separatedBy: ",")
-            print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
+            //print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
             
             
             coordinates.append(
@@ -296,6 +440,7 @@ extension HikeMapVC {
     }
     
 }
+
 
 // MARK: - MGLMapViewDelegate methods
 extension HikeMapVC {
@@ -354,7 +499,7 @@ extension HikeMapVC {
         if let drawerViewController = children.first as? DrawerViewController {
             //send distnace too
             drawerViewController.delegate = self
-            print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
+            //print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
             drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation) // change to hike model
         }
         
@@ -477,4 +622,29 @@ extension HikeMapVC {
         animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: CGPoint(x: 0, y: -4536))
     }
     
+}
+
+//Secondary Functions
+extension HikeMapVC {
+    func isConnectedToNetwork() -> Bool {
+        
+        var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        
+        return (isReachable && !needsConnection)
+        
+    }
 }

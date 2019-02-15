@@ -244,7 +244,7 @@ extension DrawerViewController {
     
     func getWeatherConditions(trailId: String?){
         
-        print("getWeatherConfitions trailid: \(trailId!)")
+        //print("getWeatherConfitions trailid: \(trailId!)")
         let trailsReference = Database.database().reference()
         trailsReference.keepSynced(true)
         let itemsRef = trailsReference.child("weatherStartLocation").child(trailId!)

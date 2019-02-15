@@ -25,8 +25,8 @@
                             <constraint firstAttribute="height" constant="50" id="LVm-96-oPb"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="tX3-nr-4pp" userLabel="wind">
-                        <rect key="frame" x="150" y="66" width="90" height="20"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="tX3-nr-4pp" userLabel="wind">
+                        <rect key="frame" x="151" y="66" width="88" height="20"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000m/s" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSp-hg-oxc">
                                 <rect key="frame" x="0.0" y="0.0" width="60" height="20"/>
@@ -35,17 +35,17 @@
                                     <constraint firstAttribute="width" constant="60" id="yHL-Ne-SUZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0d-qt-LsI">
-                                <rect key="frame" x="60" y="0.0" width="30" height="20"/>
+                                <rect key="frame" x="58" y="0.0" width="30" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="7vQ-Uj-UT2"/>
                                     <constraint firstAttribute="width" constant="30" id="Pnz-LG-0PQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -64,7 +64,7 @@
                                             <constraint firstAttribute="height" constant="20" id="sJT-ab-9me"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.88637483120000005" green="0.9059191942" blue="0.90196120739999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000 m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECM-AE-1AR">
@@ -74,7 +74,7 @@
                                             <constraint firstAttribute="width" constant="62" id="qT5-ht-E6v"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -89,7 +89,7 @@
                                             <constraint firstAttribute="height" constant="20" id="Tyy-pE-hjP"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qvf-Kt-RMJ" userLabel="CloudsPercentage">
@@ -99,7 +99,7 @@
                                             <constraint firstAttribute="height" constant="20" id="gj3-03-5aC"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -119,7 +119,7 @@
                                             <constraint firstAttribute="width" constant="80" id="EDx-Jx-f4q"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3S6-jd-UoJ">
@@ -129,7 +129,7 @@
                                             <constraint firstAttribute="width" constant="80" id="RXi-of-16A"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="0.9962999213" blue="0.97412352759999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -144,7 +144,7 @@
                                             <constraint firstAttribute="width" constant="80" id="rlq-wE-Bmc"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.88637483120000005" green="0.9059191942" blue="0.90196120739999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000hPa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3FF-EO-wnL">
@@ -154,7 +154,7 @@
                                             <constraint firstAttribute="height" constant="20" id="PB8-ac-ej4"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.88637483120000005" green="0.9059191942" blue="0.90196120739999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -173,6 +173,7 @@
                     <constraint firstAttribute="bottom" secondItem="iHl-w3-FcE" secondAttribute="bottom" constant="10" id="ysA-Qt-xzv"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="barometer" destination="3FF-EO-wnL" id="agy-su-Wvw"/>

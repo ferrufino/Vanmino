@@ -26,6 +26,7 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isHidden = false
@@ -80,7 +81,7 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "trailCell") as? HikeTableViewCell else {return UITableViewCell()}
         
         // set the text from the data model
-        
+        cell.selectionStyle = .none
         let hike = hikes[indexPath.row]
         cell.configCell(trail: hike)
         return cell
@@ -124,6 +125,7 @@ extension HikesVC {
 
     
     func readhikesFromFirebase(){
+        Database.database().isPersistenceEnabled = true
         
         let trailsReference = Database.database().reference()
         trailsReference.keepSynced(true)
