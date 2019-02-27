@@ -17,8 +17,8 @@ let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 
 class HikesVC: UIViewController, CLLocationManagerDelegate {
-    @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var tableView: UITableView! // Table of Hikes
     let locationManager = CLLocationManager()
     var userLocation: CLLocationCoordinate2D!
     var hikes: [Hike] = []
@@ -27,26 +27,11 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.isHidden = false
-        
         self.readhikesFromFirebase()
+        //self.readFromTest() // Proper unit tests should be implemented here..
+        setTableViewServices()
+        checkLocationServices()
         
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        //location
-        // Ask for Authorisation from the User.
-        //self.locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
 
     }
     override func didReceiveMemoryWarning() {
@@ -55,18 +40,102 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     }
 
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       // tableView.reloadData()
-      //  let root = Database.database().reference()
-       // let childRef = Database.database().referen
-        
-        
+    @IBAction func hikeOrder(_ sender: Any) {
+        self.hikes.sort(by: { $0.name! < $1.name! })
+        self.tableView.reloadData()
     }
-
     
-   
+    @IBAction func regionOrder(_ sender: Any) {
+        self.hikes.sort(by: { $0.region! < $1.region! })
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func distanceOrder(_ sender: Any) {
+        self.hikes.sort(by: { Float($0.distance!)! < Float($1.distance!)! })
+        self.tableView.reloadData()
+        
+        //Data from phone to use for comments?
+        var systemVersion = UIDevice.current.systemVersion
+        print("iOS version: \(systemVersion)")
+        print(modelIdentifier()) //https://www.theiphonewiki.com/wiki/Models
+    }
+    
 }
+
+extension HikesVC{
+    
+    //////////////////////
+    // User Phone Specs
+    /////////////////////
+    
+    func modelIdentifier() -> String {
+        if let simulatorModelIdentifier = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] { return simulatorModelIdentifier }
+        var sysinfo = utsname()
+        uname(&sysinfo) // ignore return value
+        return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        self.userLocation = locValue
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
+    
+    //////////////////////
+    // TableView SERVICES
+    /////////////////////
+    
+    func setTableViewServices() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isHidden = false
+    }
+    
+    //////////////////////
+    // User Location FUNCTIONS
+    /////////////////////
+    func checkLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            checkLocationAuthorization()
+        } else {
+            // Show alert letting the user know they have to turn this on.
+            //Alert user some features won't work without it's location.
+            let alertController = UIAlertController(title: "Your location is needed.", message: "Features from Camino won't work if we don't have acces to your location. Please enable it at Settings>Camino>Location>While Using the App", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true, completion: nil)
+            
+        }
+    }
+    
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    }
+    
+    func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            break
+        case .denied:
+            // Show alert instructing them how to turn on permissions
+          
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            // Show an alert letting them know what's up
+            
+            break
+        case .authorizedAlways:
+            break
+        }
+    }
+}
+
 
 extension HikesVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -95,6 +164,8 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         
         presentDescription(trailDescriptionVC)
     }
+    
+    
 
 
 }
@@ -132,19 +203,23 @@ extension HikesVC {
         let itemsRef = trailsReference.child("trails")
         itemsRef.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as! [String: AnyObject]
-            //print(value)
+           
             for (nameOfHike,infoOfHike) in value {
                 if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
                     print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
                     
                     let hike = Hike()
                     hike.initVariables(nameOfHike: nameOfHike, hikeDetails: infoOfHike)
+                    self.hikes.removeAll(where: { hike.id == $0.id })
                     self.hikes.append(hike)
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+                    
                 }
             }
+            
+            //Order in Desc Hike name by default
+            self.hikes.sort(by: { $0.name! < $1.name! })
+            self.tableView.reloadData()
+            
         }){ (error) in
             print(error.localizedDescription)
         }
@@ -152,14 +227,4 @@ extension HikesVC {
     }
     
 }
-
-//
-extension HikesVC{
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        self.userLocation = locValue
-        //print("locations = \(locValue.latitude) \(locValue.longitude)")
-    }
-}
-
 

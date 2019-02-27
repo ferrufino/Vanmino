@@ -21,7 +21,7 @@ class HikeTableViewCell: UITableViewCell {
     
     func configCell(trail: Hike){
         
-        self.trailDistanceLbl.text = trail.distance
+        self.trailDistanceLbl.text = trail.distance! + " Km"
         self.trailName.text = trail.name
         self.trailElevationLbl.text = trail.elevation
         self.trailTimeLbl.text = trail.time

@@ -7,6 +7,7 @@ target 'Vanmino' do
 
   # Pods for Vanmino
 pod 'Firebase/Core'
+pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'MapboxNavigation', '~> 0.27.0'
   

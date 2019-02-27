@@ -58,7 +58,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "FactInfoTableViewCell", for: indexPath) as? FactInfoTableViewCell {
                 cell.selectionStyle = .none
                 cell.hikeDifficulty.text = hikeModel.difficulty
-                cell.hikeDistance.text = hikeModel.distance
+                cell.hikeDistance.text = hikeModel.distance! + " km"
                 cell.hikeElevation.text = hikeModel.elevation
                 cell.hikeTime.text = hikeModel.time
                

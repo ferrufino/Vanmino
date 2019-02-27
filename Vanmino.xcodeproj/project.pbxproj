@@ -17,6 +17,7 @@
 		665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */; };
 		665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */; };
 		665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */; };
+		66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */; };
 		66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */; };
 		66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
@@ -64,6 +65,7 @@
 		665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecLiveInfoTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecLiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGLAnnotationProtocol.swift; sourceTree = "<group>"; };
+		66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInClassesExtensions.swift; sourceTree = "<group>"; };
 		66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeMapVC.swift; sourceTree = "<group>"; };
 		66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +252,7 @@
 			children = (
 				66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */,
 				66BF92A321CEDAFF007D5D6D /* DrawerViewController+TableView.swift */,
+				66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
@@ -455,6 +459,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
@@ -527,6 +532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */,
 				66BF929D21CECC7B007D5D6D /* DrawerViewController.swift in Sources */,
 				66BF182A21B48DDC002E24B4 /* HikesVC.swift in Sources */,
 				6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */,

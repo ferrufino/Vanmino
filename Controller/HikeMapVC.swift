@@ -45,62 +45,71 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setMapViewServices()
+        addFeaturesToMap()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        
+        self.configureDrawerViewController()
+   
+    }
+    
+    func setMapViewServices(){
         let styleURL = URL(string: "mapbox://styles/mapbox/outdoors-v9")
         self.mapView = NavigationMapView(frame: self.view.bounds,
                                          styleURL: styleURL)
         
-        //let mapView = MGLMapView(frame: self.view.bounds,
-        //  styleURL: styleURL)
         self.mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         self.view.addSubview(self.mapView)
         self.view.sendSubviewToBack(self.mapView)
         self.mapView.delegate = self
         self.mapView.showsUserLocation = true
-        //mapView.setUserTrackingMode(.follow, animated: true)
-        // Do any additional setup after loading the view.
-        self.pinRoute()
-        self.addNavigationButton()
-        self.addBackButton()
-        //self.addSaveButton()
+        mapView.setUserTrackingMode(.follow, animated: true)
         
         
         // Setup offline pack notification handlers.
         NotificationCenter.default.addObserver(self, selector: #selector(offlinePackProgressDidChange), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(offlinePackDidReceiveError), name: NSNotification.Name.MGLOfflinePackError, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(offlinePackDidReceiveMaximumAllowedMapboxTiles), name: NSNotification.Name.MGLOfflinePackMaximumMapboxTilesReached, object: nil)
-        
-        
-        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // tableView.reloadData()
-        self.configureDrawerViewController()
-        
-        
+    func addFeaturesToMap(){
+        // Do any additional setup of features after loading the view.
+        self.setupNavigationCapabilityFromUserLocation()
+        self.addNavigationButton()
+        self.drawHike()
+        self.addBackButton()
+        //self.addSaveButton()
     }
     
     func initData(hike: Hike, userLocation: CLLocationCoordinate2D){
         
-        //print(trail.startLocation)
-        startHikeLocationString = hike.startLocation!.components(separatedBy: ",") // what if there is no location??
+        if hike.startLocation != nil {
+            startHikeLocationString = hike.startLocation!.components(separatedBy: ",") // what if there is no location??
+            
+            self.startOfHikeLocation = CLLocationCoordinate2D(latitude: Double(startHikeLocationString[0])!, longitude: Double(startHikeLocationString[1])!)
+            self.userLocation = userLocation
+            
+            self.hikeModel.copyData(hike: hike)
+            print("initData trail id: \(hike.id!)")
+        }else{
+            
+            print("No start location found for Hike \(hike.name)")
+        }
         
-        self.startOfHikeLocation = CLLocationCoordinate2D(latitude: Double(startHikeLocationString[0])!, longitude: Double(startHikeLocationString[1])!)
-        self.userLocation = userLocation
-        
-        self.hikeModel.copyData(hike: hike)
-        print("initData trail id: \(hike.id!)")
     }
     
     deinit {
         // Remove offline pack observers.
         NotificationCenter.default.removeObserver(self)
     }
-    
+
+////////////////////////////////////////////////////////////////
+//OFFLINE MAPDOWNLOAD AVAILABILITY
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         // Start downloading tiles and resources for z13-16.
         
@@ -188,6 +197,8 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
             print("Offline pack “\(userInfo["name"] ?? "unknown")” reached limit of \(maximumCount) tiles.")
         }
     }
+//END OF OFFLINE MAP DOWNLOAD AVAILABILITY
+/////////////////////////////////////////////////////////////////
 }
 
 
@@ -273,20 +284,25 @@ extension HikeMapVC {
 //Mapbox features
 extension HikeMapVC {
     
-    func pinRoute(){ // moves map to location specified, calls parent method to draw route
-        mapView.setUserTrackingMode(.none, animated: true)
+    func drawHike(){
+        let hikeCoordinates = hikeModel.coordinates ?? []
+        if  hikeCoordinates != [] {
+            let coor: [CLLocationCoordinate2D] = convertCoordinates(coordinatesArray: hikeCoordinates)
+            drawHikeTrail(coordinates: coor)
+        }else{
+            print("No Coordinates found for Hike \(hikeModel.name)")
+        }
         
-        //print("HikeMapVC: User location \(userLocation) vs \(mapView.userLocation!.coordinate)")
+    }
+    
+    func setupNavigationCapabilityFromUserLocation(){
+        // erase this line if nothing changes here: mapView.setUserTrackingMode(.none, animated: true)
         calculateRoute(from: userLocation, to: startOfHikeLocation) { (route, error) in
             if error != nil {
                 print("Error getting route")
             }
             
         }
-        
-        let coor: [CLLocationCoordinate2D] = convertCoordinates(coordinatesArray: hikeModel.coordinates!)
-        drawHikeTrail(coordinates: coor)
-        
     }
     
     func calculateRoute(from originCoor: CLLocationCoordinate2D, to destinationCoor: CLLocationCoordinate2D, completion: @escaping (Route?, Error?) -> Void){
@@ -426,7 +442,7 @@ extension HikeMapVC {
         for var coor in coordinatesArray{
             
             var coorTemp = coor.components(separatedBy: ",")
-            //print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
+            print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
             
             
             coordinates.append(

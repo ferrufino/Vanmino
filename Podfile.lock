@@ -1,4 +1,7 @@
 PODS:
+  - Firebase/Auth (5.11.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (= 5.0.4)
   - Firebase/Core (5.11.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.3.0)
@@ -16,6 +19,12 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
+  - FirebaseAuth (5.0.4):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.0)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.1.6):
     - GoogleUtilities/Logger (~> 5.2)
   - FirebaseDatabase (5.0.3):
@@ -49,6 +58,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
+  - GTMSessionFetcher/Core (1.2.1)
   - leveldb-library (1.20)
   - Mapbox-iOS-SDK (4.7.0)
   - MapboxCoreNavigation (0.27.0):
@@ -76,6 +86,7 @@ PODS:
   - Turf (0.3.0)
 
 DEPENDENCIES:
+  - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
   - MapboxNavigation (~> 0.27.0)
@@ -84,11 +95,14 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Firebase
     - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseDatabase
     - FirebaseInstanceID
     - GoogleAppMeasurement
     - GoogleUtilities
+    - GTMSessionFetcher
     - leveldb-library
     - Mapbox-iOS-SDK
     - MapboxCoreNavigation
@@ -105,11 +119,14 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
   FirebaseAnalytics: 63202d2665de4e6adcbdce189135255d8b5962ba
+  FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
+  FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: d16552f06821489ce1affe2e5e3e5593402ddfe3
   FirebaseDatabase: e2bcbc106adc4b11a2da3ec2eb63c0c4a44f2f54
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
+  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Mapbox-iOS-SDK: d8f60f4cbfcd1bfcb3b68d07ac38135d2880d97d
   MapboxCoreNavigation: 2db374b84cbc570c34d65c6f43a046a26f87e3a6
@@ -123,6 +140,6 @@ SPEC CHECKSUMS:
   Solar: 2dc6e7cc39186cb0c8228fa08df76fb50c7d8f24
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
 
-PODFILE CHECKSUM: 74f56f88e31be6dbc673e74747765bef83f96329
+PODFILE CHECKSUM: 159ad0ee5f45f794e115ce29dbb2125858d38c96
 
 COCOAPODS: 1.5.3

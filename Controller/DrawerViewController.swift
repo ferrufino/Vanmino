@@ -13,7 +13,6 @@ import FirebaseDatabase
 
 class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
 
-    @IBOutlet weak var firstView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hikeName: UILabel!
     @IBOutlet weak var userDistanceFromHike: UILabel!
@@ -54,14 +53,6 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // tableView.reloadData()
-        
-       
-        tableView.reloadData()
-        
-    }
     
     private func configureAppearance() {
         view.layer.cornerRadius = 8.0
@@ -251,36 +242,106 @@ extension DrawerViewController {
         itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as AnyObject
+            print(value)
             
             if let tempNSNumber = value["temperature"] {
-                print(value)
-              
-                let windSpeedNSNumber = value["windSpeed"] as! Double
-                let windDegree = value["windDeg"] as! Double
-                self.hikeModel.barometer =  String(format: "%@", value["barometer"] as! CVarArg)
-                self.hikeModel.weather = value["weather"] as? String
-                self.hikeModel.weatherIcon = value["weatherIcon"] as? String
-                self.hikeModel.humidity = String(format: "%@", value["humidity"] as! CVarArg)
                 self.hikeModel.temperature = String(format:"%.f", tempNSNumber as! Double)
-                self.hikeModel.sunrise = value["sunrise"] as? String
-                self.hikeModel.sunset = value["sunset"] as? String
-                self.hikeModel.visibility = String(format: "%@", value["visibility"] as! CVarArg)
-                self.hikeModel.tempMin = String(format: "%@", value["tempMin"] as! CVarArg)
-                self.hikeModel.tempMax = String(format: "%@", value["tempMax"] as! CVarArg)
-                self.hikeModel.clouds = String(format: "%@", value["clouds"] as! CVarArg)
-                self.hikeModel.windDirection = self.getDirectionOfWind(degree: windDegree)
-                self.hikeModel.windSpeed = String(format:"%.f", windSpeedNSNumber)
-                let indexPath = IndexPath(item: 1, section: 0)
-                self.tableView.reloadRows(at: [indexPath], with: .top)
             }else{
-                print("NO DATA FOR THIS ID")
+                self.hikeModel.temperature = "X"
             }
+            
+            if let windSpeedNSNumber = value["windSpeed"] {
+                self.hikeModel.windSpeed = String(format:"%.f", windSpeedNSNumber as! CVarArg)
+            }else{
+                self.hikeModel.windSpeed = "X"
+            }
+            
+            if let windDegree = value["windDeg"] {
+                self.hikeModel.windDirection = self.getDirectionOfWind(degree: windDegree as! Double)
+            }else{
+                 self.hikeModel.windDirection = "X"
+            }
+            
+            if let barometer = value["barometer"] {
+                self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
+            }else{
+                 self.hikeModel.barometer = "X"
+            }
+            
+            if let weather = value["weather"] {
+               self.hikeModel.weather = weather as? String
+            }else{
+                self.hikeModel.weather = "X"
+            }
+            
+            if let weatherIcon = value["weatherIcon"] {
+                self.hikeModel.weatherIcon = weatherIcon as? String
+            }else{
+                self.hikeModel.weatherIcon = "X"
+            }
+            
+            if let barometer = value["barometer"] {
+                self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
+            }else{
+                self.hikeModel.barometer = "X"
+            }
+            
+            if let humidity = value["humidity"]{
+                self.hikeModel.humidity = String(format: "%@", humidity as! CVarArg)
+                
+            }else{
+                self.hikeModel.humidity = "X"
+            }
+            
+            if let sunrise = value["sunrise"] {
+                   self.hikeModel.sunrise = sunrise as? String
+            }else{
+                self.hikeModel.sunrise = "X"
+            }
+            
+            if let sunset = value["sunset"] {
+                self.hikeModel.sunset = sunset as? String
+            }else{
+                self.hikeModel.sunset = "X"
+            }
+            
+            if let visibility = value["visibility"] {
+                self.hikeModel.visibility = String(format: "%@", visibility as! CVarArg)
+                
+            }else {
+                self.hikeModel.visibility = "No Data"
+            }
+            
+            if let tempMin = value["tempMin"] {
+                 self.hikeModel.tempMin = String(format: "%@", tempMin as! CVarArg)
+            }else{
+                self.hikeModel.tempMin = "X"
+            }
+            
+            if let tempMax = value["tempMax"] {
+                self.hikeModel.tempMax = String(format: "%@", value["tempMax"] as! CVarArg)
+            }else{
+                self.hikeModel.tempMax = "X"
+            }
+                
+            if let clouds = value["clouds"] {
+                self.hikeModel.clouds = String(format: "%@", clouds as! CVarArg)
+                
+            }else {
+                self.hikeModel.clouds = "X"
+            }
+            
+            
+            
+            let indexPath = IndexPath(item: 1, section: 0)
+            self.tableView.reloadRows(at: [indexPath], with: .top)
+            
             
         }){ (error) in
             print(error.localizedDescription)
         }
     }
     
-    //reload cell
+    
 }
 
