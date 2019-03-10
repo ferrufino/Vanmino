@@ -35,11 +35,30 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 1 {
+        if indexPath.row == 0 {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "FactInfoTableViewCell", for: indexPath) as? FactInfoTableViewCell {
+                cell.selectionStyle = .none
+                cell.hikeDifficulty.text = hikeModel.difficulty
+                cell.hikeDistance.text = hikeModel.distance! + " km"
+                cell.hikeElevation.text = hikeModel.elevation
+                cell.hikeTime.text = hikeModel.time
+                
+                if hikeModel.dogFriendly {
+                    cell.dogIcon.image = UIImage(named:"dog")
+                }
+                
+                if hikeModel.camping {
+                    cell.campingIcon.image = UIImage(named:"camping")
+                }
+                
+                return cell
+            }
+        
+        } else if indexPath.row == 1 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LiveInfoTableViewCell", for: indexPath) as? LiveInfoTableViewCell {
                 
                 cell.selectionStyle = .none
-
+                
                 if(hikeModel.temperature != nil){
                     cell.temperature.text = hikeModel.temperature! + " C"
                     cell.weather.text = hikeModel.weather
@@ -48,28 +67,10 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.tempMin.text = hikeModel.tempMin! + " C"
                     cell.sunrise.text = hikeModel.sunrise
                     cell.sunset.text = hikeModel.sunset
-                  
+                    
                 }
                 
                 
-                return cell
-            }
-        } else if indexPath.row == 0 {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "FactInfoTableViewCell", for: indexPath) as? FactInfoTableViewCell {
-                cell.selectionStyle = .none
-                cell.hikeDifficulty.text = hikeModel.difficulty
-                cell.hikeDistance.text = hikeModel.distance! + " km"
-                cell.hikeElevation.text = hikeModel.elevation
-                cell.hikeTime.text = hikeModel.time
-               
-                if hikeModel.dogFriendly {
-                    cell.dogIcon.image = UIImage(named:"dog")
-                }
-                
-                if hikeModel.camping {
-                    cell.campingIcon.image = UIImage(named:"camping")
-                }
-
                 return cell
             }
         } else if indexPath.row == 2 {
@@ -98,7 +99,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected row in Drawer: \(indexPath.row)")
+        //print("Selected row in Drawer: \(indexPath.row)")
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

@@ -12,6 +12,7 @@ import Firebase
 import FirebaseDatabase
 import CoreLocation
 import MapKit
+import YNDropDownMenu
 
 let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
@@ -26,19 +27,24 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.readhikesFromFirebase()
-        //self.readFromTest() // Proper unit tests should be implemented here..
-        setTableViewServices()
         checkLocationServices()
-        
-
+        self.readhikesFromFirebase()
+        setTableViewServices()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+       
+    }
+    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    //////////////////////
+    // Navigation bar FUNCTIONS
+    /////////////////////
 
     @IBAction func hikeOrder(_ sender: Any) {
         self.hikes.sort(by: { $0.name! < $1.name! })
@@ -55,11 +61,73 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
         self.tableView.reloadData()
         
         //Data from phone to use for comments?
-        var systemVersion = UIDevice.current.systemVersion
+        let systemVersion = UIDevice.current.systemVersion
         print("iOS version: \(systemVersion)")
         print(modelIdentifier()) //https://www.theiphonewiki.com/wiki/Models
     }
     
+    //////////////////////
+    // User Location SERVICES
+    /////////////////////
+    
+
+    func checkLocationServices() {
+        //print("CLLocationManager.locationServicesEnabled()\(CLLocationManager.locationServicesEnabled())")
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            checkLocationAuthorization()
+        } else {
+            
+           
+        }
+    }
+    
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    }
+    
+    func checkLocationAuthorization() {
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            break
+        case .denied:
+            // Show alert instructing them how to turn on permissions
+          notifyUser(title: "Your location is needed.", message: "Features from Camino won't work if we don't have acces to your location. Please enable it at Settings>Camino>Location>While Using the App")
+            
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            
+            break
+        case .restricted:
+            // Show an alert letting them know what's up
+            notifyUser(title: "Your location is needed.", message: "Features from Camino won't work if we don't have acces to your location. Please enable it at Settings>Camino>Location>While Using the App")
+            
+            break
+        case .authorizedAlways:
+            break
+        }
+    }
+    
+    func notifyUser(title: String, message: String) -> Void{
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    //////////////////////
+    // TableView SERVICES
+    /////////////////////
+    
+    func setTableViewServices() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isHidden = false
+    }
 }
 
 extension HikesVC{
@@ -81,59 +149,8 @@ extension HikesVC{
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
-    //////////////////////
-    // TableView SERVICES
-    /////////////////////
     
-    func setTableViewServices() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.isHidden = false
-    }
-    
-    //////////////////////
-    // User Location FUNCTIONS
-    /////////////////////
-    func checkLocationServices() {
-        if CLLocationManager.locationServicesEnabled() {
-            setupLocationManager()
-            checkLocationAuthorization()
-        } else {
-            // Show alert letting the user know they have to turn this on.
-            //Alert user some features won't work without it's location.
-            let alertController = UIAlertController(title: "Your location is needed.", message: "Features from Camino won't work if we don't have acces to your location. Please enable it at Settings>Camino>Location>While Using the App", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            
-            alertController.addAction(defaultAction)
-            self.present(alertController, animated: true, completion: nil)
-            
-        }
-    }
-    
-    func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-    }
-    
-    func checkLocationAuthorization() {
-        switch CLLocationManager.authorizationStatus() {
-        case .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-            break
-        case .denied:
-            // Show alert instructing them how to turn on permissions
-          
-            break
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted:
-            // Show an alert letting them know what's up
-            
-            break
-        case .authorizedAlways:
-            break
-        }
-    }
+  
 }
 
 
@@ -157,38 +174,24 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //print("section: \(indexPath.section)")
-       // print("row: \(indexPath.row)")
-        guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
-        trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation)
         
-        presentDescription(trailDescriptionVC)
-    }
-    
-    
-
-
-}
-
- //Core Data
-extension HikesVC {
-
-    func deleteAllTrailRecords() {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let context = delegate.persistentContainer.viewContext
-        
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Trail")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        
-        do {
-            try context.execute(deleteRequest)
-            try context.save()
-        } catch {
-            print ("There was an error")
+        if self.userLocation != nil {
+            guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
+            trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation)
+            
+            presentDescription(trailDescriptionVC)
+        }else {
+            checkLocationServices()
+            notifyUser(title: "User location not found", message: "Features from Camino won't work if we don't have access to your location. Please enable it at Settings>Camino>Location>While Using the App")
         }
     }
     
+ 
+    
+
+
 }
+
 
 //Firebase
 extension HikesVC {
@@ -196,7 +199,6 @@ extension HikesVC {
 
     
     func readhikesFromFirebase(){
-        Database.database().isPersistenceEnabled = true
         
         let trailsReference = Database.database().reference()
         trailsReference.keepSynced(true)
@@ -206,7 +208,7 @@ extension HikesVC {
            
             for (nameOfHike,infoOfHike) in value {
                 if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
-                    print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
+                    //print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
                     
                     let hike = Hike()
                     hike.initVariables(nameOfHike: nameOfHike, hikeDetails: infoOfHike)
@@ -221,7 +223,7 @@ extension HikesVC {
             self.tableView.reloadData()
             
         }){ (error) in
-            print(error.localizedDescription)
+            print("Error \(error.localizedDescription)")
         }
         
     }

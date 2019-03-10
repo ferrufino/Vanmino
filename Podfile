@@ -10,7 +10,7 @@ pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'MapboxNavigation', '~> 0.27.0'
-  
+pod 'YNDropDownMenu'  
   target 'VanminoTests' do
     inherit! :search_paths
     # Pods for testing

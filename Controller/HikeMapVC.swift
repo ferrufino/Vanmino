@@ -36,7 +36,7 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     // var hike: Trail?
     
     var startOfHikeLocation: CLLocationCoordinate2D!
-    var startHikeLocationString: [String] = []
+    var endOfHikeLocation: CLLocationCoordinate2D!
     var userLocation: CLLocationCoordinate2D!
     let hikeModel = Hike()
     
@@ -87,18 +87,20 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     }
     
     func initData(hike: Hike, userLocation: CLLocationCoordinate2D){
-        
+        //print(hike.startLocation)
         if hike.startLocation != nil {
-            startHikeLocationString = hike.startLocation!.components(separatedBy: ",") // what if there is no location??
             
-            self.startOfHikeLocation = CLLocationCoordinate2D(latitude: Double(startHikeLocationString[0])!, longitude: Double(startHikeLocationString[1])!)
+           
+            let endIndex  = (hike.coordinates?.endIndex)! - 1
+            self.startOfHikeLocation = getCoordinatesFromString(coordinatesString: (hike.coordinates?[0])!)
+            self.endOfHikeLocation = getCoordinatesFromString(coordinatesString: (hike.coordinates?[endIndex])!)
             self.userLocation = userLocation
             
             self.hikeModel.copyData(hike: hike)
-            print("initData trail id: \(hike.id!)")
+            
         }else{
             
-            print("No start location found for Hike \(hike.name)")
+            print("No start location found for Hike")
         }
         
     }
@@ -216,10 +218,10 @@ extension HikeMapVC {
         saveButton.layer.shadowOpacity = 0.3
         
         
-        saveButton.tintColor = #colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1)
+        saveButton.tintColor = #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1)
         saveButton.setTitle("Save Offline", for: .normal)
         saveButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
-        saveButton.setTitleColor(#colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1), for: .normal)
+        saveButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
         saveButton.addTarget(self, action: #selector( saveButtonWasPressed(_:)), for: .touchUpInside)
         
         view.insertSubview(saveButton, aboveSubview: mapView)
@@ -238,10 +240,10 @@ extension HikeMapVC {
         backButton.layer.shadowOpacity = 0.3
         
         backButton.setImage(backbtnImg, for: .normal)
-        backButton.tintColor = #colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1)
+        backButton.tintColor = #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1)
         backButton.setTitle("  Back", for: .normal)
         backButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
-        backButton.setTitleColor(#colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1), for: .normal)
+        backButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
         backButton.addTarget(self, action: #selector( backButtonWasPressed(_:)), for: .touchUpInside)
         //backButton.contentHorizontalAlignment = .left
         //view.addSubview(backButton)
@@ -262,7 +264,7 @@ extension HikeMapVC {
         navigateButton = UIButton(frame: CGRect(x: (view.frame.width/2) - 100, y: view.frame.height - 215, width: 200, height: 50))
         navigateButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         navigateButton.setTitle("Get directions to Hike", for: .normal)
-        navigateButton.setTitleColor(#colorLiteral(red: 0.2225596011, green: 0.5376087427, blue: 0.8762643933, alpha: 1), for: .normal)
+        navigateButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
         navigateButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         navigateButton.layer.cornerRadius = 25
         navigateButton.layer.shadowOffset = CGSize(width: 0, height: 10)
@@ -286,11 +288,12 @@ extension HikeMapVC {
     
     func drawHike(){
         let hikeCoordinates = hikeModel.coordinates ?? []
+        let hikeComments = hikeModel.coordinateComments ?? []
         if  hikeCoordinates != [] {
             let coor: [CLLocationCoordinate2D] = convertCoordinates(coordinatesArray: hikeCoordinates)
-            drawHikeTrail(coordinates: coor)
+            drawHikeTrail(coordinates: coor, comments: hikeComments)
         }else{
-            print("No Coordinates found for Hike \(hikeModel.name)")
+            print("No Coordinates found for Hike")
         }
         
     }
@@ -320,14 +323,14 @@ extension HikeMapVC {
         })
     }
     
-    func  drawHikeTrail(coordinates: [CLLocationCoordinate2D])-> Void{
+    func  drawHikeTrail(coordinates: [CLLocationCoordinate2D], comments: [String?])-> Void{
         
         if !isConnectedToNetwork(){
              print("no wifi")
             for map in offlinePacks{
                  print(map)
             }
-            print(MGLOfflineStorage.shared.packs)
+            print("MGLOfflineStorage: \(String(describing: MGLOfflineStorage.shared.packs))")
             
         }else{
             
@@ -344,7 +347,9 @@ extension HikeMapVC {
                     animated: true
                 )
                 
+                /////////////
                 //draw line
+                /////////////
                 if self.hikeRoute != nil{
                     
                     self.drawRoute(route: self.hikeRoute!)
@@ -357,22 +362,34 @@ extension HikeMapVC {
             })
             
             
-            
+            ////////////////////
             // Point Annotations
+            ////////////////////
             // Add a custom point annotation for every coordinate (vertex) in the polyline.
             var pointAnnotations = [CustomPointAnnotation]()
-            for coordinate in coordinates {
+            
+            for (index,coordinate) in coordinates.enumerated() {
                 let count = pointAnnotations.count + 1
+                var comment = ""
+                var position = -1
+                if !comments.isEmpty && !comments[index]!.isEmpty {
+                    comment = comments[index]!
+                }
+                
+                if index == 0 || coordinates.endIndex - 1 == index  {
+                    position = index
+                }
+               
                 let point = CustomPointAnnotation(coordinate: coordinate,
-                                                  title: "Custom Point Annotation \(count)",
+                                                  title: comment,
                     subtitle: nil)
                 
                 // Set the custom `image` and `reuseIdentifier` properties, later used in the `mapView:imageForAnnotation:` delegate method.
                 // Create a unique reuse identifier for each new annotation image.
                 point.reuseIdentifier = "customAnnotation\(count)"
                 // This dot image grows in size as more annotations are added to the array.
-                point.image = dot(size: 15)
-                
+                point.image = dot(size: 15, pos: position)
+               
                 // Append each annotation to the array, which will be added to the map all at once.
                 pointAnnotations.append(point)
             }
@@ -404,7 +421,7 @@ extension HikeMapVC {
         
         
         
-        layer.lineColor = NSExpression(mglJSONObject: #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1))
+        layer.lineColor = NSExpression(mglJSONObject: #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1))
         layer.lineWidth = NSExpression(mglJSONObject: 3.0)
         
         mapView.style?.addSource(source)
@@ -416,7 +433,7 @@ extension HikeMapVC {
     
     
     
-    func dot(size: Int) -> UIImage {
+    func dot(size: Int, pos: Int) -> UIImage {
         let floatSize = CGFloat(size)
         let rect = CGRect(x: 0, y: 0, width: floatSize, height: floatSize)
         let strokeWidth: CGFloat = 1
@@ -424,7 +441,14 @@ extension HikeMapVC {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
         
         let ovalPath = UIBezierPath(ovalIn: rect.insetBy(dx: strokeWidth, dy: strokeWidth))
-        #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1).setFill()
+        if pos == 0 {
+            #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1).setFill()
+        }else if pos != -1 {
+            #colorLiteral(red: 0.9253688455, green: 0, blue: 0.05485691875, alpha: 1).setFill()
+        }else {
+            #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1).setFill()
+        }
+        
         ovalPath.fill()
         
         UIColor.white.setStroke()
@@ -439,12 +463,10 @@ extension HikeMapVC {
     
     func convertCoordinates(coordinatesArray: [String])-> [CLLocationCoordinate2D]{
         var coordinates: [CLLocationCoordinate2D] = []
-        for var coor in coordinatesArray{
+        for coor in coordinatesArray{
             
             var coorTemp = coor.components(separatedBy: ",")
-            print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
-            
-            
+            //print("Coordinates: \(coorTemp[0]), \(coorTemp[1])")
             coordinates.append(
                 CLLocationCoordinate2D(latitude: Double(coorTemp[0])!, longitude: Double(coorTemp[1])!)
             )
@@ -516,7 +538,7 @@ extension HikeMapVC {
             //send distnace too
             drawerViewController.delegate = self
             //print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
-            drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation) // change to hike model
+            drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation) 
         }
         
         
@@ -662,5 +684,11 @@ extension HikeMapVC {
         
         return (isReachable && !needsConnection)
         
+    }
+    
+    func getCoordinatesFromString(coordinatesString: String) -> CLLocationCoordinate2D {
+        let coodinatesStringArray = coordinatesString.components(separatedBy: ",")
+        
+        return CLLocationCoordinate2D(latitude: Double(coodinatesStringArray[0])!, longitude: Double(coodinatesStringArray[1])!)
     }
 }

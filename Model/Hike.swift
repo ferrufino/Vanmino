@@ -23,6 +23,7 @@ class Hike {
     var time: String?
     var region:String?
     var coordinates: [String]?
+    var coordinateComments: [String?]?
     
     var temperature: String?
     var humidity: String?
@@ -54,6 +55,7 @@ class Hike {
         dogFriendly = hikeDetails["dog-friendly"] as? Bool ?? false
         camping = hikeDetails["camping"] as? Bool ?? false
         coordinates = hikeDetails["coordinates"] as? [String]
+        coordinateComments = hikeDetails["coordinateComments"] as? [String?]
     }
     
     func copyData(hike: Hike){
@@ -68,6 +70,8 @@ class Hike {
         dogFriendly = hike.dogFriendly
         camping = hike.camping
         coordinates = hike.coordinates
+        coordinateComments = hike.coordinateComments
+        
     }
     
 }

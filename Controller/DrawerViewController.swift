@@ -176,8 +176,8 @@ extension DrawerViewController {
        // print("drawer name of hike: \(hike.name!)")
         
 
-         let hikeLocation = hike.startLocation!.components(separatedBy: ",")
-        setDistanceFromTwoLocations(hikeLocation: hikeLocation, userLocation: userLocation)
+         let hikeLocation = hike.coordinates?[0].components(separatedBy: ",")
+        setDistanceFromTwoLocations(hikeLocation: hikeLocation!, userLocation: userLocation)
         
         //if no weather return make sure to show a text with that
         //add loading to cell
@@ -206,7 +206,7 @@ extension DrawerViewController {
     
     
     func getDirectionOfWind(degree: Double)-> String{
-        print("degree:\(degree)")
+        //print("degree:\(degree)")
         switch degree {
             case 0, 360:
                 return "N"
@@ -242,10 +242,10 @@ extension DrawerViewController {
         itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as AnyObject
-            print(value)
+            
             
             if let tempNSNumber = value["temperature"] {
-                self.hikeModel.temperature = String(format:"%.f", tempNSNumber as! Double)
+                self.hikeModel.temperature = String(format:"%.1f", tempNSNumber as! Double)
             }else{
                 self.hikeModel.temperature = "X"
             }
@@ -313,13 +313,13 @@ extension DrawerViewController {
             }
             
             if let tempMin = value["tempMin"] {
-                 self.hikeModel.tempMin = String(format: "%@", tempMin as! CVarArg)
+                 self.hikeModel.tempMin = String(format:"%.1f", tempMin as! Double)
             }else{
                 self.hikeModel.tempMin = "X"
             }
             
             if let tempMax = value["tempMax"] {
-                self.hikeModel.tempMax = String(format: "%@", value["tempMax"] as! CVarArg)
+                self.hikeModel.tempMax = String(format:"%.1f", tempMax as! Double)
             }else{
                 self.hikeModel.tempMax = "X"
             }
