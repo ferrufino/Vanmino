@@ -12,7 +12,6 @@ import Firebase
 import FirebaseDatabase
 import CoreLocation
 import MapKit
-import YNDropDownMenu
 
 let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
@@ -45,7 +44,10 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     //////////////////////
     // Navigation bar FUNCTIONS
     /////////////////////
-
+    @IBAction func infoIconPressed(_ sender: Any) {
+        notifyUser(title: "Hey!", message: "Stay tune for more improvements of this app. If you have feedback please write to: ")
+    }
+    
     @IBAction func hikeOrder(_ sender: Any) {
         self.hikes.sort(by: { $0.name! < $1.name! })
         self.tableView.reloadData()
@@ -111,14 +113,6 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func notifyUser(title: String, message: String) -> Void{
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        
-        alertController.addAction(defaultAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
     //////////////////////
     // TableView SERVICES
     /////////////////////
@@ -131,6 +125,14 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
 }
 
 extension HikesVC{
+    
+    func notifyUser(title: String, message: String) -> Void{
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     //////////////////////
     // User Phone Specs
@@ -182,7 +184,7 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
             presentDescription(trailDescriptionVC)
         }else {
             checkLocationServices()
-            notifyUser(title: "User location not found", message: "Features from Camino won't work if we don't have access to your location. Please enable it at Settings>Camino>Location>While Using the App")
+            notifyUser(title: "User location not found", message: "Features from Camino won't work if we don't have access to your location. Please enable it at \n Settings>Camino>Location>While Using the App.")
         }
     }
     

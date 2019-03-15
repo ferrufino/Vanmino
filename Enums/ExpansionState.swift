@@ -36,7 +36,7 @@ enum ExpansionState {
         case .expanded:
             return 400
         case .fullHeight:
-            return container.height - 35
+            return 400 //container.height - 35
         }
     }
     

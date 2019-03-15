@@ -226,7 +226,7 @@ extension DrawerViewController {
                  return "NW"
             
             default:
-                return "NoData"
+                return "--"
         }
         
     }
@@ -242,7 +242,7 @@ extension DrawerViewController {
         itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as AnyObject
-            
+            print(value)
             
             if let tempNSNumber = value["temperature"] {
                 self.hikeModel.temperature = String(format:"%.1f", tempNSNumber as! Double)
@@ -257,7 +257,13 @@ extension DrawerViewController {
             }
             
             if let windDegree = value["windDeg"] {
-                self.hikeModel.windDirection = self.getDirectionOfWind(degree: windDegree as! Double)
+                if let validWindDegree = windDegree as? Double {
+                    self.hikeModel.windDirection = self.getDirectionOfWind(degree: validWindDegree)
+                }
+                else {
+                      self.hikeModel.windDirection = self.getDirectionOfWind(degree: -1)
+                }
+                
             }else{
                  self.hikeModel.windDirection = "X"
             }

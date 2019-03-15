@@ -5,12 +5,12 @@ target 'Vanmino' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for Vanmino
+  # Pods for Camino
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'MapboxNavigation', '~> 0.27.0'
-pod 'YNDropDownMenu'  
+
   target 'VanminoTests' do
     inherit! :search_paths
     # Pods for testing

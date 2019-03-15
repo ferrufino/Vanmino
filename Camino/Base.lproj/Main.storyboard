@@ -70,14 +70,22 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Laz-1g-AZu" userLabel="infoIcon">
+                                        <rect key="frame" x="367" y="48" width="22" height="22"/>
+                                        <connections>
+                                            <action selector="infoIconPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UOX-c6-E3E"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.30917906760000002" green="0.53063714500000003" blue="0.85101497169999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" red="0.88637483120000005" green="0.9059191942" blue="0.90196120739999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Laz-1g-AZu" secondAttribute="trailing" constant="25" id="1fo-SG-rxf"/>
                                     <constraint firstItem="ZEE-7d-kEn" firstAttribute="leading" secondItem="Pc4-Gs-fLD" secondAttribute="trailing" constant="35" id="207-54-tQY"/>
                                     <constraint firstItem="Pc4-Gs-fLD" firstAttribute="top" secondItem="N3j-tI-IQi" secondAttribute="top" constant="40" id="6ky-D9-nnV"/>
                                     <constraint firstAttribute="height" constant="80" id="DBh-R4-fK3"/>
                                     <constraint firstItem="Pc4-Gs-fLD" firstAttribute="leading" secondItem="N3j-tI-IQi" secondAttribute="leading" constant="20" id="Kqi-9s-lFo"/>
+                                    <constraint firstAttribute="bottom" secondItem="Laz-1g-AZu" secondAttribute="bottom" constant="10" id="LGj-Gx-ibN"/>
                                     <constraint firstAttribute="trailing" secondItem="Pc4-Gs-fLD" secondAttribute="trailing" constant="290" id="WZn-td-3Vp"/>
                                     <constraint firstAttribute="bottom" secondItem="Pc4-Gs-fLD" secondAttribute="bottom" constant="5" id="d26-FN-egF"/>
                                     <constraint firstAttribute="bottom" secondItem="ZEE-7d-kEn" secondAttribute="bottom" constant="5" id="jph-iX-sIp"/>

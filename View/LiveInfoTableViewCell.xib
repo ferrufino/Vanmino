@@ -116,9 +116,9 @@
                         </subviews>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Weather Data" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pM-Qg-fWT">
-                        <rect key="frame" x="280" y="53" width="90" height="38.5"/>
+                        <rect key="frame" x="253.5" y="53" width="116.5" height="38.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="90" id="oWa-fx-hTY"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="oWa-fx-hTY"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Avenir-BlackOblique" family="Avenir" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
