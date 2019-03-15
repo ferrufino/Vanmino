@@ -84,14 +84,12 @@ PODS:
   - Polyline (4.2.0)
   - Solar (2.1.0)
   - Turf (0.3.0)
-  - YNDropDownMenu (3.0.3)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
   - MapboxNavigation (~> 0.27.0)
-  - YNDropDownMenu
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -117,7 +115,6 @@ SPEC REPOS:
     - Polyline
     - Solar
     - Turf
-    - YNDropDownMenu
 
 SPEC CHECKSUMS:
   Firebase: b48f9e653da971ecce5b8c749684bc8bb2d26bd3
@@ -142,8 +139,7 @@ SPEC CHECKSUMS:
   Polyline: 3d69f75bb136357e27291d439d0436c6ebda57a4
   Solar: 2dc6e7cc39186cb0c8228fa08df76fb50c7d8f24
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
-  YNDropDownMenu: ba608568d4ac0a37385142f723da8cfc29c7ff11
 
-PODFILE CHECKSUM: 863a2e1927bbe96635477403983c70eb632c1462
+PODFILE CHECKSUM: 2c015aca51732bf2c4e2f327c138f0b2bf541817
 
 COCOAPODS: 1.5.3
