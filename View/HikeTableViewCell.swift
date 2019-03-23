@@ -20,12 +20,14 @@ class HikeTableViewCell: UITableViewCell {
     @IBOutlet weak var trailRegion: UILabel!
     
     func configCell(trail: Hike){
-        
-        self.trailDistanceLbl.text = trail.distance! + " Km"
+        self.trailDistanceLbl.text = trail.distance! + "Km"
         self.trailName.text = trail.name
         self.trailElevationLbl.text = trail.elevation
         self.trailTimeLbl.text = trail.time
-        self.trailCard.layer.cornerRadius = 5
+        self.trailCard.layer.cornerRadius = 30
+        self.trailCard.layer.masksToBounds = true
+        self.trailCard.layer.borderWidth = 3.0
+        self.trailCard.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.trailSeasonLbl.text = trail.season
         self.trailRegion.text = trail.region
     }

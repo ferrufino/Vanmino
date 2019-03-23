@@ -17,7 +17,7 @@
                BlueprintIdentifier = "66BF182321B48DDC002E24B4"
                BuildableName = "Vanmino.app"
                BlueprintName = "Vanmino"
-               ReferencedContainer = "container:Vanmino.xcodeproj">
+               ReferencedContainer = "container:Outdoorsy.temp_caseinsensitive_rename.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "66BF182321B48DDC002E24B4"
             BuildableName = "Vanmino.app"
             BlueprintName = "Vanmino"
-            ReferencedContainer = "container:Vanmino.xcodeproj">
+            ReferencedContainer = "container:Outdoorsy.temp_caseinsensitive_rename.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "66BF182321B48DDC002E24B4"
             BuildableName = "Vanmino.app"
             BlueprintName = "Vanmino"
-            ReferencedContainer = "container:Vanmino.xcodeproj">
+            ReferencedContainer = "container:Outdoorsy.temp_caseinsensitive_rename.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -83,7 +83,7 @@
             BlueprintIdentifier = "66BF182321B48DDC002E24B4"
             BuildableName = "Vanmino.app"
             BlueprintName = "Vanmino"
-            ReferencedContainer = "container:Vanmino.xcodeproj">
+            ReferencedContainer = "container:Outdoorsy.temp_caseinsensitive_rename.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

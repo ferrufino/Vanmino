@@ -12,27 +12,61 @@ import Firebase
 import FirebaseDatabase
 import CoreLocation
 import MapKit
+import MessageUI
 
-let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 
-class HikesVC: UIViewController, CLLocationManagerDelegate {
+class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView! // Table of Hikes
-    let locationManager = CLLocationManager()
     var userLocation: CLLocationCoordinate2D!
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+
+    var  locationManager = CLLocationManager()
     var hikes: [Hike] = []
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkLocationServices()
+        
+        setupLocationManager()
         self.readhikesFromFirebase()
         setTableViewServices()
+        
+       
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-       
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if launchedBefore  {
+            print("Not first launch.")
+        } else {
+            notifyUser(title: "Welcome to Outdoorsy!🤯", message: "This is an app to keep track of live trail conditions.", imageName: "orderHikes", extraOption: "", {})
+            print("First launch, setting UserDefault.")
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+        }
+        
+    }
+    
+    func notifyUser(title: String, message: String, imageName: String, extraOption: String, _ handlerFunction: @escaping () -> Void) -> Void{
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        alertController.addAction(defaultAction)
+        
+        if !imageName.isEmpty {
+            let image = UIImage(named: imageName)
+            alertController.addImage(image: image!)
+        }
+        
+        if !extraOption.isEmpty {
+            let extraAction = UIAlertAction(title: extraOption, style: .default, handler: {
+                action in
+                handlerFunction()
+            })
+            alertController.addAction(extraAction)
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
    
@@ -45,8 +79,37 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     // Navigation bar FUNCTIONS
     /////////////////////
     @IBAction func infoIconPressed(_ sender: Any) {
-        notifyUser(title: "Hey!", message: "Stay tune for more improvements of this app. If you have feedback please write to: ")
+        notifyUser(title: "Hey!😁", message: "Stay tune for more improvements on this app 👷🏼‍♂️👷🏼‍♀️ \n If you have feedback please write to: outdoorsyclient@gmail.com", imageName: "", extraOption: "Send email", sendEmail)
     }
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let composeVC = MFMailComposeViewController()
+            composeVC.mailComposeDelegate = self
+            
+            // Configure the fields of the interface.
+            composeVC.setToRecipients(["caminoclient@gmail.com"])
+            composeVC.setSubject("Feedback")
+            composeVC.setMessageBody("Hi Camino!", isHTML: false)
+            
+            // Present the view controller modally.
+            self.present(composeVC, animated: true, completion: nil)
+            //UIApplication.shared.keyWindow?.rootViewController?.present(composeVC, animated: true, completion: nil)
+            //self.navigationController?.present(composeVC, animated: true, completion: nil)
+            return
+        }else{
+            print("Mail services are not available")
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult, error: Error?) {
+        // Check the result or perform other tasks.
+        
+        // Dismiss the mail compose view controller.
+        controller.dismiss(animated: true, completion: nil)
+    }
+
     
     @IBAction func hikeOrder(_ sender: Any) {
         self.hikes.sort(by: { $0.name! < $1.name! })
@@ -73,45 +136,39 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
     /////////////////////
     
 
-    func checkLocationServices() {
-        //print("CLLocationManager.locationServicesEnabled()\(CLLocationManager.locationServicesEnabled())")
+    func checkLocationServices(handleComplete:(()->())) {
         if CLLocationManager.locationServicesEnabled() {
-            setupLocationManager()
-            checkLocationAuthorization()
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                locationManager.requestWhenInUseAuthorization()
+            case .authorizedAlways, .authorizedWhenInUse:
+                locationManager.startUpdatingLocation()
+                print("Access")
+            }
         } else {
-            
-           
+           notifyUser(title: "By the way.. 🙄", message: "Features from Outdoorsy won't work if we don't have access to your location. We don't save your location! \n Please enable it at Settings>Outdoorsy>Location>While Using the App.",imageName: "", extraOption: "",{})
         }
+        
+        handleComplete()
     }
+    
     
     func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
-    func checkLocationAuthorization() {
-        switch CLLocationManager.authorizationStatus() {
-        case .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-            break
-        case .denied:
-            // Show alert instructing them how to turn on permissions
-          notifyUser(title: "Your location is needed.", message: "Features from Camino won't work if we don't have acces to your location. Please enable it at Settings>Camino>Location>While Using the App")
-            
-            break
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            
-            break
-        case .restricted:
-            // Show an alert letting them know what's up
-            notifyUser(title: "Your location is needed.", message: "Features from Camino won't work if we don't have acces to your location. Please enable it at Settings>Camino>Location>While Using the App")
-            
-            break
-        case .authorizedAlways:
-            break
-        }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+           // locationManager.stopMonitoringSignificantLocationChanges()
+            guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+           // print("User Location: \(locValue)")
+            self.userLocation = locValue
+      
+        
     }
+    
     
     //////////////////////
     // TableView SERVICES
@@ -126,13 +183,7 @@ class HikesVC: UIViewController, CLLocationManagerDelegate {
 
 extension HikesVC{
     
-    func notifyUser(title: String, message: String) -> Void{
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        
-        alertController.addAction(defaultAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
+
     
     //////////////////////
     // User Phone Specs
@@ -144,13 +195,9 @@ extension HikesVC{
         uname(&sysinfo) // ignore return value
         return String(bytes: Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
     }
+    /////////////////////
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        self.userLocation = locValue
-        //print("locations = \(locValue.latitude) \(locValue.longitude)")
-    }
-    
+   
     
   
 }
@@ -171,21 +218,42 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         // set the text from the data model
         cell.selectionStyle = .none
         let hike = hikes[indexPath.row]
+        if hike.difficulty == "Challenging" {
+            cell.backgroundColor = #colorLiteral(red: 0.9289702773, green: 0.2271019816, blue: 0.2684154212, alpha: 1)
+        }else if hike.difficulty == "Intermediate" {
+            cell.backgroundColor = #colorLiteral(red: 0.2642174363, green: 0.683486104, blue: 0.9940043092, alpha: 1)
+        }
         cell.configCell(trail: hike)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if self.userLocation != nil {
-            guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
-            trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row % 2 == 0 {
             
-            presentDescription(trailDescriptionVC)
-        }else {
-            checkLocationServices()
-            notifyUser(title: "User location not found", message: "Features from Camino won't work if we don't have access to your location. Please enable it at \n Settings>Camino>Location>While Using the App.")
+            (cell as! HikeTableViewCell).backgroundColor = #colorLiteral(red: 0.9289702773, green: 0.2271019816, blue: 0.2684154212, alpha: 1)
+           
         }
+        else {
+            
+            (cell as! HikeTableViewCell).backgroundColor = #colorLiteral(red: 0.2642174363, green: 0.683486104, blue: 0.9940043092, alpha: 1)
+        }
+        
+      
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            checkLocationServices { () -> () in
+            if self.userLocation != nil {
+                guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
+                trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation)
+                
+                presentDescription(trailDescriptionVC)
+         
+            
+                } else {
+                
+                }
+          }
     }
     
  

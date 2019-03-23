@@ -47,9 +47,12 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
         configureAppearance()
        
         configure(forExpansionState: expansionState)
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         configureTableView()
         
-      
+        
+        
         
     }
     
@@ -173,8 +176,6 @@ extension DrawerViewController {
 
     
     func fillDrawer(hike: Hike, userLocation: CLLocationCoordinate2D){
-       // print("drawer name of hike: \(hike.name!)")
-        
 
          let hikeLocation = hike.coordinates?[0].components(separatedBy: ",")
         setDistanceFromTwoLocations(hikeLocation: hikeLocation!, userLocation: userLocation)
@@ -184,13 +185,9 @@ extension DrawerViewController {
         getWeatherConditions(trailId: hike.id)
         hikeName.text = hike.name
         hikeModel.copyData(hike: hike)
-        //print("Hike weather \(hikeModel.weather)")
-       
     }
     
-    func setDistanceFromTwoLocations(hikeLocation: [String], userLocation: CLLocationCoordinate2D){
-        //HOW OFTEN DOES THIS GET UPDATED?
-       
+     func setDistanceFromTwoLocations(hikeLocation: [String], userLocation: CLLocationCoordinate2D){
         let coordinate₀ = userLocation
         let coordinate₁ = CLLocationCoordinate2D(latitude: Double(hikeLocation[0])!, longitude: Double(hikeLocation[1])!)
         let distanceInKms = coordinate₀.distance(to: coordinate₁)/1000 // result is in kms

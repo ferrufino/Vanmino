@@ -32,11 +32,11 @@ enum ExpansionState {
     static func height(forState state: ExpansionState, inContainer container: CGRect) -> CGFloat {
         switch state {
         case .compressed:
-            return 200
+            return container.height * 0.25
         case .expanded:
-            return 400
+            return (FactInfoTableViewCell.cellHeight * 4 ) - 30
         case .fullHeight:
-            return 400 //container.height - 35
+            return (FactInfoTableViewCell.cellHeight * 4 ) - 30
         }
     }
     

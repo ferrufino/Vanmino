@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F0B740160B0F24880291BDA /* Pods_Camino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11370491A091DABD11F52212 /* Pods_Camino.framework */; };
 		402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */; };
 		468113D20EF29CA4F03F44E9 /* Pods_VanminoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */; };
 		6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59821E1A89B00DF141A /* Assets.xcassets */; };
@@ -18,8 +17,10 @@
 		665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */; };
 		665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */; };
 		665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */; };
+		66A3E7E7223B527300D3A09F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A3E7E6223B527300D3A09F /* icon.png */; };
 		66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */; };
-		66A7F2082228D79E00638D2A /* PodExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A7F2072228D79E00638D2A /* PodExtensions.swift */; };
+		66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */; };
+		66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B88BAB2246B8A900797EB7 /* UIImage.swift */; };
 		66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */; };
 		66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
@@ -60,13 +61,10 @@
 
 /* Begin PBXFileReference section */
 		11370491A091DABD11F52212 /* Pods_Camino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Camino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		15DF5E669E482FB74469AEC0 /* Pods-CaminoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CaminoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CaminoUITests/Pods-CaminoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		17686BFAED53307B179DA1D7 /* Pods_CaminoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CaminoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		38E7E52CEF1317FACA2B49A0 /* Pods-CaminoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CaminoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CaminoTests/Pods-CaminoTests.release.xcconfig"; sourceTree = "<group>"; };
 		4F81EA8085FE2EABDEB23A71 /* Pods_CaminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CaminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		64C10D0AA3167F882CA209F7 /* Pods-Camino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Camino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Camino/Pods-Camino.release.xcconfig"; sourceTree = "<group>"; };
 		6614D59821E1A89B00DF141A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FactInfoTableViewCell.xib; sourceTree = "<group>"; };
 		6614D59F21EB0FC800DF141A /* Hike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hike.swift; sourceTree = "<group>"; };
@@ -75,8 +73,10 @@
 		665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecLiveInfoTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecLiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGLAnnotationProtocol.swift; sourceTree = "<group>"; };
+		66A3E7E6223B527300D3A09F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Assets.xcassets/icon.png; sourceTree = "<group>"; };
 		66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInClassesExtensions.swift; sourceTree = "<group>"; };
-		66A7F2072228D79E00638D2A /* PodExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodExtensions.swift; sourceTree = "<group>"; };
+		66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExt.swift; sourceTree = "<group>"; };
+		66B88BAB2246B8A900797EB7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeMapVC.swift; sourceTree = "<group>"; };
 		66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,12 +102,9 @@
 		6D12FAED4238E60E7AD1DDD3 /* Pods-VanminoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoUITests/Pods-VanminoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7F1CFF2B0E2394F1AA748AE9 /* Pods-Vanmino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vanmino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino.debug.xcconfig"; sourceTree = "<group>"; };
 		A32E2E567415D78075DA7025 /* Pods-VanminoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.release.xcconfig"; sourceTree = "<group>"; };
-		ACCCF3A9321A134FF28B4563 /* Pods-Camino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Camino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Camino/Pods-Camino.debug.xcconfig"; sourceTree = "<group>"; };
 		BF7012A9CA8192242724CCCB /* Pods_VanminoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Vanmino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D57B42D015668AF72DA28DA5 /* Pods-CaminoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CaminoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CaminoUITests/Pods-CaminoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F2E1AE03852B32E891E55C39 /* Pods-VanminoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoUITests/Pods-VanminoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		F83C106C88CEC3C9E208F78D /* Pods-CaminoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CaminoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CaminoTests/Pods-CaminoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F91603849F37E0BCCDC7188D /* Pods-Vanmino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vanmino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,7 +114,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */,
-				1F0B740160B0F24880291BDA /* Pods_Camino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,12 +147,6 @@
 				A32E2E567415D78075DA7025 /* Pods-VanminoTests.release.xcconfig */,
 				F2E1AE03852B32E891E55C39 /* Pods-VanminoUITests.debug.xcconfig */,
 				6D12FAED4238E60E7AD1DDD3 /* Pods-VanminoUITests.release.xcconfig */,
-				ACCCF3A9321A134FF28B4563 /* Pods-Camino.debug.xcconfig */,
-				64C10D0AA3167F882CA209F7 /* Pods-Camino.release.xcconfig */,
-				F83C106C88CEC3C9E208F78D /* Pods-CaminoTests.debug.xcconfig */,
-				38E7E52CEF1317FACA2B49A0 /* Pods-CaminoTests.release.xcconfig */,
-				15DF5E669E482FB74469AEC0 /* Pods-CaminoUITests.debug.xcconfig */,
-				D57B42D015668AF72DA28DA5 /* Pods-CaminoUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -214,6 +204,7 @@
 				66BF182B21B48DDC002E24B4 /* Main.storyboard */,
 				66BF183321B48DDC002E24B4 /* LaunchScreen.storyboard */,
 				66BF183621B48DDC002E24B4 /* Info.plist */,
+				66A3E7E6223B527300D3A09F /* icon.png */,
 				66BF182E21B48DDC002E24B4 /* Vanmino.xcdatamodeld */,
 				66BF185821B48E08002E24B4 /* GoogleService-Info.plist */,
 			);
@@ -276,7 +267,8 @@
 				66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */,
 				66BF92A321CEDAFF007D5D6D /* DrawerViewController+TableView.swift */,
 				66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */,
-				66A7F2072228D79E00638D2A /* PodExtensions.swift */,
+				66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */,
+				66B88BAB2246B8A900797EB7 /* UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -411,6 +403,7 @@
 				66BF183521B48DDC002E24B4 /* LaunchScreen.storyboard in Resources */,
 				66BF185921B48E09002E24B4 /* GoogleService-Info.plist in Resources */,
 				665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */,
+				66A3E7E7223B527300D3A09F /* icon.png in Resources */,
 				665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */,
 				6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */,
 				66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */,
@@ -562,7 +555,7 @@
 				66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */,
 				66BF929D21CECC7B007D5D6D /* DrawerViewController.swift in Sources */,
 				66BF182A21B48DDC002E24B4 /* HikesVC.swift in Sources */,
-				66A7F2082228D79E00638D2A /* PodExtensions.swift in Sources */,
+				66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */,
 				6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */,
 				66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */,
 				66BF92A021CECD0D007D5D6D /* DrawerViewControllerDelegate.swift in Sources */,
@@ -574,6 +567,7 @@
 				66BF92A421CEDAFF007D5D6D /* DrawerViewController+TableView.swift in Sources */,
 				66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */,
 				665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */,
+				66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
 				665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */,
 			);
@@ -754,11 +748,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C5UP27Z5YP;
 				INFOPLIST_FILE = Vanmino/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.Vanmino;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.vanmino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -773,11 +768,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C5UP27Z5YP;
 				INFOPLIST_FILE = Vanmino/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.Vanmino;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ferrufino.vanmino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

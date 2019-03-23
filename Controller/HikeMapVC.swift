@@ -47,6 +47,7 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         
         setMapViewServices()
         addFeaturesToMap()
+       
 
     }
     
@@ -261,7 +262,7 @@ extension HikeMapVC {
     }
     
     func addNavigationButton() {
-        navigateButton = UIButton(frame: CGRect(x: (view.frame.width/2) - 100, y: view.frame.height - 215, width: 200, height: 50))
+        navigateButton = UIButton(frame: CGRect(x: (view.frame.width/2) - 100, y: view.frame.height * 0.68, width: 200, height: 50))
         navigateButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         navigateButton.setTitle("Get directions to Hike", for: .normal)
         navigateButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
