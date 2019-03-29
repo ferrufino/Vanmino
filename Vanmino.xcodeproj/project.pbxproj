@@ -13,6 +13,8 @@
 		6614D59D21E9D9ED00DF141A /* FactInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */; };
 		6614D5A021EB0FC800DF141A /* Hike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D59F21EB0FC800DF141A /* Hike.swift */; };
 		6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */; };
+		661A1205224D72D900A62F19 /* SavedTrailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */; };
+		661A1207224D851300A62F19 /* SavedTrailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */; };
 		665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */; };
 		665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */; };
 		665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */; };
@@ -69,6 +71,8 @@
 		6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FactInfoTableViewCell.xib; sourceTree = "<group>"; };
 		6614D59F21EB0FC800DF141A /* Hike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hike.swift; sourceTree = "<group>"; };
 		6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactInfoTableViewCell.swift; sourceTree = "<group>"; };
+		661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTrailsViewController.swift; sourceTree = "<group>"; };
+		661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTrailsTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecLiveInfoTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecLiveInfoTableViewCell.xib; sourceTree = "<group>"; };
@@ -200,10 +204,10 @@
 			isa = PBXGroup;
 			children = (
 				6614D59821E1A89B00DF141A /* Assets.xcassets */,
+				66BF183621B48DDC002E24B4 /* Info.plist */,
 				66BF182721B48DDC002E24B4 /* AppDelegate.swift */,
 				66BF182B21B48DDC002E24B4 /* Main.storyboard */,
 				66BF183321B48DDC002E24B4 /* LaunchScreen.storyboard */,
-				66BF183621B48DDC002E24B4 /* Info.plist */,
 				66A3E7E6223B527300D3A09F /* icon.png */,
 				66BF182E21B48DDC002E24B4 /* Vanmino.xcdatamodeld */,
 				66BF185821B48E08002E24B4 /* GoogleService-Info.plist */,
@@ -235,6 +239,7 @@
 				66BF182921B48DDC002E24B4 /* HikesVC.swift */,
 				66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */,
 				66BF929C21CECC7B007D5D6D /* DrawerViewController.swift */,
+				661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 				665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */,
 				665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */,
 				665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */,
+				661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -554,6 +560,7 @@
 			files = (
 				66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */,
 				66BF929D21CECC7B007D5D6D /* DrawerViewController.swift in Sources */,
+				661A1205224D72D900A62F19 /* SavedTrailsViewController.swift in Sources */,
 				66BF182A21B48DDC002E24B4 /* HikesVC.swift in Sources */,
 				66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */,
 				6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */,
@@ -569,6 +576,7 @@
 				665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */,
 				66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
+				661A1207224D851300A62F19 /* SavedTrailsTableViewCell.swift in Sources */,
 				665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

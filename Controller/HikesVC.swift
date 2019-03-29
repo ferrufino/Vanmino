@@ -21,7 +21,7 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
     @IBOutlet weak var tableView: UITableView! // Table of Hikes
     var userLocation: CLLocationCoordinate2D!
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-
+    var uuid: String = ""
     var  locationManager = CLLocationManager()
     var hikes: [Hike] = []
     
@@ -33,6 +33,19 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         self.readhikesFromFirebase()
         setTableViewServices()
         
+        // Check if key value locally is empty
+        // if not, get all saved trails from key value
+        // else create UUID with this and push to firebase as a new user.
+        //var uuid = UUID().uuidString
+        //print(uuid)
+        Auth.auth().signInAnonymously() { (authResult, error) in
+            
+                let user = authResult!.user
+                let isAnonymous = user.isAnonymous  // true
+                self.uuid = user.uid
+                print("Userid: \(self.uuid)") //TSsob6UFfONjjdXznKXsbnAWMkx2
+          
+        }
        
         
     }
@@ -47,26 +60,6 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
             UserDefaults.standard.set(true, forKey: "launchedBefore")
         }
         
-    }
-    
-    func notifyUser(title: String, message: String, imageName: String, extraOption: String, _ handlerFunction: @escaping () -> Void) -> Void{
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-        alertController.addAction(defaultAction)
-        
-        if !imageName.isEmpty {
-            let image = UIImage(named: imageName)
-            alertController.addImage(image: image!)
-        }
-        
-        if !extraOption.isEmpty {
-            let extraAction = UIAlertAction(title: extraOption, style: .default, handler: {
-                action in
-                handlerFunction()
-            })
-            alertController.addAction(extraAction)
-        }
-        self.present(alertController, animated: true, completion: nil)
     }
     
    
@@ -126,9 +119,17 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         self.tableView.reloadData()
         
         //Data from phone to use for comments?
-        let systemVersion = UIDevice.current.systemVersion
-        print("iOS version: \(systemVersion)")
-        print(modelIdentifier()) //https://www.theiphonewiki.com/wiki/Models
+        //let systemVersion = UIDevice.current.systemVersion
+        //print("iOS version: \(systemVersion)")
+        //print(modelIdentifier()) //https://www.theiphonewiki.com/wiki/Models
+    }
+    //////////////////////
+    // Tab Bar Functionality
+    /////////////////////
+    @IBAction func savedHikesBtnPressed(_ sender: Any) {
+        guard let SavedTrailsVC = storyboard?.instantiateViewController(withIdentifier: "SavedTrailsVC") as? SavedTrailsViewController else {return}
+        SavedTrailsVC.initData(userid: self.uuid)
+        presentDescription(SavedTrailsVC)
     }
     
     //////////////////////
@@ -217,41 +218,23 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         
         // set the text from the data model
         cell.selectionStyle = .none
+        
         let hike = hikes[indexPath.row]
-        if hike.difficulty == "Challenging" {
-            cell.backgroundColor = #colorLiteral(red: 0.9289702773, green: 0.2271019816, blue: 0.2684154212, alpha: 1)
-        }else if hike.difficulty == "Intermediate" {
-            cell.backgroundColor = #colorLiteral(red: 0.2642174363, green: 0.683486104, blue: 0.9940043092, alpha: 1)
-        }
         cell.configCell(trail: hike)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row % 2 == 0 {
-            
-            (cell as! HikeTableViewCell).backgroundColor = #colorLiteral(red: 0.9289702773, green: 0.2271019816, blue: 0.2684154212, alpha: 1)
-           
-        }
-        else {
-            
-            (cell as! HikeTableViewCell).backgroundColor = #colorLiteral(red: 0.2642174363, green: 0.683486104, blue: 0.9940043092, alpha: 1)
-        }
-        
-      
-    }
+  
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             checkLocationServices { () -> () in
             if self.userLocation != nil {
                 guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
-                trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation)
+                trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation, userid: self.uuid)
                 
                 presentDescription(trailDescriptionVC)
          
             
-                } else {
-                
                 }
           }
     }

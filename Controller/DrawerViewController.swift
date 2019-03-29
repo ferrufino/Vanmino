@@ -239,7 +239,7 @@ extension DrawerViewController {
         itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as AnyObject
-            print(value)
+            //print(value)
             
             if let tempNSNumber = value["temperature"] {
                 self.hikeModel.temperature = String(format:"%.1f", tempNSNumber as! Double)
@@ -341,7 +341,7 @@ extension DrawerViewController {
             
             
         }){ (error) in
-            print(error.localizedDescription)
+            print("getWeatherConditions Error: \(error.localizedDescription)")
         }
     }
     

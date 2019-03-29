@@ -12,6 +12,7 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 import SystemConfiguration
+import Firebase
 
 class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDelegate {
     
@@ -23,17 +24,17 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     
     /// Background Overlay Alpha
     private static let kBackgroundColorOverlayTargetAlpha: CGFloat = 0.4
-    
+    var uuid = ""
     /// Array of offline packs for the delegate work around (and your UI, potentially)
     var offlinePacks = [MGLOfflinePack]()
-    
+    let trailsReference = Database.database().reference()
     var mapView: NavigationMapView!
     var navigateButton: UIButton!
     var backButton: UIButton!
     var saveButton: UIButton!
     var directionsRoute: Route?
     var hikeRoute: Route?
-    // var hike: Trail?
+    
     
     var startOfHikeLocation: CLLocationCoordinate2D!
     var endOfHikeLocation: CLLocationCoordinate2D!
@@ -41,13 +42,16 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     let hikeModel = Hike()
     
     var progressView: UIProgressView!
+    var saved = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        checkStatusOfSavedBtn()
         setMapViewServices()
         addFeaturesToMap()
-       
+        
+        
 
     }
     
@@ -84,14 +88,15 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         self.addNavigationButton()
         self.drawHike()
         self.addBackButton()
-        //self.addSaveButton()
+        self.addSaveButton()
     }
     
-    func initData(hike: Hike, userLocation: CLLocationCoordinate2D){
+    func initData(hike: Hike, userLocation: CLLocationCoordinate2D, userid: String){
         //print(hike.startLocation)
+        self.uuid = userid
         if hike.startLocation != nil {
             
-           
+            
             let endIndex  = (hike.coordinates?.endIndex)! - 1
             self.startOfHikeLocation = getCoordinatesFromString(coordinatesString: (hike.coordinates?[0])!)
             self.endOfHikeLocation = getCoordinatesFromString(coordinatesString: (hike.coordinates?[endIndex])!)
@@ -211,18 +216,20 @@ extension HikeMapVC {
     func addSaveButton() {
         ///https://stackoverflow.com/questions/41477775/why-does-my-uitableview-only-show-the-list-of-available-mglofflinepacks-after-i
         saveButton = UIButton(frame: CGRect(x: view.frame.width * 0.70, y: view.frame.height * 0.05, width: 100, height: 50))
-        saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
         saveButton.layer.cornerRadius = 25
         saveButton.layer.shadowOffset = CGSize(width: 0, height: 10)
         saveButton.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         saveButton.layer.shadowRadius = 5
         saveButton.layer.shadowOpacity = 0.3
-        
-        
         saveButton.tintColor = #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1)
-        saveButton.setTitle("Save Offline", for: .normal)
-        saveButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        //print("savedbtn colors assigned")
+        saveButton.setTitle("Save", for: .normal)
+        saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         saveButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
+
+        
+        saveButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         saveButton.addTarget(self, action: #selector( saveButtonWasPressed(_:)), for: .touchUpInside)
         
         view.insertSubview(saveButton, aboveSubview: mapView)
@@ -257,8 +264,54 @@ extension HikeMapVC {
         dismissDetail()
     }
     
+    func checkStatusOfSavedBtn(){
+        trailsReference.child("Users").child(self.uuid).child("SavedTrails").child(self.hikeModel.id!).observeSingleEvent(of: .value, with: { (snapshot) in
+           
+                if snapshot.exists() {
+                    self.saved = snapshot.value! as! Bool
+                    //print("saved assigned")
+                    if self.saved {
+                        self.saveButton.setTitle("Saved", for: .normal)
+                        self.saveButton.backgroundColor = #colorLiteral(red: 0.9604964852, green: 0.7453318238, blue: 0, alpha: 1)
+                        self.saveButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+                        self.saveButton.reloadInputViews()
+                    }
+                }
+            })
+    }
     @objc func saveButtonWasPressed(_ sender: UIButton){
-        startOfflinePackDownload()
+        // startOfflinePackDownload() // Feature for V2 - Paid verion?
+            if saved {
+                self.trailsReference.child("Users").child(self.uuid).child("SavedTrails").child(self.hikeModel.id!).setValue(false) {
+                    (error:Error?, ref:DatabaseReference) in
+                    if let error = error {
+                        print("Data could not be saved: \(error).")
+                    } else {
+                        print("Data saved successfully! - now false")
+                        self.saveButton.setTitle("Save", for: .normal)
+                        self.saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                        self.saveButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
+                        self.saveButton.reloadInputViews()
+                        self.saved = false
+                    }
+                    
+                }
+            }else {
+                self.trailsReference.child("Users").child(self.uuid).child("SavedTrails").child(self.hikeModel.id!).setValue(true) {
+                    (error:Error?, ref:DatabaseReference) in
+                    if let error = error {
+                        print("Data could not be saved: \(error).")
+                    } else {
+                        print("Data saved successfully! - now true")
+                        self.saveButton.setTitle("Saved", for: .normal)
+                        self.saveButton.backgroundColor = #colorLiteral(red: 0.9604964852, green: 0.7453318238, blue: 0, alpha: 1)
+                        self.saveButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+                        self.saveButton.reloadInputViews()
+                        self.saved = true
+                    }
+                }
+            }
+       
     }
     
     func addNavigationButton() {
