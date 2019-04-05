@@ -13,7 +13,7 @@ import FirebaseDatabase
 import CoreLocation
 import MapKit
 import MessageUI
-
+import OnboardKit
 
 
 class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate {
@@ -58,12 +58,31 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
     
     override func viewDidAppear(_ animated: Bool) {
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
-        if launchedBefore  { 
+        if launchedBefore  {
             print("Not first launch.")
         } else {
-            notifyUser(title: "Welcome to Outdoorsy 🤯", message: "Here you can keep track of live trail conditions, save favorite trails and more!", imageName: "intro", extraOption: "", handleComplete:{} )
+           // notifyUser(title: "Welcome to ", message: "Here you can keep track of live trail conditions, save favorite trails and more!", imageName: "intro", extraOption: "", handleComplete:{} )
             print("First launch, setting UserDefault.")
             UserDefaults.standard.set(true, forKey: "launchedBefore")
+            
+            let page = OnboardPage(title: "Welcome to Outdoorsy 🤯",
+                                   imageName: "intro",
+                                   description: "Here you can keep track of live conditions of trails, see details, and more! \n You can order the hike list by: Hikes, Region, Distance. \n Press on Saved Hikes to see the ones you've saved.")
+            
+            let page2 = OnboardPage(title: "Live conditions of Hikes",
+                                   imageName: "Onboarding2",
+                                   description: "Swip up the drawer! Updated every 4hrs, you'll see the live conditions of the hike and typical info. \n You can also see how far away you are from the Start of the hike, bring a dog or camp!")
+            
+            let page3 = OnboardPage(title: "Navigate, Save, Recenter",
+                                    imageName: "Onboarding3",
+                                    description: "Want Directions by Car to start of the hike? Press on Navigate! \n Save your fav hike! \n Moved the map too much? Recenter it!")
+            
+            let page4 = OnboardPage(title: "Where are you?",
+                                    imageName: "Onboarding4",
+                                    description: "You can see your location during a Hike 🙃 \n Press on one of the pins if you want to get recommendations of sweet spots during the trail!")
+            let onboardingViewController = OnboardViewController(pageItems: [page, page2, page3, page4])
+            onboardingViewController.presentFrom(self, animated: true)
+            
         }
         
     }

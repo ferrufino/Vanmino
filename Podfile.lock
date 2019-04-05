@@ -81,6 +81,7 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - OnboardKit (1.2.0)
   - Polyline (4.2.0)
   - Solar (2.1.0)
   - Turf (0.3.0)
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - MapboxNavigation (~> 0.27.0)
+  - OnboardKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -112,6 +114,7 @@ SPEC REPOS:
     - MapboxNavigationNative
     - MapboxSpeech
     - nanopb
+    - OnboardKit
     - Polyline
     - Solar
     - Turf
@@ -136,10 +139,11 @@ SPEC CHECKSUMS:
   MapboxNavigationNative: 9a1c0215eb1ee0d4757e03d79566d4eff64a72b0
   MapboxSpeech: d7569ee91dd8bdca3ef8d19b6828e8754c1073ec
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  OnboardKit: 36fbceba0d6a773516a2e7c43098fc710b9fa8e9
   Polyline: 3d69f75bb136357e27291d439d0436c6ebda57a4
   Solar: 2dc6e7cc39186cb0c8228fa08df76fb50c7d8f24
   Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
 
-PODFILE CHECKSUM: 2c015aca51732bf2c4e2f327c138f0b2bf541817
+PODFILE CHECKSUM: c20c060ebf70255dbcad1d1533b9451f2c9a8049
 
 COCOAPODS: 1.5.3
