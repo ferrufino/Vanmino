@@ -34,8 +34,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if indexPath.row == 0 {
+       if indexPath.row == 0 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "FactInfoTableViewCell", for: indexPath) as? FactInfoTableViewCell {
                 cell.selectionStyle = .none
                 cell.hikeDifficulty.text = hikeModel.difficulty

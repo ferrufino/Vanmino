@@ -19,6 +19,13 @@ import MessageUI
 class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView! // Table of Hikes
+    @IBOutlet weak var hikeLbl: UIButton!
+    @IBOutlet weak var regionLbl: UIButton!
+    @IBOutlet weak var distanceLbl: UIButton!
+    @IBOutlet weak var hikeDot: UIImageView!
+    @IBOutlet weak var regionDot: UIImageView!
+    @IBOutlet weak var distanceDot: UIImageView!
+    
     var userLocation: CLLocationCoordinate2D!
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var uuid: String = ""
@@ -33,29 +40,28 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         self.readhikesFromFirebase()
         setTableViewServices()
         
-        // Check if key value locally is empty
-        // if not, get all saved trails from key value
-        // else create UUID with this and push to firebase as a new user.
-        //var uuid = UUID().uuidString
-        //print(uuid)
         Auth.auth().signInAnonymously() { (authResult, error) in
             
                 let user = authResult!.user
-                let isAnonymous = user.isAnonymous  // true
                 self.uuid = user.uid
                 print("Userid: \(self.uuid)") //TSsob6UFfONjjdXznKXsbnAWMkx2
           
         }
+        
+      
+        self.hikeDot.isHidden = false
+        self.regionDot.isHidden = true
+        self.distanceDot.isHidden = true
        
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
-        if launchedBefore  {
+        if launchedBefore  { 
             print("Not first launch.")
         } else {
-            notifyUser(title: "Welcome to Outdoorsy!🤯", message: "This is an app to keep track of live trail conditions.", imageName: "orderHikes", extraOption: "", {})
+            notifyUser(title: "Welcome to Outdoorsy 🤯", message: "Here you can keep track of live trail conditions, save favorite trails and more!", imageName: "intro", extraOption: "", handleComplete:{} )
             print("First launch, setting UserDefault.")
             UserDefaults.standard.set(true, forKey: "launchedBefore")
         }
@@ -67,24 +73,34 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     //////////////////////
     // Navigation bar FUNCTIONS
     /////////////////////
     @IBAction func infoIconPressed(_ sender: Any) {
-        notifyUser(title: "Hey!😁", message: "Stay tune for more improvements on this app 👷🏼‍♂️👷🏼‍♀️ \n If you have feedback please write to: outdoorsyclient@gmail.com", imageName: "", extraOption: "Send email", sendEmail)
+        notifyUser(title: "Hey!😁", message: "Stay tune for more trails and improvements on this app 👷🏼‍♂️👷🏼‍♀️ \n If you have feedback please write to: outdoorsyclient@gmail.com", imageName: "", extraOption: "Send email", handleComplete: sendEmail)
     }
     
-    func sendEmail() {
+    func mailComposeController( _ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismissDetail()
+    }
+    func createMailComposeViewController() -> MFMailComposeViewController {
+        let mailComposeViewController = MFMailComposeViewController()
+        mailComposeViewController.mailComposeDelegate = self
+        mailComposeViewController.setToRecipients(["outdoorsyclient@gmail.com"])
+        mailComposeViewController.setSubject("Feedback")
+        mailComposeViewController.setMessageBody("Hey mate,", isHTML: false)
+        return mailComposeViewController
+    }
+    
+    func sendEmail() -> () {
+        let composeVC = createMailComposeViewController()
         if MFMailComposeViewController.canSendMail() {
-            let composeVC = MFMailComposeViewController()
-            composeVC.mailComposeDelegate = self
             
-            // Configure the fields of the interface.
-            composeVC.setToRecipients(["caminoclient@gmail.com"])
-            composeVC.setSubject("Feedback")
-            composeVC.setMessageBody("Hi Camino!", isHTML: false)
-            
+            print("yey")
             // Present the view controller modally.
             self.present(composeVC, animated: true, completion: nil)
             //UIApplication.shared.keyWindow?.rootViewController?.present(composeVC, animated: true, completion: nil)
@@ -94,29 +110,32 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
             print("Mail services are not available")
         }
     }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController,
-                               didFinishWith result: MFMailComposeResult, error: Error?) {
-        // Check the result or perform other tasks.
-        
-        // Dismiss the mail compose view controller.
-        controller.dismiss(animated: true, completion: nil)
-    }
 
     
     @IBAction func hikeOrder(_ sender: Any) {
         self.hikes.sort(by: { $0.name! < $1.name! })
         self.tableView.reloadData()
+       
+        self.hikeDot.isHidden = false
+        self.regionDot.isHidden = true
+        self.distanceDot.isHidden = true
     }
     
     @IBAction func regionOrder(_ sender: Any) {
         self.hikes.sort(by: { $0.region! < $1.region! })
         self.tableView.reloadData()
+       
+        self.hikeDot.isHidden = true
+        self.regionDot.isHidden = false
+        self.distanceDot.isHidden = true
     }
     
     @IBAction func distanceOrder(_ sender: Any) {
         self.hikes.sort(by: { Float($0.distance!)! < Float($1.distance!)! })
         self.tableView.reloadData()
+        self.hikeDot.isHidden = true
+        self.regionDot.isHidden = true
+        self.distanceDot.isHidden = false
         
         //Data from phone to use for comments?
         //let systemVersion = UIDevice.current.systemVersion
@@ -147,7 +166,7 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
                 print("Access")
             }
         } else {
-           notifyUser(title: "By the way.. 🙄", message: "Features from Outdoorsy won't work if we don't have access to your location. We don't save your location! \n Please enable it at Settings>Outdoorsy>Location>While Using the App.",imageName: "", extraOption: "",{})
+           notifyUser(title: "By the way.. 🙄", message: "Features from Outdoorsy won't work if we don't have access to your location. We don't save your location! \n Please enable it at Settings>Outdoorsy>Location>While Using the App.",imageName: "", extraOption: "", handleComplete: {})
         }
         
         handleComplete()

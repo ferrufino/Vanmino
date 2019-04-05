@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import Firebase
 import FirebaseDatabase
+import Foundation
 
 class SavedTrailsViewController: UIViewController, CLLocationManagerDelegate {
   
@@ -19,6 +20,7 @@ class SavedTrailsViewController: UIViewController, CLLocationManagerDelegate {
     var  locationManager = CLLocationManager()
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var uuid = ""
+    let trailsReference = Database.database().reference()
     
     @IBOutlet weak var tableView: UITableView! // Table of Hikes
     
@@ -44,6 +46,10 @@ class SavedTrailsViewController: UIViewController, CLLocationManagerDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     /// Location Services
@@ -72,7 +78,7 @@ class SavedTrailsViewController: UIViewController, CLLocationManagerDelegate {
                 print("Access")
             }
         } else {
-            notifyUser(title: "By the way.. 🙄", message: "Features from Outdoorsy won't work if we don't have access to your location. We don't save your location! \n Please enable it at Settings>Outdoorsy>Location>While Using the App.",imageName: "", extraOption: "",{})
+            notifyUser(title: "By the way.. 🙄", message: "Features from Outdoorsy won't work if we don't have access to your location. We don't save your location! \n Please enable it at Settings>Outdoorsy>Location>While Using the App.",imageName: "", extraOption: "", handleComplete: {})
         }
         
         handleComplete()
@@ -95,6 +101,13 @@ extension SavedTrailsViewController:  UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if savedTrails.count == 0 {
+            tableView.setEmptyMessage("No Hikes Saved yet!")
+        } else {
+           tableView.restore()
+        }
+        
+        
         return savedTrails.count
     }
     
@@ -103,10 +116,11 @@ extension SavedTrailsViewController:  UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "savedTrailCell") as? SavedTrailsTableViewCell else {return UITableViewCell()}
         // set the text from the data model
         cell.selectionStyle = .none
-        
-        let hike = savedTrails[indexPath.row]
-        print(hike)
-        cell.configCell(trail: hike)
+        if !savedTrails.isEmpty {
+            let hike = savedTrails[indexPath.row]
+            print(hike)
+            cell.configCell(trail: hike)
+        }
         return cell
     }
     
@@ -130,68 +144,81 @@ extension SavedTrailsViewController:  UITableViewDelegate, UITableViewDataSource
 extension SavedTrailsViewController {
     func readSavedHikesFromFirebase(){
         
-        let trailsReference = Database.database().reference()
+       
         var trailIds: [String] = []
         trailsReference.keepSynced(true)
-        let itemsRefSavedTrails = trailsReference.child("Users").child(self.uuid).child("SavedTrails")
-        itemsRefSavedTrails.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
-            let value = snapshot.value as! [String: Bool]
-            print(value)
-            for(trailId, savedStatus) in value{
-                if !(trailId).isEmpty {
-                    let isSaved = savedStatus
-                    if isSaved {
-                        trailIds.append(trailId)
+        trailsReference.child("Users").child(self.uuid).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+                if snapshot.exists(){
+                    let itemsRefSavedTrails = self.trailsReference.child("Users").child(self.uuid).child("SavedTrails")
+                    itemsRefSavedTrails.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
+                        
+                        if snapshot.childrenCount > 0 {
+                            // do something with possXYZ (the unwrapped value of xyz)
+                            print("there is value!")
+                            let value = snapshot.value as! [String: Bool]
+                            print(value)
+                            for(trailId, savedStatus) in value{
+                                if !(trailId).isEmpty {
+                                    let isSaved = savedStatus
+                                    if isSaved {
+                                        trailIds.append(trailId)
+                                    }
+                                }
+                            }
+                            
+                            
+                            let itemsRef = self.trailsReference.child("trails")
+                            itemsRef.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
+                                let value = snapshot.value as! [String: AnyObject]
+                                
+                                for (nameOfHike,infoOfHike) in value {
+                                    if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
+                                        //print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
+                                        if trailIds.contains(infoOfHike["id"] as! String) {
+                                            let hike = Hike()
+                                            hike.initVariables(nameOfHike: nameOfHike, hikeDetails: infoOfHike)
+                                            self.savedTrails.removeAll(where: { hike.id == $0.id })
+                                            self.savedTrails.append(hike)
+                                        }
+                                    }
+                                }
+                                
+                                //Order in Desc Hike name by default
+                                self.savedTrails.sort(by: { $0.name! < $1.name! })
+                                self.tableView.reloadData()
+                                
+                            }){ (error) in
+                                print("Error obtaining trails for Saved view \(error.localizedDescription)")
+                            }
+                            
+                        } else {
+                            // do something now that we know xyz is .None
+                            print("there is no value!")
+                            print(snapshot.value)
+                        }
+                        
+                        
+                    }){ (error) in
+                        print("Error getting saved Trails \(error.localizedDescription)")
+                    }
+                
+                }else{
+                    print("First time user!")
+                    self.trailsReference.child("Users/\(self.uuid)/SavedTrails").setValue("") {
+                        (error:Error?, ref:DatabaseReference) in
+                        if let error = error {
+                            print("Could not add new user: \(error).")
+                        } else {
+                            print("new user added!")
+                            
+                        }
                     }
                 }
-            }
-        }){ (error) in
-            print("Error \(error.localizedDescription)")
-        }
-        
-        let itemsRef = trailsReference.child("trails")
-        itemsRef.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
-            let value = snapshot.value as! [String: AnyObject]
-            
-            for (nameOfHike,infoOfHike) in value {
-                if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
-                    //print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
-                    if trailIds.contains(infoOfHike["id"] as! String) {
-                        let hike = Hike()
-                        hike.initVariables(nameOfHike: nameOfHike, hikeDetails: infoOfHike)
-                        self.savedTrails.removeAll(where: { hike.id == $0.id })
-                        self.savedTrails.append(hike)
-                    }
-                }
-            }
-            
-            //Order in Desc Hike name by default
-            self.savedTrails.sort(by: { $0.name! < $1.name! })
-            self.tableView.reloadData()
-            
-        }){ (error) in
-            print("Error \(error.localizedDescription)")
-        }
-            
-            
-//            for (nameOfHike,infoOfHike) in value {
-//                if !(infoOfHike["location"] as! String).isEmpty{// hikes need to have atleast a location
-//                    //print("location found \(!(infoOfHike["location"] as! String).isEmpty) \(infoOfHike["location"] as! String)")
-//
-//                    let hike = Hike()
-//                    hike.initVariables(nameOfHike: nameOfHike, hikeDetails: infoOfHike)
-//                    self.hikes.removeAll(where: { hike.id == $0.id })
-//                    self.hikes.append(hike)
-//
-//                }
-//            }
-//
-//            //Order in Desc Hike name by default
-//            self.hikes.sort(by: { $0.name! < $1.name! })
-//            self.tableView.reloadData()
-//
-       
+        })
         
     }
     
 }
+
+

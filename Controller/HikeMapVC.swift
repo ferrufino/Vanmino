@@ -30,11 +30,12 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     let trailsReference = Database.database().reference()
     var mapView: NavigationMapView!
     var navigateButton: UIButton!
+    var recenterButton: UIButton!
     var backButton: UIButton!
     var saveButton: UIButton!
     var directionsRoute: Route?
     var hikeRoute: Route?
-    
+    var coordinatesOfTrail = [CLLocationCoordinate2D]()
     
     var startOfHikeLocation: CLLocationCoordinate2D!
     var endOfHikeLocation: CLLocationCoordinate2D!
@@ -89,6 +90,7 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         self.drawHike()
         self.addBackButton()
         self.addSaveButton()
+        self.addRecenterButton()
     }
     
     func initData(hike: Hike, userLocation: CLLocationCoordinate2D, userid: String){
@@ -215,7 +217,7 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
 extension HikeMapVC {
     func addSaveButton() {
         ///https://stackoverflow.com/questions/41477775/why-does-my-uitableview-only-show-the-list-of-available-mglofflinepacks-after-i
-        saveButton = UIButton(frame: CGRect(x: view.frame.width * 0.70, y: view.frame.height * 0.05, width: 100, height: 50))
+        saveButton = UIButton(frame: CGRect(x: (view.frame.width/2) - 50, y: view.frame.height * 0.68, width: 100, height: 50))
         
         saveButton.layer.cornerRadius = 25
         saveButton.layer.shadowOffset = CGSize(width: 0, height: 10)
@@ -315,10 +317,13 @@ extension HikeMapVC {
     }
     
     func addNavigationButton() {
-        navigateButton = UIButton(frame: CGRect(x: (view.frame.width/2) - 100, y: view.frame.height * 0.68, width: 200, height: 50))
+        navigateButton = UIButton(frame: CGRect(x: (view.frame.width * 0.1), y: view.frame.height * 0.68, width: 50, height: 50))
         navigateButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        navigateButton.setTitle("Get directions to Hike", for: .normal)
-        navigateButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
+        let navbtnImg = UIImage(named: "navigation")?.withRenderingMode(.alwaysTemplate)
+        navigateButton.setImage(navbtnImg, for: .normal)
+
+        //navigateButton.setTitle("Directions to Hike", for: .normal)
+        //navigateButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
         navigateButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         navigateButton.layer.cornerRadius = 25
         navigateButton.layer.shadowOffset = CGSize(width: 0, height: 10)
@@ -326,10 +331,38 @@ extension HikeMapVC {
         navigateButton.layer.shadowRadius = 5
         navigateButton.layer.shadowOpacity = 0.3
         navigateButton.addTarget(self, action: #selector(navigateButtonWasPressed(_:)), for: .touchUpInside)
-        //view.addSubview(navigateButton)
+        
         view.insertSubview(navigateButton, aboveSubview: mapView)
         
     }
+    
+    func addRecenterButton() {
+        recenterButton = UIButton(frame: CGRect(x: (view.frame.width * 0.90) - 50, y: view.frame.height * 0.68, width: 50, height: 50))
+        recenterButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let recenterbtnImg = UIImage(named: "recenter")?.withRenderingMode(.alwaysTemplate)
+        recenterButton.setImage(recenterbtnImg, for: .normal)
+        
+        recenterButton.layer.cornerRadius = 25
+        recenterButton.layer.shadowOffset = CGSize(width: 0, height: 10)
+        recenterButton.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        recenterButton.layer.shadowRadius = 5
+        recenterButton.layer.shadowOpacity = 0.3
+        recenterButton.addTarget(self, action: #selector(recenterButtonWasPressed(_:)), for: .touchUpInside)
+        
+        view.insertSubview(recenterButton, aboveSubview: mapView)
+        
+    }
+    
+    
+    @objc func recenterButtonWasPressed(_ sender: UIButton){
+        self.mapView?.setVisibleCoordinates(
+            self.coordinatesOfTrail,
+            count: UInt(self.coordinatesOfTrail.count),
+            edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
+            animated: true
+        )
+    }
+    
     @objc func navigateButtonWasPressed(_ sender: UIButton){
         let navigationVC = NavigationViewController(for: directionsRoute!)
         present(navigationVC, animated: true, completion: nil)
@@ -392,7 +425,7 @@ extension HikeMapVC {
             
             _ = Directions.shared.calculate(options, completionHandler: { (waypoints, routes, error) in
                 self.hikeRoute = routes?.first
-                
+                self.coordinatesOfTrail = coordinates
                 //Set where map will focus on
                 self.mapView?.setVisibleCoordinates(
                     coordinates,
@@ -442,7 +475,7 @@ extension HikeMapVC {
                 // Create a unique reuse identifier for each new annotation image.
                 point.reuseIdentifier = "customAnnotation\(count)"
                 // This dot image grows in size as more annotations are added to the array.
-                point.image = dot(size: 15, pos: position)
+                point.image = dotMap(size: 15, pos: position)
                
                 // Append each annotation to the array, which will be added to the map all at once.
                 pointAnnotations.append(point)
@@ -487,7 +520,7 @@ extension HikeMapVC {
     
     
     
-    func dot(size: Int, pos: Int) -> UIImage {
+    func dotMap(size: Int, pos: Int) -> UIImage {
         let floatSize = CGFloat(size)
         let rect = CGRect(x: 0, y: 0, width: floatSize, height: floatSize)
         let strokeWidth: CGFloat = 1
@@ -592,7 +625,8 @@ extension HikeMapVC {
             //send distnace too
             drawerViewController.delegate = self
             //print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
-            drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation) 
+            drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation)
+            drawerViewController.tableView.isScrollEnabled = false
         }
         
         
@@ -660,30 +694,36 @@ extension HikeMapVC {
                 if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
                     // From Full Height to Expanded
                     drawerViewController.expansionState = .expanded
+                    drawerViewController.tableView.isScrollEnabled = true
                     animateTopConstraint(constant: expandedTopConstraint, withVelocity: velocity)
                 } else {
                     // From Full Height to Compressed
                     drawerViewController.expansionState = .compressed
+                    drawerViewController.tableView.isScrollEnabled = false
                     animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
                 }
             } else if previousContainerViewTopConstraint == expandedTopConstraint {
                 if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
                     // From Expanded to Full Height
                     drawerViewController.expansionState = .fullHeight
+                    drawerViewController.tableView.isScrollEnabled = true
                     animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: velocity)
                 } else {
                     // From Expanded to Compressed
                     drawerViewController.expansionState = .compressed
+                    drawerViewController.tableView.isScrollEnabled = false
                     animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
                 }
             } else {
                 if containerViewTopConstraint.constant <= expandedTopConstraint - constraintPadding {
                     // From Compressed to Full Height
                     drawerViewController.expansionState = .fullHeight
+                    drawerViewController.tableView.isScrollEnabled = true
                     animateTopConstraint(constant: fullHeightTopConstraint, withVelocity: velocity)
                 } else {
                     // From Compressed back to Compressed
                     drawerViewController.expansionState = .compressed
+                    drawerViewController.tableView.isScrollEnabled = false
                     animateTopConstraint(constant: compressedTopConstraint, withVelocity: velocity)
                 }
             }

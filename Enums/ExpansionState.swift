@@ -34,9 +34,9 @@ enum ExpansionState {
         case .compressed:
             return container.height * 0.25
         case .expanded:
-            return (FactInfoTableViewCell.cellHeight * 4 ) - 30
+            return (FactInfoTableViewCell.cellHeight * 4 )
         case .fullHeight:
-            return (FactInfoTableViewCell.cellHeight * 4 ) - 30
+            return (FactInfoTableViewCell.cellHeight * 4 )
         }
     }
     

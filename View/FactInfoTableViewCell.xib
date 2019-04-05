@@ -39,7 +39,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="gCx-45-JWS"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -63,7 +63,7 @@
                                             <constraint firstAttribute="height" constant="21" id="EDe-fJ-L8J"/>
                                             <constraint firstAttribute="width" constant="90" id="dJC-vK-fMq"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -89,7 +89,7 @@
                                     <constraint firstAttribute="height" constant="24" id="Nrt-uf-5lV"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="SP8-Tk-Dvy"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -109,11 +109,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00 mts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Esl-AH-jrj">
-                                <rect key="frame" x="0.0" y="21" width="54.5" height="21"/>
+                                <rect key="frame" x="0.0" y="21" width="48" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="eWn-82-8Cz"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -138,7 +138,7 @@
                         </subviews>
                     </stackView>
                 </subviews>
-                <color key="backgroundColor" red="0.36239603399999998" green="0.58559342619999999" blue="0.26873751169999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                <color key="backgroundColor" red="0.31652814150000003" green="0.53499305249999995" blue="0.83924895519999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="HV5-Kx-4Ds" secondAttribute="bottom" constant="25" id="DNR-kq-vV5"/>
                     <constraint firstAttribute="bottom" secondItem="Z0A-MV-zNS" secondAttribute="bottom" constant="5" id="Eht-Hd-ZP8"/>

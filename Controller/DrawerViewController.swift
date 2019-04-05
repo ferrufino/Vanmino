@@ -193,7 +193,7 @@ extension DrawerViewController {
         let distanceInKms = coordinate₀.distance(to: coordinate₁)/1000 // result is in kms
 
         
-        userDistanceFromHike.text = String(distanceInKms.rounded(.up))
+        userDistanceFromHike.text = distanceInKms > 300 ? "You're too far" : String(distanceInKms.rounded(.up)) + "km away";
     }
 }
 
@@ -239,18 +239,19 @@ extension DrawerViewController {
         itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as AnyObject
-            //print(value)
+            print("Weather data form api:\(value)")
             
             if let tempNSNumber = value["temperature"] {
                 self.hikeModel.temperature = String(format:"%.1f", tempNSNumber as! Double)
             }else{
-                self.hikeModel.temperature = "X"
+                self.hikeModel.temperature = "--"
             }
             
             if let windSpeedNSNumber = value["windSpeed"] {
-                self.hikeModel.windSpeed = String(format:"%.f", windSpeedNSNumber as! CVarArg)
+                let windSpeed = windSpeedNSNumber as? Double
+                self.hikeModel.windSpeed = String(format:"%.1f", windSpeed as! CVarArg)
             }else{
-                self.hikeModel.windSpeed = "X"
+                self.hikeModel.windSpeed = "--"
             }
             
             if let windDegree = value["windDeg"] {
@@ -262,50 +263,50 @@ extension DrawerViewController {
                 }
                 
             }else{
-                 self.hikeModel.windDirection = "X"
+                 self.hikeModel.windDirection = "--"
             }
             
             if let barometer = value["barometer"] {
                 self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
             }else{
-                 self.hikeModel.barometer = "X"
+                 self.hikeModel.barometer = "--"
             }
             
             if let weather = value["weather"] {
                self.hikeModel.weather = weather as? String
             }else{
-                self.hikeModel.weather = "X"
+                self.hikeModel.weather = "--"
             }
             
             if let weatherIcon = value["weatherIcon"] {
                 self.hikeModel.weatherIcon = weatherIcon as? String
             }else{
-                self.hikeModel.weatherIcon = "X"
+                self.hikeModel.weatherIcon = "--"
             }
             
             if let barometer = value["barometer"] {
                 self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
             }else{
-                self.hikeModel.barometer = "X"
+                self.hikeModel.barometer = "--"
             }
             
             if let humidity = value["humidity"]{
                 self.hikeModel.humidity = String(format: "%@", humidity as! CVarArg)
                 
             }else{
-                self.hikeModel.humidity = "X"
+                self.hikeModel.humidity = "--"
             }
             
             if let sunrise = value["sunrise"] {
                    self.hikeModel.sunrise = sunrise as? String
             }else{
-                self.hikeModel.sunrise = "X"
+                self.hikeModel.sunrise = "--"
             }
             
             if let sunset = value["sunset"] {
                 self.hikeModel.sunset = sunset as? String
             }else{
-                self.hikeModel.sunset = "X"
+                self.hikeModel.sunset = "--"
             }
             
             if let visibility = value["visibility"] {
@@ -318,20 +319,20 @@ extension DrawerViewController {
             if let tempMin = value["tempMin"] {
                  self.hikeModel.tempMin = String(format:"%.1f", tempMin as! Double)
             }else{
-                self.hikeModel.tempMin = "X"
+                self.hikeModel.tempMin = "--"
             }
             
             if let tempMax = value["tempMax"] {
                 self.hikeModel.tempMax = String(format:"%.1f", tempMax as! Double)
             }else{
-                self.hikeModel.tempMax = "X"
+                self.hikeModel.tempMax = "--"
             }
                 
             if let clouds = value["clouds"] {
                 self.hikeModel.clouds = String(format: "%@", clouds as! CVarArg)
                 
             }else {
-                self.hikeModel.clouds = "X"
+                self.hikeModel.clouds = "--"
             }
             
             

@@ -30,7 +30,7 @@ extension UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
-    func notifyUser(title: String, message: String, imageName: String, extraOption: String, _ handlerFunction: @escaping () -> Void) -> Void{
+    func notifyUser(title: String, message: String, imageName: String, extraOption: String,handleComplete:@escaping (()->())) -> Void{
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         alertController.addAction(defaultAction)
@@ -43,9 +43,10 @@ extension UIViewController {
         if !extraOption.isEmpty {
             let extraAction = UIAlertAction(title: extraOption, style: .default, handler: {
                 action in
-                handlerFunction()
+               handleComplete()
             })
             alertController.addAction(extraAction)
+            
         }
         self.present(alertController, animated: true, completion: nil)
     }

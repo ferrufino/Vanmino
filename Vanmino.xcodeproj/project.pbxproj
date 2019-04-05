@@ -15,12 +15,15 @@
 		6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */; };
 		661A1205224D72D900A62F19 /* SavedTrailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */; };
 		661A1207224D851300A62F19 /* SavedTrailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */; };
+		66442BF72254610B0014802B /* DistanceAwayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66442BF52254610B0014802B /* DistanceAwayTableViewCell.swift */; };
+		66442BF82254610B0014802B /* DistanceAwayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66442BF62254610B0014802B /* DistanceAwayTableViewCell.xib */; };
 		665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */; };
 		665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */; };
 		665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */; };
 		665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */; };
 		66A3E7E7223B527300D3A09F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A3E7E6223B527300D3A09F /* icon.png */; };
 		66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */; };
+		66B805322250623D008CF4C9 /* UITableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B805312250623D008CF4C9 /* UITableViewExt.swift */; };
 		66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */; };
 		66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B88BAB2246B8A900797EB7 /* UIImage.swift */; };
 		66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */; };
@@ -73,12 +76,15 @@
 		6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactInfoTableViewCell.swift; sourceTree = "<group>"; };
 		661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTrailsViewController.swift; sourceTree = "<group>"; };
 		661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTrailsTableViewCell.swift; sourceTree = "<group>"; };
+		66442BF52254610B0014802B /* DistanceAwayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceAwayTableViewCell.swift; sourceTree = "<group>"; };
+		66442BF62254610B0014802B /* DistanceAwayTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DistanceAwayTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecLiveInfoTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecLiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGLAnnotationProtocol.swift; sourceTree = "<group>"; };
 		66A3E7E6223B527300D3A09F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Assets.xcassets/icon.png; sourceTree = "<group>"; };
 		66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInClassesExtensions.swift; sourceTree = "<group>"; };
+		66B805312250623D008CF4C9 /* UITableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExt.swift; sourceTree = "<group>"; };
 		66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExt.swift; sourceTree = "<group>"; };
 		66B88BAB2246B8A900797EB7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeMapVC.swift; sourceTree = "<group>"; };
@@ -255,6 +261,8 @@
 				665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */,
 				665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */,
 				661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */,
+				66442BF52254610B0014802B /* DistanceAwayTableViewCell.swift */,
+				66442BF62254610B0014802B /* DistanceAwayTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -275,6 +283,7 @@
 				66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */,
 				66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */,
 				66B88BAB2246B8A900797EB7 /* UIImage.swift */,
+				66B805312250623D008CF4C9 /* UITableViewExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -410,6 +419,7 @@
 				66BF185921B48E09002E24B4 /* GoogleService-Info.plist in Resources */,
 				665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */,
 				66A3E7E7223B527300D3A09F /* icon.png in Resources */,
+				66442BF82254610B0014802B /* DistanceAwayTableViewCell.xib in Resources */,
 				665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */,
 				6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */,
 				66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */,
@@ -568,6 +578,7 @@
 				66BF92A021CECD0D007D5D6D /* DrawerViewControllerDelegate.swift in Sources */,
 				66BF186321B4B09E002E24B4 /* HikeTableViewCell.swift in Sources */,
 				66BF92A621CEDB4D007D5D6D /* LiveInfoTableViewCell.swift in Sources */,
+				66B805322250623D008CF4C9 /* UITableViewExt.swift in Sources */,
 				6614D5A021EB0FC800DF141A /* Hike.swift in Sources */,
 				66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */,
 				66BF92A221CED212007D5D6D /* ExpansionState.swift in Sources */,
@@ -577,6 +588,7 @@
 				66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
 				661A1207224D851300A62F19 /* SavedTrailsTableViewCell.swift in Sources */,
+				66442BF72254610B0014802B /* DistanceAwayTableViewCell.swift in Sources */,
 				665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
