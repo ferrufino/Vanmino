@@ -190,10 +190,10 @@ extension DrawerViewController {
      func setDistanceFromTwoLocations(hikeLocation: [String], userLocation: CLLocationCoordinate2D){
         let coordinate₀ = userLocation
         let coordinate₁ = CLLocationCoordinate2D(latitude: Double(hikeLocation[0])!, longitude: Double(hikeLocation[1])!)
-        let distanceInKms = coordinate₀.distance(to: coordinate₁)/1000 // result is in kms
+        let distanceInKms = Int(coordinate₀.distance(to: coordinate₁)/1000) // result is in kms
 
         
-        userDistanceFromHike.text = distanceInKms > 300 ? "You're too far" : String(distanceInKms.rounded(.up)) + "km away";
+        userDistanceFromHike.text = distanceInKms > 900 ? "You're too far" : String(distanceInKms) + "km away";
     }
 }
 

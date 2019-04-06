@@ -18,6 +18,8 @@ class HikeTableViewCell: UITableViewCell {
     @IBOutlet weak var trailCard: UIView!
     @IBOutlet weak var trailSeasonLbl: UILabel!
     @IBOutlet weak var trailRegion: UILabel!
+    @IBOutlet weak var distanceFromUser: UILabel!
+    @IBOutlet weak var trailDifficulty: UILabel!
     
     func configCell(trail: Hike){
         self.trailDistanceLbl.text = trail.distance! + "Km"
@@ -30,6 +32,7 @@ class HikeTableViewCell: UITableViewCell {
         self.trailCard.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.trailSeasonLbl.text = trail.season
         self.trailRegion.text = trail.region
+        self.trailDifficulty.text = trail.difficulty
     }
     
 }

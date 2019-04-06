@@ -17,6 +17,9 @@
 		661A1207224D851300A62F19 /* SavedTrailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */; };
 		66442BF72254610B0014802B /* DistanceAwayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66442BF52254610B0014802B /* DistanceAwayTableViewCell.swift */; };
 		66442BF82254610B0014802B /* DistanceAwayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66442BF62254610B0014802B /* DistanceAwayTableViewCell.xib */; };
+		66442BFC2258328F0014802B /* SideBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66442BFB2258328F0014802B /* SideBarController.swift */; };
+		66442BFE22584F490014802B /* MainNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66442BFD22584F490014802B /* MainNavBarViewController.swift */; };
+		66442C00225937360014802B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66442BFF225937360014802B /* TabBarViewController.swift */; };
 		665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */; };
 		665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */; };
 		665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */; };
@@ -78,6 +81,9 @@
 		661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTrailsTableViewCell.swift; sourceTree = "<group>"; };
 		66442BF52254610B0014802B /* DistanceAwayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceAwayTableViewCell.swift; sourceTree = "<group>"; };
 		66442BF62254610B0014802B /* DistanceAwayTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DistanceAwayTableViewCell.xib; sourceTree = "<group>"; };
+		66442BFB2258328F0014802B /* SideBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarController.swift; sourceTree = "<group>"; };
+		66442BFD22584F490014802B /* MainNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavBarViewController.swift; sourceTree = "<group>"; };
+		66442BFF225937360014802B /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LiveInfoTableViewCell.xib; sourceTree = "<group>"; };
 		665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecLiveInfoTableViewCell.swift; sourceTree = "<group>"; };
 		665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecLiveInfoTableViewCell.xib; sourceTree = "<group>"; };
@@ -243,9 +249,12 @@
 			isa = PBXGroup;
 			children = (
 				66BF182921B48DDC002E24B4 /* HikesVC.swift */,
+				661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */,
 				66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */,
 				66BF929C21CECC7B007D5D6D /* DrawerViewController.swift */,
-				661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */,
+				66442BFB2258328F0014802B /* SideBarController.swift */,
+				66442BFD22584F490014802B /* MainNavBarViewController.swift */,
+				66442BFF225937360014802B /* TabBarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -575,6 +584,7 @@
 				661A1205224D72D900A62F19 /* SavedTrailsViewController.swift in Sources */,
 				66BF182A21B48DDC002E24B4 /* HikesVC.swift in Sources */,
 				66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */,
+				66442BFC2258328F0014802B /* SideBarController.swift in Sources */,
 				6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */,
 				66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */,
 				66BF92A021CECD0D007D5D6D /* DrawerViewControllerDelegate.swift in Sources */,
@@ -582,8 +592,10 @@
 				66BF92A621CEDB4D007D5D6D /* LiveInfoTableViewCell.swift in Sources */,
 				66B805322250623D008CF4C9 /* UITableViewExt.swift in Sources */,
 				6614D5A021EB0FC800DF141A /* Hike.swift in Sources */,
+				66442C00225937360014802B /* TabBarViewController.swift in Sources */,
 				66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */,
 				66BF92A221CED212007D5D6D /* ExpansionState.swift in Sources */,
+				66442BFE22584F490014802B /* MainNavBarViewController.swift in Sources */,
 				66BF92A421CEDAFF007D5D6D /* DrawerViewController+TableView.swift in Sources */,
 				66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */,
 				665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */,

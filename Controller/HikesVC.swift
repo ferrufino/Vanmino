@@ -19,12 +19,8 @@ import OnboardKit
 class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView! // Table of Hikes
-    @IBOutlet weak var hikeLbl: UIButton!
-    @IBOutlet weak var regionLbl: UIButton!
-    @IBOutlet weak var distanceLbl: UIButton!
-    @IBOutlet weak var hikeDot: UIImageView!
-    @IBOutlet weak var regionDot: UIImageView!
-    @IBOutlet weak var distanceDot: UIImageView!
+    var sideMenuOpen = false
+    @IBOutlet var sideMenuConstraint: NSLayoutConstraint!
     
     var userLocation: CLLocationCoordinate2D!
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -40,6 +36,8 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         self.readhikesFromFirebase()
         setTableViewServices()
         
+       
+        
         Auth.auth().signInAnonymously() { (authResult, error) in
             
                 let user = authResult!.user
@@ -49,11 +47,35 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         }
         
       
-        self.hikeDot.isHidden = false
-        self.regionDot.isHidden = true
-        self.distanceDot.isHidden = true
+        //self.hikeDot.isHidden = false
+        //self.regionDot.isHidden = true
+        //self.distanceDot.isHidden = true
        
         
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? SideBarController,
+            segue.identifier == "mainFeedToSideBar" {
+            vc.delegate = self
+        }
+    }
+   
+    
+    @IBAction func sideBarMenuTapped() {
+        print("Toggle Menu")
+        if sideMenuOpen {
+            
+            sideMenuConstraint.constant = -240
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutIfNeeded()
+            }
+        }else{
+            sideMenuConstraint.constant = 0
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutIfNeeded()
+            }
+        }
+        sideMenuOpen = !sideMenuOpen
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,46 +150,6 @@ class HikesVC: UIViewController, CLLocationManagerDelegate, MFMailComposeViewCon
         }else{
             print("Mail services are not available")
         }
-    }
-
-    
-    @IBAction func hikeOrder(_ sender: Any) {
-        self.hikes.sort(by: { $0.name! < $1.name! })
-        self.tableView.reloadData()
-       
-        self.hikeDot.isHidden = false
-        self.regionDot.isHidden = true
-        self.distanceDot.isHidden = true
-    }
-    
-    @IBAction func regionOrder(_ sender: Any) {
-        self.hikes.sort(by: { $0.region! < $1.region! })
-        self.tableView.reloadData()
-       
-        self.hikeDot.isHidden = true
-        self.regionDot.isHidden = false
-        self.distanceDot.isHidden = true
-    }
-    
-    @IBAction func distanceOrder(_ sender: Any) {
-        self.hikes.sort(by: { Float($0.distance!)! < Float($1.distance!)! })
-        self.tableView.reloadData()
-        self.hikeDot.isHidden = true
-        self.regionDot.isHidden = true
-        self.distanceDot.isHidden = false
-        
-        //Data from phone to use for comments?
-        //let systemVersion = UIDevice.current.systemVersion
-        //print("iOS version: \(systemVersion)")
-        //print(modelIdentifier()) //https://www.theiphonewiki.com/wiki/Models
-    }
-    //////////////////////
-    // Tab Bar Functionality
-    /////////////////////
-    @IBAction func savedHikesBtnPressed(_ sender: Any) {
-        guard let SavedTrailsVC = storyboard?.instantiateViewController(withIdentifier: "SavedTrailsVC") as? SavedTrailsViewController else {return}
-        SavedTrailsVC.initData(userid: self.uuid)
-        presentDescription(SavedTrailsVC)
     }
     
     //////////////////////
@@ -259,14 +241,27 @@ extension HikesVC: UITableViewDelegate, UITableViewDataSource {
         
         let hike = hikes[indexPath.row]
         cell.configCell(trail: hike)
+        let hikeLocation = hike.coordinates?[0].components(separatedBy: ",")
+        hikes[indexPath.row].distanceFromUser = setDistanceFromTwoLocations(hikeLocation: hikeLocation!, userLocation: self.userLocation)
+        cell.distanceFromUser.text =  hikes[indexPath.row].distanceFromUser
         return cell
     }
     
+    func setDistanceFromTwoLocations(hikeLocation: [String], userLocation: CLLocationCoordinate2D) -> String {
+        let coordinate₀ = userLocation
+        let coordinate₁ = CLLocationCoordinate2D(latitude: Double(hikeLocation[0])!, longitude: Double(hikeLocation[1])!)
+        let distanceInKms = Int(coordinate₀.distance(to: coordinate₁)/1000) // result is in kms
+        
+        
+        return distanceInKms > 900 ? "You're too far" : String(distanceInKms) + "km away";
+    }
   
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             checkLocationServices { () -> () in
-            if self.userLocation != nil {
+                if sideMenuOpen {
+                    sideBarMenuTapped()
+                } else if self.userLocation != nil {
                 guard let trailDescriptionVC = storyboard?.instantiateViewController(withIdentifier: "TrailDescriptionVC") as? HikeMapVC else {return}
                 trailDescriptionVC.initData(hike: hikes[indexPath.row], userLocation: self.userLocation, userid: self.uuid)
                 
@@ -319,5 +314,57 @@ extension HikesVC {
         
     }
     
+}
+
+extension HikesVC: ChildToParentProtocol {
+    
+    func OrderHikeListBy(Order: String){
+        print(Order)
+        switch Order {
+        case "region":
+            regionOrder()
+        case "name":
+            hikeOrder()
+        case "distance":
+            distanceOrder()
+        case "closest":
+            closestOrder()
+        default:
+            hikeOrder()
+            
+        }
+    }
+    
+    func closestOrder() {
+        self.hikes.sort(by: { $0.distanceFromUser! < $1.distanceFromUser! })
+        sideBarMenuTapped()
+        self.tableView.reloadData()
+        
+    }
+    
+   func hikeOrder() {
+    self.hikes.sort(by: { $0.name! < $1.name! })
+    sideBarMenuTapped()
+    self.tableView.reloadData()
+    
+    }
+    
+   func regionOrder() {
+    
+    self.hikes.sort(by: { $0.region! < $1.region! })
+    sideBarMenuTapped()
+    self.tableView.reloadData()
+    }
+    
+   func distanceOrder() {
+    self.hikes.sort(by: { Float($0.distance!)! < Float($1.distance!)! })
+    sideBarMenuTapped()
+    self.tableView.reloadData()
+    
+        //Data from phone to use for comments?
+        //let systemVersion = UIDevice.current.systemVersion
+        //print("iOS version: \(systemVersion)")
+        //print(modelIdentifier()) //https://www.theiphonewiki.com/wiki/Models
+    }
 }
 

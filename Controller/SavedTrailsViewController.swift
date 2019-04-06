@@ -20,7 +20,6 @@ class SavedTrailsViewController: UIViewController, CLLocationManagerDelegate {
     var  locationManager = CLLocationManager()
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var uuid = ""
-    let trailsReference = Database.database().reference()
     
     @IBOutlet weak var tableView: UITableView! // Table of Hikes
     
@@ -28,28 +27,29 @@ class SavedTrailsViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         setupLocationManager()
         setTableViewServices()
-
         
-    }
-    
-
-    func initData(userid: String){
-        uuid = userid
-        readSavedHikesFromFirebase()
-    }
-    
-    
-    @IBAction func unwindToContainerVC() {
-        dismissDetail()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        Auth.auth().signInAnonymously() { (authResult, error) in
+            
+            let user = authResult!.user
+            self.uuid = user.uid
+            print("Userid: \(self.uuid)") //TSsob6UFfONjjdXznKXsbnAWMkx2
+            self.readSavedHikesFromFirebase()
+            
+        }
+        
+       
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+   
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     /// Location Services
@@ -142,15 +142,16 @@ extension SavedTrailsViewController:  UITableViewDelegate, UITableViewDataSource
 }
 
 extension SavedTrailsViewController {
+   
     func readSavedHikesFromFirebase(){
-        
+        let trailsReference = Database.database().reference()
        
         var trailIds: [String] = []
         trailsReference.keepSynced(true)
         trailsReference.child("Users").child(self.uuid).observeSingleEvent(of: .value, with: { (snapshot) in
             
                 if snapshot.exists(){
-                    let itemsRefSavedTrails = self.trailsReference.child("Users").child(self.uuid).child("SavedTrails")
+                    let itemsRefSavedTrails = trailsReference.child("Users").child(self.uuid).child("SavedTrails")
                     itemsRefSavedTrails.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
                         
                         if snapshot.childrenCount > 0 {
@@ -168,7 +169,7 @@ extension SavedTrailsViewController {
                             }
                             
                             
-                            let itemsRef = self.trailsReference.child("trails")
+                            let itemsRef = trailsReference.child("trails")
                             itemsRef.queryOrderedByValue().observe(DataEventType.value, with: { (snapshot) in
                                 let value = snapshot.value as! [String: AnyObject]
                                 
@@ -205,7 +206,7 @@ extension SavedTrailsViewController {
                 
                 }else{
                     print("First time user!")
-                    self.trailsReference.child("Users/\(self.uuid)/SavedTrails").setValue("") {
+                    trailsReference.child("Users/\(self.uuid)/SavedTrails").setValue("") {
                         (error:Error?, ref:DatabaseReference) in
                         if let error = error {
                             print("Could not add new user: \(error).")
@@ -216,8 +217,10 @@ extension SavedTrailsViewController {
                     }
                 }
         })
+
         
     }
+
     
 }
 

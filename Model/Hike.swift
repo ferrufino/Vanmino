@@ -24,6 +24,7 @@ class Hike {
     var region:String?
     var coordinates: [String]?
     var coordinateComments: [String?]?
+    var distanceFromUser: String?
     
     var temperature: String?
     var humidity: String?
