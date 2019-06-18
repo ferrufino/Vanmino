@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 import Firebase
-import FirebaseDatabase
+
 
 class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
 
@@ -40,9 +40,11 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
     /// such as the tableView's scrollView recognizer.
     private var shouldHandleGesture: Bool = true
     
+    var db : Firestore! //firestore migration
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         db = Firestore.firestore()
         setupGestureRecognizers()
         configureAppearance()
        
@@ -175,10 +177,9 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
 extension DrawerViewController {
 
     
-    func fillDrawer(hike: Hike, userLocation: CLLocationCoordinate2D){
+    func initDrawerData(hike: Hike, userLocation: CLLocationCoordinate2D){
 
-         let hikeLocation = hike.coordinates?[0].components(separatedBy: ",")
-        setDistanceFromTwoLocations(hikeLocation: hikeLocation!, userLocation: userLocation)
+        setDistanceFromTwoLocations(hikeLocation: hike.startLocation!, userLocation: userLocation)
         
         //if no weather return make sure to show a text with that
         //add loading to cell
@@ -187,9 +188,9 @@ extension DrawerViewController {
         hikeModel.copyData(hike: hike)
     }
     
-     func setDistanceFromTwoLocations(hikeLocation: [String], userLocation: CLLocationCoordinate2D){
+     func setDistanceFromTwoLocations(hikeLocation: CLLocationCoordinate2D, userLocation: CLLocationCoordinate2D){
         let coordinate₀ = userLocation
-        let coordinate₁ = CLLocationCoordinate2D(latitude: Double(hikeLocation[0])!, longitude: Double(hikeLocation[1])!)
+        let coordinate₁ = hikeLocation
         let distanceInKms = Int(coordinate₀.distance(to: coordinate₁)/1000) // result is in kms
 
         
@@ -231,119 +232,114 @@ extension DrawerViewController {
     
     
     func getWeatherConditions(trailId: String?){
-        
-        //print("getWeatherConfitions trailid: \(trailId!)")
-        let trailsReference = Database.database().reference()
-        trailsReference.keepSynced(true)
-        let itemsRef = trailsReference.child("weatherStartLocation").child(trailId!)
-        itemsRef.queryOrderedByValue().observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            let value = snapshot.value as AnyObject
-            print("Weather data form api:\(value)")
-            
-            if let tempNSNumber = value["temperature"] {
-                self.hikeModel.temperature = String(format:"%.1f", tempNSNumber as! Double)
-            }else{
-                self.hikeModel.temperature = "--"
-            }
-            
-            if let windSpeedNSNumber = value["windSpeed"] {
-                let windSpeed = windSpeedNSNumber as? Double
-                self.hikeModel.windSpeed = String(format:"%.1f", windSpeed as! CVarArg)
-            }else{
-                self.hikeModel.windSpeed = "--"
-            }
-            
-            if let windDegree = value["windDeg"] {
-                if let validWindDegree = windDegree as? Double {
-                    self.hikeModel.windDirection = self.getDirectionOfWind(degree: validWindDegree)
-                }
-                else {
-                      self.hikeModel.windDirection = self.getDirectionOfWind(degree: -1)
+        let docRef = self.db.collection("weatherOnLocation").document(trailId!).getDocument() { (document, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+
+                if let tempNSNumber = document?.data()?["temperature"] {
+                    self.hikeModel.temperature = String(format:"%.1f", tempNSNumber as! Double)
+                }else{
+                    self.hikeModel.temperature = "--"
                 }
                 
-            }else{
-                 self.hikeModel.windDirection = "--"
-            }
-            
-            if let barometer = value["barometer"] {
-                self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
-            }else{
-                 self.hikeModel.barometer = "--"
-            }
-            
-            if let weather = value["weather"] {
-               self.hikeModel.weather = weather as? String
-            }else{
-                self.hikeModel.weather = "--"
-            }
-            
-            if let weatherIcon = value["weatherIcon"] {
-                self.hikeModel.weatherIcon = weatherIcon as? String
-            }else{
-                self.hikeModel.weatherIcon = "--"
-            }
-            
-            if let barometer = value["barometer"] {
-                self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
-            }else{
-                self.hikeModel.barometer = "--"
-            }
-            
-            if let humidity = value["humidity"]{
-                self.hikeModel.humidity = String(format: "%@", humidity as! CVarArg)
+                if let windSpeedNSNumber = document?.data()?["windSpeed"] {
+                    let windSpeed = windSpeedNSNumber as? Double
+                    self.hikeModel.windSpeed = String(format:"%.1f", windSpeed as! CVarArg)
+                }else{
+                    self.hikeModel.windSpeed = "--"
+                }
                 
-            }else{
-                self.hikeModel.humidity = "--"
-            }
-            
-            if let sunrise = value["sunrise"] {
-                   self.hikeModel.sunrise = sunrise as? String
-            }else{
-                self.hikeModel.sunrise = "--"
-            }
-            
-            if let sunset = value["sunset"] {
-                self.hikeModel.sunset = sunset as? String
-            }else{
-                self.hikeModel.sunset = "--"
-            }
-            
-            if let visibility = value["visibility"] {
-                self.hikeModel.visibility = String(format: "%@", visibility as! CVarArg)
+                if let windDegree = document?.data()?["windDeg"] {
+                    if let validWindDegree = windDegree as? Double {
+                        self.hikeModel.windDirection = self.getDirectionOfWind(degree: validWindDegree)
+                    }
+                    else {
+                        self.hikeModel.windDirection = self.getDirectionOfWind(degree: -1)
+                    }
+                    
+                }else{
+                    self.hikeModel.windDirection = "--"
+                }
                 
-            }else {
-                self.hikeModel.visibility = "No Data"
-            }
-            
-            if let tempMin = value["tempMin"] {
-                 self.hikeModel.tempMin = String(format:"%.1f", tempMin as! Double)
-            }else{
-                self.hikeModel.tempMin = "--"
-            }
-            
-            if let tempMax = value["tempMax"] {
-                self.hikeModel.tempMax = String(format:"%.1f", tempMax as! Double)
-            }else{
-                self.hikeModel.tempMax = "--"
-            }
+                if let barometer = document?.data()?["barometer"] {
+                    self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
+                }else{
+                    self.hikeModel.barometer = "--"
+                }
                 
-            if let clouds = value["clouds"] {
-                self.hikeModel.clouds = String(format: "%@", clouds as! CVarArg)
+                if let weather = document?.data()?["weather"] {
+                    self.hikeModel.weather = weather as? String
+                }else{
+                    self.hikeModel.weather = "--"
+                }
                 
-            }else {
-                self.hikeModel.clouds = "--"
+                if let weatherIcon = document?.data()?["weatherIcon"] {
+                    self.hikeModel.weatherIcon = weatherIcon as? String
+                }else{
+                    self.hikeModel.weatherIcon = "--"
+                }
+                
+                if let barometer = document?.data()?["barometer"] {
+                    self.hikeModel.barometer =  String(format: "%@", barometer as! CVarArg)
+                }else{
+                    self.hikeModel.barometer = "--"
+                }
+                
+                if let humidity = document?.data()?["humidity"]{
+                    self.hikeModel.humidity = String(format: "%@", humidity as! CVarArg)
+                    
+                }else{
+                    self.hikeModel.humidity = "--"
+                }
+                
+                if let sunrise = document?.data()?["sunrise"] {
+                    self.hikeModel.sunrise = sunrise as? String
+                }else{
+                    self.hikeModel.sunrise = "--"
+                }
+                
+                if let sunset = document?.data()?["sunset"] {
+                    self.hikeModel.sunset = sunset as? String
+                }else{
+                    self.hikeModel.sunset = "--"
+                }
+                
+                if let visibility = document?.data()?["visibility"] {
+                    self.hikeModel.visibility = String(format: "%@", visibility as! CVarArg)
+                    
+                }else {
+                    self.hikeModel.visibility = "No Data"
+                }
+                
+                if let tempMin = document?.data()?["tempMin"] {
+                    self.hikeModel.tempMin = String(format:"%.1f", tempMin as! Double)
+                }else{
+                    self.hikeModel.tempMin = "--"
+                }
+                
+                if let tempMax = document?.data()?["tempMax"] {
+                    self.hikeModel.tempMax = String(format:"%.1f", tempMax as! Double)
+                }else{
+                    self.hikeModel.tempMax = "--"
+                }
+                
+                if let clouds = document?.data()?["clouds"] {
+                    self.hikeModel.clouds = String(format: "%@", clouds as! CVarArg)
+                    
+                }else {
+                    self.hikeModel.clouds = "--"
+                }
+                
+                
+                
+                let indexPath = IndexPath(item: 1, section: 0)
+                self.tableView.reloadRows(at: [indexPath], with: .top)
+                
+                
             }
-            
-            
-            
-            let indexPath = IndexPath(item: 1, section: 0)
-            self.tableView.reloadRows(at: [indexPath], with: .top)
-            
-            
-        }){ (error) in
-            print("getWeatherConditions Error: \(error.localizedDescription)")
         }
+      
     }
     
     

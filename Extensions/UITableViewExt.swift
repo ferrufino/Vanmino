@@ -16,7 +16,7 @@ extension UITableView {
         messageLabel.textColor = .black
         messageLabel.numberOfLines = 0;
         messageLabel.textAlignment = .center;
-        messageLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
+        messageLabel.font = UIFont(name: "Avenir Black", size: 25)
         messageLabel.sizeToFit()
         
         self.backgroundView = messageLabel;
@@ -27,4 +27,22 @@ extension UITableView {
         self.backgroundView = nil
         self.separatorStyle = .none
     }
+    
+    
 }
+
+extension UITableViewCell {
+    func assignDiff(diff: Int) -> String{
+        switch diff {
+        case 0:
+            return "Easy"
+        case 1:
+            return "Intermediate"
+        case 2:
+            return "Expert"
+        default:
+            return "Not defined"
+        }
+    }
+}
+

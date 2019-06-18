@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+let window = UIApplication.shared.keyWindow
 /// Expansion State of a DrawerViewController that define its
 /// height within its ContainerViewController.
 enum ExpansionState {
@@ -34,9 +34,9 @@ enum ExpansionState {
         case .compressed:
             return container.height * 0.25
         case .expanded:
-            return (FactInfoTableViewCell.cellHeight * 4 )
+            return (FactInfoTableViewCell.cellHeight * 4 ) + 30 + (window?.safeAreaInsets.bottom)!
         case .fullHeight:
-            return (FactInfoTableViewCell.cellHeight * 4 )
+            return (FactInfoTableViewCell.cellHeight * 4 ) + 30 + (window?.safeAreaInsets.bottom)!
         }
     }
     

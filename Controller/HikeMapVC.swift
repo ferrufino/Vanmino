@@ -13,6 +13,7 @@ import MapboxCoreNavigation
 import MapboxNavigation
 import SystemConfiguration
 import Firebase
+import FirebaseFirestore
 
 class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDelegate {
     
@@ -24,10 +25,12 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     
     /// Background Overlay Alpha
     private static let kBackgroundColorOverlayTargetAlpha: CGFloat = 0.4
-    var uuid = ""
+    var user = User()
+    var trail = Hike()
+    var coordinates = Coordinates()
     /// Array of offline packs for the delegate work around (and your UI, potentially)
     var offlinePacks = [MGLOfflinePack]()
-    let trailsReference = Database.database().reference()
+    //var trailsReference : DatabaseReference! firestore migration
     var mapView: NavigationMapView!
     var navigateButton: UIButton!
     var recenterButton: UIButton!
@@ -39,20 +42,20 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     
     var startOfHikeLocation: CLLocationCoordinate2D!
     var endOfHikeLocation: CLLocationCoordinate2D!
-    var userLocation: CLLocationCoordinate2D!
-    let hikeModel = Hike()
+   
+    var db : Firestore! //firestore migration
     
     var progressView: UIProgressView!
-    var saved = false
+    var savedTrail = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        checkStatusOfSavedBtn()
+        db = Firestore.firestore()
         setMapViewServices()
-        addFeaturesToMap()
-        
-        
+        getCoordinates(){
+            self.addFeaturesToMap()
+            self.checkStatusOfSavedBtn()
+        }
 
     }
     
@@ -60,7 +63,7 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         super.viewWillAppear(animated)
         
         self.configureDrawerViewController()
-   
+        
     }
     
     func setMapViewServices(){
@@ -74,8 +77,6 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         self.view.sendSubviewToBack(self.mapView)
         self.mapView.delegate = self
         self.mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(.follow, animated: true)
-        
         
         // Setup offline pack notification handlers.
         NotificationCenter.default.addObserver(self, selector: #selector(offlinePackProgressDidChange), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
@@ -87,39 +88,53 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
         // Do any additional setup of features after loading the view.
         self.setupNavigationCapabilityFromUserLocation()
         self.addNavigationButton()
-        self.drawHike()
+        do {
+            try self.drawHike()
+        }catch {
+            print("Error in function drawHike() \(error)")
+        }
         self.addBackButton()
         self.addSaveButton()
         self.addRecenterButton()
     }
     
-    func initData(hike: Hike, userLocation: CLLocationCoordinate2D, userid: String){
+    func initTrailDescriptionData(hike: Hike, userLocation: CLLocationCoordinate2D, user: User){
         //print(hike.startLocation)
-        self.uuid = userid
-        if hike.startLocation != nil {
-            
-            
-            let endIndex  = (hike.coordinates?.endIndex)! - 1
-            self.startOfHikeLocation = getCoordinatesFromString(coordinatesString: (hike.coordinates?[0])!)
-            self.endOfHikeLocation = getCoordinatesFromString(coordinatesString: (hike.coordinates?[endIndex])!)
-            self.userLocation = userLocation
-            
-            self.hikeModel.copyData(hike: hike)
-            
-        }else{
-            
-            print("No start location found for Hike")
+        self.user = user
+        self.user.userLocation = userLocation
+        self.trail = hike
+    
+    
+    }
+    
+    func getCoordinates(action: @escaping () -> Void) {
+        let docRef = self.db.collection("coordinates").document(self.trail.id!).getDocument() { (document, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+               
+                self.coordinates.coordinatesForTrail = document?.data()?["coordinatesForTrail"] as! [String]
+                // make it have an else for no value
+                self.coordinates.coordinateComments = document?.data()?["coordinateComments"] as! [[String:String?]]
+                self.coordinates.coordinatePlaces = document?.data()?["coordinatePlaces"] as! [[String:String?]]
+                self.coordinates.endLocation = self.getCoordinatesFromString(coordinatesString: document?.data()?["endLocation"] as! String)
+                self.coordinates.startLocation = self.getCoordinatesFromString(coordinatesString: document?.data()?["endLocation"] as! String)
+                 print(self.coordinates.coordinatesForTrail)
+                
+                action()
+                
+            }
         }
-        
+  
     }
     
     deinit {
         // Remove offline pack observers.
         NotificationCenter.default.removeObserver(self)
     }
-
-////////////////////////////////////////////////////////////////
-//OFFLINE MAPDOWNLOAD AVAILABILITY
+    
+    ////////////////////////////////////////////////////////////////
+    //OFFLINE MAPDOWNLOAD AVAILABILITY
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         // Start downloading tiles and resources for z13-16.
         
@@ -207,8 +222,8 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
             print("Offline pack “\(userInfo["name"] ?? "unknown")” reached limit of \(maximumCount) tiles.")
         }
     }
-//END OF OFFLINE MAP DOWNLOAD AVAILABILITY
-/////////////////////////////////////////////////////////////////
+    //END OF OFFLINE MAP DOWNLOAD AVAILABILITY
+    /////////////////////////////////////////////////////////////////
 }
 
 
@@ -229,7 +244,7 @@ extension HikeMapVC {
         saveButton.setTitle("Save", for: .normal)
         saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         saveButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
-
+        
         
         saveButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         saveButton.addTarget(self, action: #selector( saveButtonWasPressed(_:)), for: .touchUpInside)
@@ -255,65 +270,125 @@ extension HikeMapVC {
         backButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         backButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
         backButton.addTarget(self, action: #selector( backButtonWasPressed(_:)), for: .touchUpInside)
-        //backButton.contentHorizontalAlignment = .left
-        //view.addSubview(backButton)
+
         view.insertSubview(backButton, aboveSubview: mapView)
         
         
     }
     
     @objc func backButtonWasPressed(_ sender: UIButton){
+        
+        validateFirestoreSavedTrailStatus()
         dismissDetail()
+ 
     }
     
-    func checkStatusOfSavedBtn(){
-        trailsReference.child("Users").child(self.uuid).child("SavedTrails").child(self.hikeModel.id!).observeSingleEvent(of: .value, with: { (snapshot) in
-           
-                if snapshot.exists() {
-                    self.saved = snapshot.value! as! Bool
-                    //print("saved assigned")
-                    if self.saved {
-                        self.saveButton.setTitle("Saved", for: .normal)
-                        self.saveButton.backgroundColor = #colorLiteral(red: 0.9604964852, green: 0.7453318238, blue: 0, alpha: 1)
-                        self.saveButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-                        self.saveButton.reloadInputViews()
+    func validateFirestoreSavedTrailStatus(){
+        // check status if changed and then save or delete data to subcollection
+        //then dismiss
+        print("dismiss start")
+        if user.savedTrailsStatus[trail.id!] != savedTrail {
+            let docRef = self.db.collection("users").document(self.user.userId)
+            // saved - add
+            if savedTrail {
+                user.savedTrailsStatus[trail.id!] = true
+                
+                docRef.collection("savedTrails").document(trail.id!).setData([
+                    "trailName": trail.name,
+                    "difficulty": trail.difficulty,
+                    "distance": trail.distance,
+                    "dog-friendly": trail.dogFriendly,
+                    "elevation": trail.elevation,
+                    "isLoop": trail.isloop,
+                    "kids-friendly": trail.kidsFriendly,
+                    "locality": trail.region,
+                    "season": trail.season,
+                    "startLocation": "\(trail.startLocation!.latitude),\(trail.startLocation!.longitude)",
+                    "state": trail.state,
+                    "time": trail.time,
+                    "type": trail.type
+                ]) { err in
+                    if let err = err {
+                        print("Error writing document: \(err)")
+                    } else {
+                        print("Document successfully written!")
                     }
                 }
-            })
-    }
-    @objc func saveButtonWasPressed(_ sender: UIButton){
-        // startOfflinePackDownload() // Feature for V2 - Paid verion?
-            if saved {
-                self.trailsReference.child("Users").child(self.uuid).child("SavedTrails").child(self.hikeModel.id!).setValue(false) {
-                    (error:Error?, ref:DatabaseReference) in
-                    if let error = error {
-                        print("Data could not be saved: \(error).")
+
+            } else { //unsave - delete
+                user.savedTrailsStatus[trail.id!] = false
+                
+                docRef.collection("savedTrails").document(trail.id!).delete() { err in
+                    if let err = err {
+                        print("Error removing document: \(err)")
                     } else {
-                        print("Data saved successfully! - now false")
-                        self.saveButton.setTitle("Save", for: .normal)
-                        self.saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-                        self.saveButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
-                        self.saveButton.reloadInputViews()
-                        self.saved = false
-                    }
-                    
-                }
-            }else {
-                self.trailsReference.child("Users").child(self.uuid).child("SavedTrails").child(self.hikeModel.id!).setValue(true) {
-                    (error:Error?, ref:DatabaseReference) in
-                    if let error = error {
-                        print("Data could not be saved: \(error).")
-                    } else {
-                        print("Data saved successfully! - now true")
-                        self.saveButton.setTitle("Saved", for: .normal)
-                        self.saveButton.backgroundColor = #colorLiteral(red: 0.9604964852, green: 0.7453318238, blue: 0, alpha: 1)
-                        self.saveButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-                        self.saveButton.reloadInputViews()
-                        self.saved = true
+                        print("Document successfully removed!")
                     }
                 }
             }
-       
+            //pass user info to Saved Trails tab
+               guard let HikesVC = storyboard?.instantiateViewController(withIdentifier: "HikesVC") as? HikesVC else {
+                print("Error HikeVC")
+                return
+                
+            }
+                HikesVC.updateUserData(user: self.user)
+                
+           
+            
+            
+            
+            //pass user info to Saved Trails tab
+            guard let savedTrailsVC = storyboard?.instantiateViewController(withIdentifier: "SavedTrailsVC") as? SavedTrailsViewController else {
+                  print("Error HikeVC")
+                return}
+            savedTrailsVC.updateUserData(user: self.user)
+        
+        }
+    }
+    
+    func setBtnAsSaved(){
+        self.saveButton.setTitle("Saved", for: .normal)
+        self.saveButton.backgroundColor = #colorLiteral(red: 0.9604964852, green: 0.7453318238, blue: 0, alpha: 1)
+        self.saveButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        self.saveButton.reloadInputViews()
+    }
+    
+    func setBtnAsSave(){
+        self.saveButton.setTitle("Save", for: .normal)
+        self.saveButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.saveButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
+        self.saveButton.reloadInputViews()
+    }
+    
+    func checkStatusOfSavedBtn() {
+        print("trail status of saved btn: \(user.savedTrails)")
+        if user.savedTrailsStatus[trail.id!] != nil && user.savedTrailsStatus[trail.id!] == true { // Trail is already saved
+            setBtnAsSaved()
+            savedTrail = true
+        }else {
+            savedTrail = false
+        }
+    }
+    @objc func saveButtonWasPressed(_ sender: UIButton){
+        let docRef = self.db.collection("users").document(self.user.userId).collection("savedTrails")
+        if savedTrail {
+            // Unsave trail
+
+            setBtnAsSave()
+            savedTrail = false
+            print("Unsaved Trail")
+            
+        }else {
+            //Save Trail
+            
+            setBtnAsSaved()
+            
+            savedTrail = true
+            print("Saved Trail")
+            
+        }
+        
     }
     
     func addNavigationButton() {
@@ -321,9 +396,7 @@ extension HikeMapVC {
         navigateButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         let navbtnImg = UIImage(named: "navigation")?.withRenderingMode(.alwaysTemplate)
         navigateButton.setImage(navbtnImg, for: .normal)
-
-        //navigateButton.setTitle("Directions to Hike", for: .normal)
-        //navigateButton.setTitleColor(#colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1), for: .normal)
+        
         navigateButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15)
         navigateButton.layer.cornerRadius = 25
         navigateButton.layer.shadowOffset = CGSize(width: 0, height: 10)
@@ -373,21 +446,59 @@ extension HikeMapVC {
 //Mapbox features
 extension HikeMapVC {
     
-    func drawHike(){
-        let hikeCoordinates = hikeModel.coordinates ?? []
-        let hikeComments = hikeModel.coordinateComments ?? []
-        if  hikeCoordinates != [] {
-            let coor: [CLLocationCoordinate2D] = convertCoordinates(coordinatesArray: hikeCoordinates)
-            drawHikeTrail(coordinates: coor, comments: hikeComments)
+    func drawHike() throws{
+        if self.coordinates.coordinatesForTrail.count > 0 {
+            let trailCoordinates = convertCoordinates(coordinatesArray: self.coordinates.coordinatesForTrail)
+            //Set where map will focus on
+            do{
+                try setTrailRoute(coordinatesArray: trailCoordinates){
+                    (route: Route) in
+                    guard route.coordinateCount > 0 else {return true}
+                    print("route found")
+                    var routeCoordinates = route.coordinates!
+                    
+                    let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+                    
+                    let source = MGLShapeSource(identifier: "route-line", features: [polyline], options: nil)
+                    
+                    let layer = MGLLineStyleLayer(identifier: "line-layer", source: source)
+                    layer.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
+                    
+                    
+                    
+                    
+                    layer.lineColor = NSExpression(mglJSONObject: #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1))
+                    layer.lineWidth = NSExpression(mglJSONObject: 3.0)
+                    
+                    self.mapView.style?.addSource(source)
+                    self.mapView.style?.addLayer(layer)
+                    
+                    
+                    return false
+                    
+                }
+            }catch{
+                print("Error in Function setTrailRoute \(error)")
+            }
+            self.mapView.setVisibleCoordinates(
+                trailCoordinates,
+                count: UInt(self.coordinates.coordinatesForTrail.count),
+                edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
+                animated: true
+            )
         }else{
-            print("No Coordinates found for Hike")
+            throw TrailDescriptionError.noCoordinatesForTrailFound
+        }
+        
+        if coordinates.coordinateComments.count > 0 {
+            // draw pin points with comments, see what drar trail route does and create separate func
         }
         
     }
     
     func setupNavigationCapabilityFromUserLocation(){
         // erase this line if nothing changes here: mapView.setUserTrackingMode(.none, animated: true)
-        calculateRoute(from: userLocation, to: startOfHikeLocation) { (route, error) in
+        calculateRoute(from: user.userLocation, to: coordinates.startLocation) { (route, error) in
             if error != nil {
                 print("Error getting route")
             }
@@ -410,116 +521,26 @@ extension HikeMapVC {
         })
     }
     
-    func  drawHikeTrail(coordinates: [CLLocationCoordinate2D], comments: [String?])-> Void{
-        
-        if !isConnectedToNetwork(){
-             print("no wifi")
-            for map in offlinePacks{
-                 print(map)
-            }
-            print("MGLOfflineStorage: \(String(describing: MGLOfflineStorage.shared.packs))")
-            
-        }else{
-            
-            let options = NavigationRouteOptions(coordinates: coordinates, profileIdentifier: MBDirectionsProfileIdentifier.walking)
-            
+    func  setTrailRoute(coordinatesArray: [CLLocationCoordinate2D], drawRoute: @escaping (Route) -> Bool)throws -> Void{
+              //Set navigation
+            let options = NavigationRouteOptions(coordinates: coordinatesArray, profileIdentifier: MBDirectionsProfileIdentifier.walking)
+        var noRouteFound: Bool = false
             _ = Directions.shared.calculate(options, completionHandler: { (waypoints, routes, error) in
                 self.hikeRoute = routes?.first
-                self.coordinatesOfTrail = coordinates
-                //Set where map will focus on
-                self.mapView?.setVisibleCoordinates(
-                    coordinates,
-                    count: UInt(coordinates.count),
-                    edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
-                    animated: true
-                )
+                self.coordinatesOfTrail = coordinatesArray
                 
-                /////////////
-                //draw line
-                /////////////
+                //Draw route
                 if self.hikeRoute != nil{
-                    
-                    self.drawRoute(route: self.hikeRoute!)
-                    
-                }else{
-                    // TO-DO: Banner saying no valid route found
-                    print("No valid route found")
+                    noRouteFound = drawRoute(self.hikeRoute!)
                 }
                 
             })
-            
-            
-            ////////////////////
-            // Point Annotations
-            ////////////////////
-            // Add a custom point annotation for every coordinate (vertex) in the polyline.
-            var pointAnnotations = [CustomPointAnnotation]()
-            
-            for (index,coordinate) in coordinates.enumerated() {
-                let count = pointAnnotations.count + 1
-                var comment = ""
-                var position = -1
-                if !comments.isEmpty && !comments[index]!.isEmpty {
-                    comment = comments[index]!
-                }
-                
-                if index == 0 || coordinates.endIndex - 1 == index  {
-                    position = index
-                }
-               
-                let point = CustomPointAnnotation(coordinate: coordinate,
-                                                  title: comment,
-                    subtitle: nil)
-                
-                // Set the custom `image` and `reuseIdentifier` properties, later used in the `mapView:imageForAnnotation:` delegate method.
-                // Create a unique reuse identifier for each new annotation image.
-                point.reuseIdentifier = "customAnnotation\(count)"
-                // This dot image grows in size as more annotations are added to the array.
-                point.image = dotMap(size: 15, pos: position)
-               
-                // Append each annotation to the array, which will be added to the map all at once.
-                pointAnnotations.append(point)
-            }
-            
-            // Add the point annotations to the map. This time the method name is plural.
-            // If you have multiple annotations to add, batching their addition to the map is more efficient.
-            mapView.addAnnotations(pointAnnotations)
-            
-            //Fix the map to see exact position
-            //mapView.setCenter(coordinates[3], zoomLevel: 10, direction: 0, animated: false)
+        if noRouteFound {
+            throw TrailDescriptionError.noRouteFound
         }
-        
-        
-       
-        
-        
+ 
     }
-    func drawRoute(route: Route){
-        guard route.coordinateCount > 0 else {return}
-        var routeCoordinates = route.coordinates!
-        
-        let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
-        
-        let source = MGLShapeSource(identifier: "route-line", features: [polyline], options: nil)
-        
-        let layer = MGLLineStyleLayer(identifier: "line-layer", source: source)
-        layer.lineDashPattern = NSExpression(forConstantValue: [2, 1.5])
-        
-        
-        
-        
-        layer.lineColor = NSExpression(mglJSONObject: #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1))
-        layer.lineWidth = NSExpression(mglJSONObject: 3.0)
-        
-        mapView.style?.addSource(source)
-        mapView.style?.addLayer(layer)
-        
-        
-        
-    }
-    
-    
-    
+
     func dotMap(size: Int, pos: Int) -> UIImage {
         let floatSize = CGFloat(size)
         let rect = CGRect(x: 0, y: 0, width: floatSize, height: floatSize)
@@ -604,6 +625,7 @@ extension HikeMapVC {
     func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
         let navigationVC = NavigationViewController(for: directionsRoute!)
         present(navigationVC, animated: true, completion: nil)
+        //Show description + Pics view
     }
     
 }
@@ -625,7 +647,7 @@ extension HikeMapVC {
             //send distnace too
             drawerViewController.delegate = self
             //print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
-            drawerViewController.fillDrawer(hike: self.hikeModel, userLocation: self.userLocation)
+            drawerViewController.initDrawerData(hike: self.trail, userLocation: self.user.userLocation)
             drawerViewController.tableView.isScrollEnabled = false
         }
         

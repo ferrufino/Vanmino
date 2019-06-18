@@ -23,4 +23,5 @@ class FactInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var dogIcon: UIImageView!
     @IBOutlet weak var campingIcon: UIImageView!
    
+    @IBOutlet weak var season: UILabel!
 }

@@ -8,7 +8,7 @@ target 'Vanmino' do
   # Pods for Camino
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
-pod 'Firebase/Database'
+pod 'Firebase/Firestore'
 pod 'MapboxNavigation', '~> 0.27.0'
 pod 'OnboardKit'
   target 'VanminoTests' do

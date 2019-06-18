@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import FirebaseFirestore
 import CoreLocation
 
 @UIApplicationMain
@@ -19,7 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = true
+        
+       // let settings = FirestoreSettings()
+       // settings.isPersistenceEnabled = true
+        
+        // Enable offline data persistence
+       
+        let db = Firestore.firestore()
+        let settings = db.settings
+        settings.areTimestampsInSnapshotsEnabled = true
+        db.settings = settings
+       // db.settings = settings
         
         return true
     }

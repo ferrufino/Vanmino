@@ -13,7 +13,18 @@ import UIKit
 extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Configuration
-    
+    func assignDiff(diff: Int) -> String{
+        switch diff {
+        case 0:
+            return "Easy"
+        case 1:
+            return "Intermediate"
+        case 2:
+            return "Expert"
+        default:
+            return "Not defined"
+        }
+    }
     internal func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -36,11 +47,13 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        if indexPath.row == 0 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "FactInfoTableViewCell", for: indexPath) as? FactInfoTableViewCell {
+                
                 cell.selectionStyle = .none
                 cell.hikeDifficulty.text = hikeModel.difficulty
                 cell.hikeDistance.text = hikeModel.distance! + " km"
                 cell.hikeElevation.text = hikeModel.elevation
                 cell.hikeTime.text = hikeModel.time
+                cell.season.text = hikeModel.season
                 
                 if hikeModel.dogFriendly {
                     cell.dogIcon.image = UIImage(named:"dog")
@@ -55,7 +68,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
         
         } else if indexPath.row == 1 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LiveInfoTableViewCell", for: indexPath) as? LiveInfoTableViewCell {
-                
+              
                 cell.selectionStyle = .none
                 
                 if(hikeModel.temperature != nil){
@@ -68,13 +81,13 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.sunset.text = hikeModel.sunset
                     
                 }
-                
+ 
                 
                 return cell
             }
         } else if indexPath.row == 2 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "SecLiveInfoTableViewCell", for: indexPath) as? SecLiveInfoTableViewCell {
-              
+            
                 cell.selectionStyle = .none
                 
                 if(hikeModel.temperature != nil){
@@ -85,6 +98,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
                   cell.barometer.text = hikeModel.barometer! + " hPa"
                   cell.humidity.text = hikeModel.humidity! + " %"
                 }
+             
                 return cell
             }
         }
@@ -94,7 +108,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 120//UITableView.automaticDimension
     }
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 100
