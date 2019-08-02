@@ -25,7 +25,6 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     
     /// Background Overlay Alpha
     private static let kBackgroundColorOverlayTargetAlpha: CGFloat = 0.4
-    var user = User()
     var trail = Hike()
     var coordinates = Coordinates()
     /// Array of offline packs for the delegate work around (and your UI, potentially)
@@ -86,25 +85,34 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     
     func addFeaturesToMap(){
         // Do any additional setup of features after loading the view.
-        self.setupNavigationCapabilityFromUserLocation()
+        
+        do {
+            try self.setupNavigationCapabilityFromUserLocation()
+        }catch{
+            print("Error in function setupNavigationCapabilityFromUserLocation() \(error)")
+        }
+        
         self.addNavigationButton()
+        
         do {
             try self.drawHike()
         }catch {
             print("Error in function drawHike() \(error)")
+        }
+        
+        do{
+            try self.drawFixedPins()
+        }catch{
+            print("Error in function drawFixedPins() \(error)")
         }
         self.addBackButton()
         self.addSaveButton()
         self.addRecenterButton()
     }
     
-    func initTrailDescriptionData(hike: Hike, userLocation: CLLocationCoordinate2D, user: User){
-        //print(hike.startLocation)
-        self.user = user
-        self.user.userLocation = userLocation
+    func initTrailDescriptionData(hike: Hike){       
         self.trail = hike
-    
-    
+
     }
     
     func getCoordinates(action: @escaping () -> Void) {
@@ -112,15 +120,14 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-               
-                self.coordinates.coordinatesForTrail = document?.data()?["coordinatesForTrail"] as! [String]
-                // make it have an else for no value
-                self.coordinates.coordinateComments = document?.data()?["coordinateComments"] as! [[String:String?]]
-                self.coordinates.coordinatePlaces = document?.data()?["coordinatePlaces"] as! [[String:String?]]
+               print(document?.data())
+                self.coordinates.coordinatesForTrail = document?.data()?["coordinatesForTrail"] as? [String] ?? [""]
+                self.coordinates.coordinateComments = document?.data()?["coordinateComments"] as? [[String:String?]] ?? [["":""]]
+                self.coordinates.coordinatePlaces = document?.data()?["coordinatePlaces"] as? [[String:String?]] ?? [["":""]]
                 self.coordinates.endLocation = self.getCoordinatesFromString(coordinatesString: document?.data()?["endLocation"] as! String)
-                self.coordinates.startLocation = self.getCoordinatesFromString(coordinatesString: document?.data()?["endLocation"] as! String)
-                 print(self.coordinates.coordinatesForTrail)
+                self.coordinates.startLocation = self.getCoordinatesFromString(coordinatesString: document?.data()?["startLocation"] as! String)
                 
+                //validate for all cases if null
                 action()
                 
             }
@@ -146,7 +153,7 @@ class HikeMapVC: UIViewController, MGLMapViewDelegate, DrawerViewControllerDeleg
     func startOfflinePackDownload() {
         // Create a region that includes the current viewport and any tiles needed to view it when zoomed further in.
         // Because tile count grows exponentially with the maximum zoom level, you should be conservative with your `toZoomLevel` setting.
-        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: 16)
+        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: 12)
         
         // Store some data for identification purposes alongside the downloaded resources.
         let userInfo = ["name": "My Offline Pack"]
@@ -284,15 +291,13 @@ extension HikeMapVC {
     }
     
     func validateFirestoreSavedTrailStatus(){
-        // check status if changed and then save or delete data to subcollection
-        //then dismiss
-        print("dismiss start")
-        if user.savedTrailsStatus[trail.id!] != savedTrail {
-            let docRef = self.db.collection("users").document(self.user.userId)
+     
+        if User.sharedInstance.savedTrailsStatus[trail.id!] != savedTrail {
+            let docRef = self.db.collection("users").document(User.sharedInstance.userId)
             // saved - add
             if savedTrail {
-                user.savedTrailsStatus[trail.id!] = true
-                
+                User.sharedInstance.savedTrailsStatus[trail.id!] = true
+                User.sharedInstance.savedTrails.append(trail)
                 docRef.collection("savedTrails").document(trail.id!).setData([
                     "trailName": trail.name,
                     "difficulty": trail.difficulty,
@@ -316,8 +321,8 @@ extension HikeMapVC {
                 }
 
             } else { //unsave - delete
-                user.savedTrailsStatus[trail.id!] = false
-                
+                User.sharedInstance.savedTrailsStatus[trail.id!] = false
+                User.sharedInstance.savedTrails.removeAll(where: { trail.id == $0.id })
                 docRef.collection("savedTrails").document(trail.id!).delete() { err in
                     if let err = err {
                         print("Error removing document: \(err)")
@@ -326,25 +331,8 @@ extension HikeMapVC {
                     }
                 }
             }
-            //pass user info to Saved Trails tab
-               guard let HikesVC = storyboard?.instantiateViewController(withIdentifier: "HikesVC") as? HikesVC else {
-                print("Error HikeVC")
-                return
-                
-            }
-                HikesVC.updateUserData(user: self.user)
-                
-           
-            
-            
-            
-            //pass user info to Saved Trails tab
-            guard let savedTrailsVC = storyboard?.instantiateViewController(withIdentifier: "SavedTrailsVC") as? SavedTrailsViewController else {
-                  print("Error HikeVC")
-                return}
-            savedTrailsVC.updateUserData(user: self.user)
-        
         }
+        print("count of saved trails HikeMapVC \(User.sharedInstance.savedTrails.count)")
     }
     
     func setBtnAsSaved(){
@@ -362,8 +350,8 @@ extension HikeMapVC {
     }
     
     func checkStatusOfSavedBtn() {
-        print("trail status of saved btn: \(user.savedTrails)")
-        if user.savedTrailsStatus[trail.id!] != nil && user.savedTrailsStatus[trail.id!] == true { // Trail is already saved
+        print("trail status of saved btn: \(User.sharedInstance.savedTrails)")
+        if User.sharedInstance.savedTrailsStatus[trail.id!] != nil && User.sharedInstance.savedTrailsStatus[trail.id!] == true { // Trail is already saved
             setBtnAsSaved()
             savedTrail = true
         }else {
@@ -371,7 +359,7 @@ extension HikeMapVC {
         }
     }
     @objc func saveButtonWasPressed(_ sender: UIButton){
-        let docRef = self.db.collection("users").document(self.user.userId).collection("savedTrails")
+        let docRef = self.db.collection("users").document(User.sharedInstance.userId).collection("savedTrails")
         if savedTrail {
             // Unsave trail
 
@@ -431,7 +419,7 @@ extension HikeMapVC {
         self.mapView?.setVisibleCoordinates(
             self.coordinatesOfTrail,
             count: UInt(self.coordinatesOfTrail.count),
-            edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
+            edgePadding: UIEdgeInsets(top: 150, left: 150, bottom: 150, right: 150),
             animated: true
         )
     }
@@ -483,22 +471,55 @@ extension HikeMapVC {
             self.mapView.setVisibleCoordinates(
                 trailCoordinates,
                 count: UInt(self.coordinates.coordinatesForTrail.count),
-                edgePadding: UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100),
+                edgePadding: UIEdgeInsets(top: 140, left: 140, bottom: 140, right: 140),
                 animated: true
             )
         }else{
             throw TrailDescriptionError.noCoordinatesForTrailFound
         }
         
-        if coordinates.coordinateComments.count > 0 {
-            // draw pin points with comments, see what drar trail route does and create separate func
+    }
+    
+    func drawFixedPins() throws{
+        
+        guard let startLocation = coordinates.startLocation else {
+            throw TrailDescriptionError.noStartLocationOfTrail
         }
+        
+        print("startLocation \(startLocation.latitude) \(startLocation.longitude)")
+
+        let start = CustomPointAnnotation(coordinate: startLocation,
+                                          title: "Start",
+                                          subtitle: nil)
+        
+        start.reuseIdentifier = "customAnnotation\(-1)"
+        start.image = shapePin(size: 15, pos: 0)
+        
+        guard let endLocation = coordinates.endLocation else {
+            throw TrailDescriptionError.noEndLocationOfTrail
+        }
+       
+        let end = CustomPointAnnotation(coordinate: endLocation,
+                                          title: "End",
+                                          subtitle: nil)
+         print("end location\(endLocation.latitude) \(endLocation.longitude)")
+        end.reuseIdentifier = "customAnnotation\(-2)"
+        end.image = shapePin(size: 15, pos: -1)
+        
+        var pointAnnotations = [CustomPointAnnotation]()
+        pointAnnotations.append(start)
+        pointAnnotations.append(end)
+        
+        mapView.addAnnotations(pointAnnotations)
         
     }
     
-    func setupNavigationCapabilityFromUserLocation(){
+    func setupNavigationCapabilityFromUserLocation() throws{
         // erase this line if nothing changes here: mapView.setUserTrackingMode(.none, animated: true)
-        calculateRoute(from: user.userLocation, to: coordinates.startLocation) { (route, error) in
+        guard let startLocation = coordinates.startLocation else {
+            throw TrailDescriptionError.noStartLocationOfTrail
+        }
+        calculateRoute(from: User.sharedInstance.userLocation, to: startLocation) { (route, error) in
             if error != nil {
                 print("Error getting route")
             }
@@ -541,7 +562,7 @@ extension HikeMapVC {
  
     }
 
-    func dotMap(size: Int, pos: Int) -> UIImage {
+    func shapePin(size: Int, pos: Int) -> UIImage {
         let floatSize = CGFloat(size)
         let rect = CGRect(x: 0, y: 0, width: floatSize, height: floatSize)
         let strokeWidth: CGFloat = 1
@@ -551,7 +572,7 @@ extension HikeMapVC {
         let ovalPath = UIBezierPath(ovalIn: rect.insetBy(dx: strokeWidth, dy: strokeWidth))
         if pos == 0 {
             #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1).setFill()
-        }else if pos != -1 {
+        }else if pos == -1 {
             #colorLiteral(red: 0.9253688455, green: 0, blue: 0.05485691875, alpha: 1).setFill()
         }else {
             #colorLiteral(red: 0.134868294, green: 0.3168562651, blue: 0.5150131583, alpha: 1).setFill()
@@ -647,7 +668,7 @@ extension HikeMapVC {
             //send distnace too
             drawerViewController.delegate = self
             //print("configureDrawerViewController hike id: \(self.hikeModel.id!)")
-            drawerViewController.initDrawerData(hike: self.trail, userLocation: self.user.userLocation)
+            drawerViewController.initDrawerData(hike: self.trail, userLocation: User.sharedInstance.userLocation)
             drawerViewController.tableView.isScrollEnabled = false
         }
         
@@ -805,6 +826,7 @@ extension HikeMapVC {
     func getCoordinatesFromString(coordinatesString: String) -> CLLocationCoordinate2D {
         let coodinatesStringArray = coordinatesString.components(separatedBy: ",")
         
-        return CLLocationCoordinate2D(latitude: Double(coodinatesStringArray[0])!, longitude: Double(coodinatesStringArray[1])!)
+       return CLLocationCoordinate2D(latitude: Double(coodinatesStringArray[0]) ?? 0.0, longitude: Double(coodinatesStringArray[1]) ?? 0.0)
     }
 }
+

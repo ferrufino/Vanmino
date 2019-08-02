@@ -40,7 +40,7 @@ class DrawerViewController: UIViewController, UIGestureRecognizerDelegate  {
     /// such as the tableView's scrollView recognizer.
     private var shouldHandleGesture: Bool = true
     
-    var db : Firestore! //firestore migration
+    var db : Firestore! 
     
     override func viewDidLoad() {
         super.viewDidLoad()

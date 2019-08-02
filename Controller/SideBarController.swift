@@ -15,13 +15,13 @@ protocol ChildToParentProtocol:class {
     
 }
 
-
 class SideBarController: UITableViewController {
     @IBOutlet weak var closestHikeDot: UIImageView!
     @IBOutlet weak var hikeNameDot: UIImageView!
     @IBOutlet weak var hikeDistanceDot: UIImageView!
     @IBOutlet weak var hikeDifficultyDot: UIImageView!
     @IBOutlet weak var hikeRegionDot: UIImageView!
+    @IBOutlet weak var hikeCount: UILabel!
     
     weak var delegate:ChildToParentProtocol? = nil
 

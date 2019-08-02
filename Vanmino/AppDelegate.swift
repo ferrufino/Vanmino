@@ -21,16 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
-       // let settings = FirestoreSettings()
-       // settings.isPersistenceEnabled = true
         
-        // Enable offline data persistence
+       
+        
+        
        
         let db = Firestore.firestore()
         let settings = db.settings
-        settings.areTimestampsInSnapshotsEnabled = true
+        settings.isPersistenceEnabled = true // Enable offline data persistence
         db.settings = settings
-       // db.settings = settings
+       
         
         return true
     }

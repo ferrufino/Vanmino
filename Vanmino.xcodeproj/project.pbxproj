@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */; };
-		468113D20EF29CA4F03F44E9 /* Pods_VanminoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */; };
+		6601A1C322E2D464005EC926 /* MainTrailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601A1C122E2D464005EC926 /* MainTrailTableViewCell.swift */; };
+		6601A1C422E2D464005EC926 /* MainTrailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6601A1C222E2D464005EC926 /* MainTrailTableViewCell.xib */; };
+		6601A1C622E51D31005EC926 /* CreateTrailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601A1C522E51D31005EC926 /* CreateTrailViewController.swift */; };
+		6601A1CB22E8E04F005EC926 /* ShimmerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601A1CA22E8E04F005EC926 /* ShimmerRender.swift */; };
 		6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59821E1A89B00DF141A /* Assets.xcassets */; };
 		6614D59D21E9D9ED00DF141A /* FactInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */; };
 		6614D5A021EB0FC800DF141A /* Hike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614D59F21EB0FC800DF141A /* Hike.swift */; };
@@ -27,9 +29,6 @@
 		665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */; };
 		66A3E7E7223B527300D3A09F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A3E7E6223B527300D3A09F /* icon.png */; };
 		66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */; };
-		66B805322250623D008CF4C9 /* UITableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B805312250623D008CF4C9 /* UITableViewExt.swift */; };
-		66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */; };
-		66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B88BAB2246B8A900797EB7 /* UIImage.swift */; };
 		66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */; };
 		66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */; };
 		66BF182821B48DDC002E24B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF182721B48DDC002E24B4 /* AppDelegate.swift */; };
@@ -46,9 +45,7 @@
 		66BF92A221CED212007D5D6D /* ExpansionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF92A121CED212007D5D6D /* ExpansionState.swift */; };
 		66BF92A421CEDAFF007D5D6D /* DrawerViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF92A321CEDAFF007D5D6D /* DrawerViewController+TableView.swift */; };
 		66BF92A621CEDB4D007D5D6D /* LiveInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BF92A521CEDB4D007D5D6D /* LiveInfoTableViewCell.swift */; };
-		91791410BE9F61E6966651B7 /* Pods_CaminoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17686BFAED53307B179DA1D7 /* Pods_CaminoUITests.framework */; };
-		9D14F98A93EA6FE72A8EE956 /* Pods_VanminoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7012A9CA8192242724CCCB /* Pods_VanminoUITests.framework */; };
-		AF4F5FB3878D62B2D8A2C657 /* Pods_CaminoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F81EA8085FE2EABDEB23A71 /* Pods_CaminoTests.framework */; };
+		66C978E322EE3D140021C8D9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C978E222EE3D140021C8D9 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,11 +66,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		11370491A091DABD11F52212 /* Pods_Camino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Camino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		17686BFAED53307B179DA1D7 /* Pods_CaminoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CaminoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F81EA8085FE2EABDEB23A71 /* Pods_CaminoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CaminoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6601A1C122E2D464005EC926 /* MainTrailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTrailTableViewCell.swift; sourceTree = "<group>"; };
+		6601A1C222E2D464005EC926 /* MainTrailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainTrailTableViewCell.xib; sourceTree = "<group>"; };
+		6601A1C522E51D31005EC926 /* CreateTrailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrailViewController.swift; sourceTree = "<group>"; };
+		6601A1CA22E8E04F005EC926 /* ShimmerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerRender.swift; sourceTree = "<group>"; };
 		6614D59821E1A89B00DF141A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FactInfoTableViewCell.xib; sourceTree = "<group>"; };
 		6614D59F21EB0FC800DF141A /* Hike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hike.swift; sourceTree = "<group>"; };
@@ -92,9 +88,6 @@
 		665A6CCC22114960002CE8CF /* MGLAnnotationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGLAnnotationProtocol.swift; sourceTree = "<group>"; };
 		66A3E7E6223B527300D3A09F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Assets.xcassets/icon.png; sourceTree = "<group>"; };
 		66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInClassesExtensions.swift; sourceTree = "<group>"; };
-		66B805312250623D008CF4C9 /* UITableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExt.swift; sourceTree = "<group>"; };
-		66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExt.swift; sourceTree = "<group>"; };
-		66B88BAB2246B8A900797EB7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeMapVC.swift; sourceTree = "<group>"; };
 		66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		66BF182421B48DDC002E24B4 /* Vanmino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vanmino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,14 +110,8 @@
 		66BF92A121CED212007D5D6D /* ExpansionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionState.swift; sourceTree = "<group>"; };
 		66BF92A321CEDAFF007D5D6D /* DrawerViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawerViewController+TableView.swift"; sourceTree = "<group>"; };
 		66BF92A521CEDB4D007D5D6D /* LiveInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveInfoTableViewCell.swift; sourceTree = "<group>"; };
+		66C978E222EE3D140021C8D9 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		66CF46572262A1E70002041E /* Vanmino.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vanmino.entitlements; sourceTree = "<group>"; };
-		6D12FAED4238E60E7AD1DDD3 /* Pods-VanminoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoUITests/Pods-VanminoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		7F1CFF2B0E2394F1AA748AE9 /* Pods-Vanmino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vanmino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino.debug.xcconfig"; sourceTree = "<group>"; };
-		A32E2E567415D78075DA7025 /* Pods-VanminoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoTests/Pods-VanminoTests.release.xcconfig"; sourceTree = "<group>"; };
-		BF7012A9CA8192242724CCCB /* Pods_VanminoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VanminoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Vanmino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2E1AE03852B32E891E55C39 /* Pods-VanminoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VanminoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VanminoUITests/Pods-VanminoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		F91603849F37E0BCCDC7188D /* Pods-Vanmino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Vanmino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +119,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				402D4C15DF2601696D7FD7CD /* Pods_Vanmino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,8 +126,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				468113D20EF29CA4F03F44E9 /* Pods_VanminoTests.framework in Frameworks */,
-				AF4F5FB3878D62B2D8A2C657 /* Pods_CaminoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,25 +133,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D14F98A93EA6FE72A8EE956 /* Pods_VanminoUITests.framework in Frameworks */,
-				91791410BE9F61E6966651B7 /* Pods_CaminoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2CC418FB0D8C3B62F6A2621D /* Pods */ = {
+		6601A1C922E8E03D005EC926 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7F1CFF2B0E2394F1AA748AE9 /* Pods-Vanmino.debug.xcconfig */,
-				F91603849F37E0BCCDC7188D /* Pods-Vanmino.release.xcconfig */,
-				2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */,
-				A32E2E567415D78075DA7025 /* Pods-VanminoTests.release.xcconfig */,
-				F2E1AE03852B32E891E55C39 /* Pods-VanminoUITests.debug.xcconfig */,
-				6D12FAED4238E60E7AD1DDD3 /* Pods-VanminoUITests.release.xcconfig */,
+				6601A1CA22E8E04F005EC926 /* ShimmerRender.swift */,
+				66C978E222EE3D140021C8D9 /* DataManager.swift */,
 			);
-			name = Pods;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		6613C24821F987E000BB5369 /* Protocol */ = {
@@ -192,6 +170,7 @@
 		66BF181B21B48DDC002E24B4 = {
 			isa = PBXGroup;
 			children = (
+				6601A1C922E8E03D005EC926 /* Classes */,
 				6613C24821F987E000BB5369 /* Protocol */,
 				6614D59E21EB0DE900DF141A /* Model */,
 				66BF185D21B4A68A002E24B4 /* Extensions */,
@@ -202,8 +181,6 @@
 				66BF183E21B48DDC002E24B4 /* VanminoTests */,
 				66BF184921B48DDC002E24B4 /* VanminoUITests */,
 				66BF182521B48DDC002E24B4 /* Products */,
-				2CC418FB0D8C3B62F6A2621D /* Pods */,
-				8136D496014DB1E1AF7BDB77 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,10 +232,11 @@
 			isa = PBXGroup;
 			children = (
 				66BF182921B48DDC002E24B4 /* HikesVC.swift */,
+				66442BFB2258328F0014802B /* SideBarController.swift */,
 				66BA0F2921CC56EA00E4D6DA /* HikeMapVC.swift */,
+				6601A1C522E51D31005EC926 /* CreateTrailViewController.swift */,
 				661A1204224D72D900A62F19 /* SavedTrailsViewController.swift */,
 				66BF929C21CECC7B007D5D6D /* DrawerViewController.swift */,
-				66442BFB2258328F0014802B /* SideBarController.swift */,
 				66442BFD22584F490014802B /* MainNavBarViewController.swift */,
 				66442BFF225937360014802B /* TabBarViewController.swift */,
 			);
@@ -269,13 +247,15 @@
 			isa = PBXGroup;
 			children = (
 				66BF186221B4B09E002E24B4 /* HikeTableViewCell.swift */,
+				661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */,
 				6614D5A121F2DDF900DF141A /* FactInfoTableViewCell.swift */,
 				6614D59C21E9D9ED00DF141A /* FactInfoTableViewCell.xib */,
 				66BF92A521CEDB4D007D5D6D /* LiveInfoTableViewCell.swift */,
 				665A6CC021FAD7A2002CE8CF /* LiveInfoTableViewCell.xib */,
 				665A6CC8220D6743002CE8CF /* SecLiveInfoTableViewCell.swift */,
 				665A6CC9220D6743002CE8CF /* SecLiveInfoTableViewCell.xib */,
-				661A1206224D851300A62F19 /* SavedTrailsTableViewCell.swift */,
+				6601A1C122E2D464005EC926 /* MainTrailTableViewCell.swift */,
+				6601A1C222E2D464005EC926 /* MainTrailTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -295,24 +275,8 @@
 				66BA0F2B21CD98B700E4D6DA /* UIViewControllerExt.swift */,
 				66BF92A321CEDAFF007D5D6D /* DrawerViewController+TableView.swift */,
 				66A7F2052222656C00638D2A /* BuiltInClassesExtensions.swift */,
-				66B88BA92246ACF100797EB7 /* UIAlertControllerExt.swift */,
-				66B88BAB2246B8A900797EB7 /* UIImage.swift */,
-				66B805312250623D008CF4C9 /* UITableViewExt.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8136D496014DB1E1AF7BDB77 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C09D4F4613B0C22C007C9093 /* Pods_Vanmino.framework */,
-				2B12FE0AD6744A6494062539 /* Pods_VanminoTests.framework */,
-				BF7012A9CA8192242724CCCB /* Pods_VanminoUITests.framework */,
-				11370491A091DABD11F52212 /* Pods_Camino.framework */,
-				4F81EA8085FE2EABDEB23A71 /* Pods_CaminoTests.framework */,
-				17686BFAED53307B179DA1D7 /* Pods_CaminoUITests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,12 +286,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66BF184F21B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "Vanmino" */;
 			buildPhases = (
-				7DAE9921F07784E5EFF1D38B /* [CP] Check Pods Manifest.lock */,
 				66BF182021B48DDC002E24B4 /* Sources */,
 				66BF182121B48DDC002E24B4 /* Frameworks */,
 				66BF182221B48DDC002E24B4 /* Resources */,
-				4DFA3305F565CABBBCBA7D5A /* [CP] Embed Pods Frameworks */,
-				E5693E545B88A4C919CDC419 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,7 +303,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66BF185221B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "VanminoTests" */;
 			buildPhases = (
-				98B5A1C83E557C4D826F2CED /* [CP] Check Pods Manifest.lock */,
 				66BF183721B48DDC002E24B4 /* Sources */,
 				66BF183821B48DDC002E24B4 /* Frameworks */,
 				66BF183921B48DDC002E24B4 /* Resources */,
@@ -361,7 +321,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66BF185521B48DDC002E24B4 /* Build configuration list for PBXNativeTarget "VanminoUITests" */;
 			buildPhases = (
-				45C1F0C4B68A6E2603B0BAED /* [CP] Check Pods Manifest.lock */,
 				66BF184221B48DDC002E24B4 /* Sources */,
 				66BF184321B48DDC002E24B4 /* Frameworks */,
 				66BF184421B48DDC002E24B4 /* Resources */,
@@ -437,6 +396,7 @@
 				66BF185921B48E09002E24B4 /* GoogleService-Info.plist in Resources */,
 				665A6CC121FAD7A2002CE8CF /* LiveInfoTableViewCell.xib in Resources */,
 				66A3E7E7223B527300D3A09F /* icon.png in Resources */,
+				6601A1C422E2D464005EC926 /* MainTrailTableViewCell.xib in Resources */,
 				665A6CCB220D6743002CE8CF /* SecLiveInfoTableViewCell.xib in Resources */,
 				6614D59921E1A89B00DF141A /* Assets.xcassets in Resources */,
 				66BF182D21B48DDC002E24B4 /* Main.storyboard in Resources */,
@@ -459,177 +419,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		45C1F0C4B68A6E2603B0BAED /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VanminoUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4DFA3305F565CABBBCBA7D5A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/MapboxCoreNavigation/MapboxCoreNavigation.framework",
-				"${BUILT_PRODUCTS_DIR}/MapboxDirections.swift/MapboxDirections.framework",
-				"${BUILT_PRODUCTS_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework",
-				"${BUILT_PRODUCTS_DIR}/MapboxNavigation/MapboxNavigation.framework",
-				"${PODS_ROOT}/MapboxNavigationNative/MapboxNavigationNative.framework",
-				"${PODS_ROOT}/MapboxNavigationNative/MapboxNavigationNative.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/MapboxSpeech/MapboxSpeech.framework",
-				"${BUILT_PRODUCTS_DIR}/OnboardKit/OnboardKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
-				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCoreNavigation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxDirections.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxNavigation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxNavigationNative.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MapboxNavigationNative.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxSpeech.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OnboardKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7DAE9921F07784E5EFF1D38B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Vanmino-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		98B5A1C83E557C4D826F2CED /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-VanminoTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E5693E545B88A4C919CDC419 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/gRPCCertificates-Firestore.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Firestore.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Vanmino/Pods-Vanmino-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		66BF182021B48DDC002E24B4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6601A1CB22E8E04F005EC926 /* ShimmerRender.swift in Sources */,
+				66C978E322EE3D140021C8D9 /* DataManager.swift in Sources */,
 				661E3A40228E852B002F846B /* User.swift in Sources */,
 				66A7F2062222656C00638D2A /* BuiltInClassesExtensions.swift in Sources */,
 				66BF929D21CECC7B007D5D6D /* DrawerViewController.swift in Sources */,
+				6601A1C322E2D464005EC926 /* MainTrailTableViewCell.swift in Sources */,
 				661A1205224D72D900A62F19 /* SavedTrailsViewController.swift in Sources */,
 				66BF182A21B48DDC002E24B4 /* HikesVC.swift in Sources */,
-				66B88BAA2246ACF100797EB7 /* UIAlertControllerExt.swift in Sources */,
 				66442BFC2258328F0014802B /* SideBarController.swift in Sources */,
 				6614D5A221F2DDF900DF141A /* FactInfoTableViewCell.swift in Sources */,
+				6601A1C622E51D31005EC926 /* CreateTrailViewController.swift in Sources */,
 				66BA0F2A21CC56EA00E4D6DA /* HikeMapVC.swift in Sources */,
 				66BF92A021CECD0D007D5D6D /* DrawerViewControllerDelegate.swift in Sources */,
 				66BF186321B4B09E002E24B4 /* HikeTableViewCell.swift in Sources */,
 				66BF92A621CEDB4D007D5D6D /* LiveInfoTableViewCell.swift in Sources */,
-				66B805322250623D008CF4C9 /* UITableViewExt.swift in Sources */,
 				6614D5A021EB0FC800DF141A /* Hike.swift in Sources */,
 				66442C00225937360014802B /* TabBarViewController.swift in Sources */,
 				661E3A4222984E0A002F846B /* TrailDescriptionErrors.swift in Sources */,
@@ -640,7 +449,6 @@
 				66BA0F2C21CD98B700E4D6DA /* UIViewControllerExt.swift in Sources */,
 				661A2AF922814902009D0977 /* Coordinates.swift in Sources */,
 				665A6CCD22114960002CE8CF /* MGLAnnotationProtocol.swift in Sources */,
-				66B88BAC2246B8A900797EB7 /* UIImage.swift in Sources */,
 				66BF183021B48DDC002E24B4 /* Vanmino.xcdatamodeld in Sources */,
 				661A1207224D851300A62F19 /* SavedTrailsTableViewCell.swift in Sources */,
 				665A6CCA220D6743002CE8CF /* SecLiveInfoTableViewCell.swift in Sources */,
@@ -816,7 +624,6 @@
 		};
 		66BF185021B48DDC002E24B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F1CFF2B0E2394F1AA748AE9 /* Pods-Vanmino.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Vanmino/Vanmino.entitlements;
@@ -839,7 +646,6 @@
 		};
 		66BF185121B48DDC002E24B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F91603849F37E0BCCDC7188D /* Pods-Vanmino.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Vanmino/Vanmino.entitlements;
@@ -862,7 +668,6 @@
 		};
 		66BF185321B48DDC002E24B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2498D2329E554355E5BD2FB8 /* Pods-VanminoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -884,7 +689,6 @@
 		};
 		66BF185421B48DDC002E24B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A32E2E567415D78075DA7025 /* Pods-VanminoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -906,7 +710,6 @@
 		};
 		66BF185621B48DDC002E24B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2E1AE03852B32E891E55C39 /* Pods-VanminoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -927,7 +730,6 @@
 		};
 		66BF185721B48DDC002E24B4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D12FAED4238E60E7AD1DDD3 /* Pods-VanminoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

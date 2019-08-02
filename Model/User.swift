@@ -13,6 +13,7 @@ import CoreLocation
 
 
 class User {
+    static let sharedInstance = User()
     var savedTrailsStatus = [String: Bool]()
     var savedTrails: [Hike] = []
     var userId: String = ""

@@ -13,7 +13,7 @@ import CoreLocation
 
 class Hike {
     
-    //Static Variables
+    //Variables
     var id: String?
     var difficulty: String?
     var distance: String?
@@ -49,7 +49,7 @@ class Hike {
 
     
     func initVariables(trailId: String, hikeDetails: AnyObject){
-        name = hikeDetails["name"] as? String ?? ""
+        name = hikeDetails["name"] as? String ?? hikeDetails["trailName"] as? String
         difficulty = hikeDetails["difficulty"] as? String ?? ""
         distance = hikeDetails["distance"] as? String ?? ""
         elevation = hikeDetails["elevation"] as? String ?? ""
@@ -64,6 +64,7 @@ class Hike {
         startLocation = getCoordinatesFromString(coordinatesString: (hikeDetails["startLocation"] as! String))
         state = hikeDetails["state"] as? String ?? ""
         type = hikeDetails["type"] as? String ?? ""
+        distanceFromUser = nil
     }
     
   
@@ -87,5 +88,7 @@ class Hike {
         
         return CLLocationCoordinate2D(latitude: Double(coodinatesStringArray[0])!, longitude: Double(coodinatesStringArray[1])!)
     }
+    
+    
     
 }

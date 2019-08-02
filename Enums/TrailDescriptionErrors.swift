@@ -13,8 +13,9 @@ enum TrailDescriptionError: Error {
     // Missing info
     case noUserLocation
     case noStartLocationOfTrail
+    case noEndLocationOfTrail
     case noCoordinatesForTrailFound
-    
+
     //Navigation Error
     case noRouteFound
     // Problem rendering the map

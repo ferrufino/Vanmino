@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 extension UIViewController {
     
@@ -30,10 +31,18 @@ extension UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
-    func notifyUser(title: String, message: String, imageName: String, extraOption: String,handleComplete:@escaping (()->())) -> Void{
+    func notifyUser(title: String, message: String, imageName: String, rate: Bool, extraOption: String,handleComplete:@escaping (()->())) -> Void{
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         alertController.addAction(defaultAction)
+        
+        if rate {
+            let rateAction = UIAlertAction(title: "Rate App", style: .default, handler: {
+                action in
+                self.rateApp()
+            })
+            alertController.addAction(rateAction)
+        }
         
         if !imageName.isEmpty {
             let image = UIImage(named: imageName)
@@ -49,6 +58,20 @@ extension UIViewController {
             
         }
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func rateApp() {
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+            
+        } else if let url = URL(string: "itms-apps://itunes.apple.com/app/" + "1457483172") {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
     }
 
 }

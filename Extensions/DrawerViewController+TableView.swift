@@ -20,7 +20,7 @@ extension DrawerViewController: UITableViewDataSource, UITableViewDelegate {
         case 1:
             return "Intermediate"
         case 2:
-            return "Expert"
+            return "Hard"
         default:
             return "Not defined"
         }

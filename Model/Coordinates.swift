@@ -14,8 +14,8 @@ import CoreLocation
 class Coordinates {
     
     var trailId: String?
-    var startLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
-    var endLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+    var startLocation: CLLocationCoordinate2D? //= CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+    var endLocation: CLLocationCoordinate2D? //= CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     var coordinateComments: [[String:String?]] = []
     var coordinatePlaces: [[String:String?]] = []
     var coordinatesForTrail: [String] = []

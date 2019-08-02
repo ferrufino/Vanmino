@@ -9,12 +9,14 @@ target 'Vanmino' do
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
+pod 'Firebase/Storage'
 pod 'MapboxNavigation', '~> 0.27.0'
 pod 'OnboardKit'
-  target 'VanminoTests' do
+pod 'MapboxStatic.swift', '~> 0.10'
+ target 'VanminoTests' do
     inherit! :search_paths
     # Pods for testing
-  end
+ end
 
   target 'VanminoUITests' do
     inherit! :search_paths

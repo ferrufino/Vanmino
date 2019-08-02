@@ -26,7 +26,7 @@ class HikeTableViewCell: UITableViewCell {
         self.trailName.text = trail.name
         self.trailElevationLbl.text = trail.elevation
         self.trailTimeLbl.text = trail.time
-        self.trailCard.layer.cornerRadius = 25
+        self.trailCard.layer.cornerRadius = 15
         self.trailCard.layer.masksToBounds = true
         self.trailCard.layer.borderWidth = 3.0
         self.trailCard.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
