@@ -20,17 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        
-        
-       
-        
-        
-       
         let db = Firestore.firestore()
         let settings = db.settings
         settings.isPersistenceEnabled = true // Enable offline data persistence
         db.settings = settings
-       
+        
+
         
         return true
     }
@@ -99,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                fatalError("Unresolved error with persistentContainer: \(nserror), \(nserror.userInfo)")
             }
         }
     }

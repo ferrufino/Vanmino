@@ -103,7 +103,7 @@ PODS:
   - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.2.2)
   - leveldb-library (1.20)
-  - Mapbox-iOS-SDK (4.11.1)
+  - Mapbox-iOS-SDK (4.11.2)
   - MapboxCoreNavigation (0.27.0):
     - MapboxDirections.swift (~> 0.26.0)
     - MapboxMobileEvents (~> 0.6.0)
@@ -189,7 +189,7 @@ SPEC CHECKSUMS:
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
-  Mapbox-iOS-SDK: a3ca9bba0177b5a48ed359ce72ce1c587af04cd9
+  Mapbox-iOS-SDK: be0dbe7470db13cbcbf2e69afad714b8e3f24399
   MapboxCoreNavigation: 2db374b84cbc570c34d65c6f43a046a26f87e3a6
   MapboxDirections.swift: 514610ac52a9cd080062085f35b8a9fdb27a83cb
   MapboxMobileEvents: 0218869f556a7fdac9f869e2f9c10e8c6dd7eed5
